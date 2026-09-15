@@ -21,7 +21,6 @@
 
 <div class="boot-loader" aria-hidden="true"><span></span></div>
 
-<!-- Mobile-only top bar: logo + hamburger. Hidden on desktop via mobile.css -->
 <div class="mobile-topbar">
   <div class="mobile-logo">alex<span>2dev</span></div>
   <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primarySidebar">
@@ -52,7 +51,6 @@
     <div class="sidebar-bottom">
       <button class="theme-toggle mono" id="themeToggle" type="button"><span class="icon" id="themeIcon">🌙</span><span id="themeLabel">Dark mode</span></button>
       <a href="mailto:alexturcanu03@gmail.com" class="btn btn-amber full">Email me</a>
-      <div class="status mono"><span class="dot">●</span> open to internships and part-time work</div>
     </div>
   </aside>
 
@@ -69,8 +67,7 @@
             <div class="rec-line"><span class="rec-dot"></span>open to internships and part-time work</div>
             <h1 class="name">ALEXADNRU<br><span class="hl">TURCANU</span></h1>
             <p class="hero-role">
-              Software Engineering student at <b>VIA University College</b>, Horsens. I build applications
-              during the day and edit video for clients the rest of the time.
+              Software Engineering student at <b>VIA University College</b>, building applications with Java, Python and C#. I also work freelance in video editing.
             </p>
             <div class="hero-cta">
               <a href="mailto:alexturcanu03@gmail.com" class="btn btn-amber">Email me</a>
@@ -115,8 +112,8 @@
         <div class="about-body">
           <p>I study software engineering at VIA University College. I hold Certiport certifications in Python, databases and device configuration, and I spent two years teaching IT and robotics workshops at ROBOCODE.</p>
           <p>Outside class, I edit videos. I cut promos and short form content in After Effects for clients who need raw footage turned into something people actually finish watching. Pairing the two wasn't really a plan, it just happened, and now I split my time between them fairly evenly.</p>
-          <p>I like having a clear direction and understanding the bigger goal, but I don't wait for a plan to be perfect before starting. I break a problem into smaller steps, work through them, and adjust as I go. In a team I tend to become the person keeping things organized and moving, and I care as much about people feeling comfortable contributing as I do about the technical work itself. Learn by doing, communicate clearly, take ownership until the job is actually done, that's roughly how I work.</p>
-          <p>Right now I'm looking for a part time student job. Tech work would be ideal, but I'm open to any office role that keeps me busy.</p>
+          <p>I'm a motivated and adaptable student with experience in IT training, workshops, and project coordination. I have certifications in Python, Databases, and Device Configuration, plus skills in C++, Java, and web development. I enjoy solving problems, working in teams, and contributing to innovative projects.</p>
+          <p>Right now I'm looking for a part time student job.</p>
         </div>
         <div class="lang-strip">
           <span class="chip">🇬🇧 English, <b>Fluent</b></span>
@@ -244,40 +241,108 @@
         <div class="dots"><span></span><span></span><span></span></div>
         <div class="filename mono">projects.bin</div>
       </div>
+
       <div class="panel-body">
-        <div class="panel-title"><span class="idx">00:05</span><h2>Projects</h2></div>
+        <div class="panel-title">
+          <span class="idx">00:05</span>
+          <h2>Projects</h2>
+        </div>
+
         <div class="bin-hint">scroll to browse the bin →</div>
+
         <div class="bin-row">
+
           <div class="card">
-            <span class="card-tag">Semester 1, team of 4</span>
+            <span class="card-tag">Semester 1 project - completed </span>
             <h3>CloverNet</h3>
-            <p>CloverNet manages green actions, communal tasks and point trades for a fictional eco village. My team built it start to finish in one semester: requirements, use cases, a domain model, a JavaFX admin app backed by JSON, and a read only site so residents can see the community's progress.</p>
-            <div class="card-meta" aria-label="Project metadata">
-              <span>4 developers</span><span>16 weeks</span><span>Completed</span><span>Java</span><span>JavaFX</span><span>University</span>
+
+            <p>
+              A community management system built for a fictional eco-village.
+              CloverNet tracks communal tasks, environmental actions, point-based
+              rewards and exchanges between residents. The project covered the
+              full development process, from requirements and use cases to a
+              Java application and a separate read-only web interface.
+            </p>
+
+            <div class="stack">
+              <span>Java</span>
+              <span>JavaFX</span>
+              <span>HTML/CSS</span>
+              <span>JavaScript</span>
+              <span>JSON</span>
+              <span>UML</span>
             </div>
-            <div class="stack"><span>Java</span><span>JavaFX</span><span>HTML/CSS</span><span>JavaScript</span><span>JSON</span><span>UML</span></div>
-            <div class="card-status">21 / 22 requirements delivered</div>
           </div>
+
+
           <div class="card">
-            <span class="card-tag">Semester 2, team project</span>
+            <span class="card-tag">Semester 2 project - completed</span>
             <h3>Flight Booking System</h3>
-            <p>A booking platform for searching flights, comparing fares and reserving seats, with an admin side for managing routes and schedules. Same process as CloverNet: model the data before touching the interface.</p>
-            <div class="card-meta" aria-label="Project metadata">
-              <span>Team project</span><span>12 weeks</span><span>Completed</span><span>Java</span><span>Database</span><span>University</span>
+
+            <p>
+              A Java-based flight booking system developed around a client-server
+              architecture. The application handles flight searches, bookings and
+              user management, with administrative functionality for managing the
+              underlying flight data. The project also includes automated tests
+              and a structured relational database design.
+            </p>
+
+            <div class="stack">
+              <span>Java</span>
+              <span>Client / Server</span>
+              <span>SQL</span>
+              <span>OOP</span>
+              <span>JUnit</span>
+              <span>UML</span>
             </div>
-            <div class="stack"><span>Java</span><span>Database Design</span><span>OOP</span><span>UML</span></div>
-            <div class="card-status">SEP2 deliverable</div>
           </div>
+
+
           <div class="card">
-            <span class="card-tag">Personal, in progress</span>
-            <h3>Bot Arena</h3>
-            <p>A side project that grew out of teaching robotics at ROBOCODE: bots that navigate a grid and fight using basic pathfinding and decision logic. Still unfinished, the AI cheats less than it used to.</p>
-            <div class="card-meta" aria-label="Project metadata">
-              <span>Solo</span><span>Ongoing</span><span>In progress</span><span>Python</span><span>Pygame</span><span>Personal</span>
+            <span class="card-tag">Workshoping - ongoing</span>
+            <h3>Social Media Platform</h3>
+
+            <p>
+              A modular social media platform built around a simple CRUD-focused
+              Web API and a Blazor front-end. The server uses Entity Framework Core
+              with SQLite for persistence, while the application is split into
+              separate projects for the network, persistence, domain entities and
+              repository contracts. A major feature will be a highly customizable
+              profile builder, giving users control over how their profiles look
+              and feel.
+            </p>
+
+            <div class="stack">
+              <span>C#</span>
+              <span>.NET</span>
+              <span>Web API</span>
+              <span>Blazor</span>
+              <span>EF Core</span>
+              <span>SQLite</span>
+              <span>Repositories</span>
             </div>
-            <div class="stack"><span>Python</span><span>Pygame</span><span>Pathfinding</span></div>
-            <div class="card-status">work in progress</div>
           </div>
+
+
+          <div class="card">
+            <span class="card-tag">Personal - ongoing</span>
+            <h3>Portfolio Website</h3>
+
+            <p>
+              My personal developer portfolio, designed and built from scratch.
+              It combines project documentation, personal information and an
+              intentionally unconventional visual style into a single interactive
+              site. The project is continuously updated alongside my studies and
+              software work.
+            </p>
+            <div class="stack">
+              <span>HTML</span>
+              <span>CSS</span>
+              <span>JavaScript</span>
+              <span>Git</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -290,7 +355,7 @@
       <div class="panel-body">
         <div class="panel-title"><span class="idx">00:06</span><h2>Video Editing</h2></div>
         <div class="create-intro">
-          <p>I edit video freelance, mostly promos and short form content in After Effects. Below is a recent showcase reel, footage cut for pace, retention and a clean handoff to the client.</p>
+          <p>I edit video freelance, mostly promos and short form content in After Effects. Below is a showcase reel, footage cut for pace, retention and a clean handoff to the client.</p>
         </div>
         <div class="video-frame">
           <video controls preload="metadata">
@@ -302,11 +367,6 @@
           <span class="live"><span class="live-dot"></span>Showcase reel, Fiver ad</span>
           <span>0:24</span>
         </div>
-        <div class="tools-row">
-          <div class="tool-pill"><span class="dot"></span>Adobe After Effects</div>
-          <div class="tool-pill"><span class="dot"></span>Motion graphics</div>
-          <div class="tool-pill"><span class="dot"></span>Short form editing</div>
-        </div>
       </div>
     </section>
 
@@ -315,80 +375,67 @@
         <div class="dots"><span></span><span></span><span></span></div>
         <div class="filename mono">levels.mixer</div>
       </div>
+
       <div class="panel-body">
-        <div class="panel-title"><span class="idx">00:07</span><h2>Skillset</h2></div>
-        <div class="mixer-groups">
-          <div class="mixer-group">
-            <h4>Development</h4>
-            <div class="mixer">
-              <div class="channel">
-                <div class="fader-track"><div class="fader-fill amber" style="height:85%"></div></div>
-                <div class="val">85</div>
-                <div class="cap">Java</div>
-              </div>
-              <div class="channel">
-                <div class="fader-track"><div class="fader-fill amber" style="height:90%"></div></div>
-                <div class="val">90</div>
-                <div class="cap">Python</div>
-              </div>
-              <div class="channel">
-                <div class="fader-track"><div class="fader-fill amber" style="height:75%"></div></div>
-                <div class="val">75</div>
-                <div class="cap">C++</div>
-              </div>
-              <div class="channel">
-                <div class="fader-track"><div class="fader-fill amber" style="height:80%"></div></div>
-                <div class="val">80</div>
-                <div class="cap">Web Dev</div>
-              </div>
-            </div>
-          </div>
-          <div class="mixer-group">
-            <h4>Creative</h4>
-            <div class="mixer">
-              <div class="channel">
-                <div class="fader-track"><div class="fader-fill slate" style="height:90%"></div></div>
-                <div class="val">90</div>
-                <div class="cap">After Effects</div>
-              </div>
-              <div class="channel">
-                <div class="fader-track"><div class="fader-fill slate" style="height:85%"></div></div>
-                <div class="val">85</div>
-                <div class="cap">Video Edit</div>
-              </div>
-              <div class="channel">
-                <div class="fader-track"><div class="fader-fill slate" style="height:80%"></div></div>
-                <div class="val">80</div>
-                <div class="cap">Web Design</div>
-              </div>
-              <div class="channel">
-                <div class="fader-track"><div class="fader-fill slate" style="height:100%"></div></div>
-                <div class="val">100</div>
-                <div class="cap">Coordination</div>
-              </div>
-            </div>
-          </div>
+        <div class="panel-title">
+          <span class="idx">00:07</span>
+          <h2>Skillset</h2>
         </div>
+
         <div class="tech-stack">
+
           <div class="tech-column">
             <h4>Languages</h4>
-            <div class="tech-chips"><span>Java</span><span>Python</span><span>C++</span><span>JavaScript</span><span>SQL</span></div>
+            <div class="tech-chips">
+              <span>Java</span>
+              <span>Python</span>
+              <span>C++</span>
+              <span>C#</span>
+              <span>JavaScript</span>
+              <span>SQL</span>
+            </div>
           </div>
+
           <div class="tech-column">
-            <h4>Frameworks &amp; Libraries</h4>
-            <div class="tech-chips"><span>JavaFX</span><span>Pygame</span></div>
+            <h4>Web &amp; Backend</h4>
+            <div class="tech-chips">
+              <span>HTML</span>
+              <span>CSS</span>
+              <span>JavaScript</span>
+              <span>.NET</span>
+              <span>Web API</span>
+              <span>Blazor</span>
+            </div>
           </div>
+
           <div class="tech-column">
-            <h4>Tools</h4>
-            <div class="tech-chips"><span>Git</span><span>IntelliJ</span><span>VS Code</span><span>Figma</span><span>After Effects</span><span>Photoshop</span><span>Canva</span></div>
+            <h4>Data &amp; Architecture</h4>
+            <div class="tech-chips">
+              <span>SQL</span>
+              <span>SQLite</span>
+              <span>Entity Framework Core</span>
+              <span>OOP</span>
+              <span>REST APIs</span>
+              <span>Repository Pattern</span>
+              <span>UML</span>
+            </div>
           </div>
+
           <div class="tech-column">
-            <h4>Methods</h4>
-            <div class="tech-chips"><span>Scrum</span><span>Agile</span><span>UML</span><span>Git Flow</span></div>
+            <h4>Tools &amp; Practices</h4>
+            <div class="tech-chips">
+              <span>Git</span>
+              <span>GitHub</span>
+              <span>JUnit</span>
+              <span>Figma</span>
+              <span>Scrum</span>
+              <span>Git Flow</span>
+            </div>
           </div>
         </div>
       </div>
     </section>
+
     <section class="panel" id="log">
       <div class="window-chrome">
         <div class="dots"><span></span><span></span><span></span></div>
@@ -576,7 +623,6 @@
   }, {passive:true});
   updateBackToTop();
 
-  /* ---------- Mobile nav drawer ---------- */
   var mobileToggle = document.getElementById('mobileNavToggle');
   var mobileOverlay = document.getElementById('mobileNavOverlay');
 
