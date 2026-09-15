@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#d9822b">
+<meta property="og:title" content="Alex Turcanu | Software Engineering Student">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="./">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23211c16'/%3E%3Cpath d='M17 44L28 20h8l11 24h-8l-2-5H27l-2 5h-8zm13-11h6l-3-8-3 8z' fill='%23d9822b'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='36' fill='%23211c16'/%3E%3Cpath d='M47 126L78 54h24l31 72h-22l-6-16H75l-6 16H47zm36-33h14l-7-20-7 20z' fill='%23d9822b'/%3E%3C/svg%3E">
+<title>Alex Turcanu | Software Engineering Student and Video Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+
+<div class="boot-loader" aria-hidden="true"><span></span></div>
+
+<!-- Mobile-only top bar: logo + hamburger. Hidden on desktop via mobile.css -->
+<div class="mobile-topbar">
+  <div class="mobile-logo">alex<span>2dev</span></div>
+  <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primarySidebar">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+<div class="mobile-nav-overlay" id="mobileNavOverlay" hidden></div>
+
+<div class="app-shell">
+
+  <aside class="sidebar" id="primarySidebar">
+    <div class="sidebar-top">
+      <div class="logo">alex<span>2dev</span></div>
+      <div class="tc-readout mono"><span class="rec-dot"></span>REC <span id="tc">00:00:00</span></div>
+      <nav class="side-nav" aria-label="Primary">
+        <a href="#hero" data-sec="hero"><span class="idx">00:00</span>Home</a>
+        <a href="#about" data-sec="about"><span class="idx">00:01</span>About</a>
+        <a href="#education" data-sec="education"><span class="idx">00:02</span>Education</a>
+        <a href="#build" data-sec="build"><span class="idx">00:03</span>Experience</a>
+        <a href="#journey" data-sec="journey"><span class="idx">00:04</span>Journey</a>
+        <a href="#projects" data-sec="projects"><span class="idx">00:05</span>Projects</a>
+        <a href="#create" data-sec="create"><span class="idx">00:06</span>Video Editing</a>
+        <a href="#skills" data-sec="skills"><span class="idx">00:07</span>Skillset</a>
+        <a href="#log" data-sec="log"><span class="idx">00:08</span>Certifications</a>
+        <a href="#contact" data-sec="contact"><span class="idx">00:09</span>Contact</a>
+      </nav>
+    </div>
+    <div class="sidebar-bottom">
+      <button class="theme-toggle mono" id="themeToggle" type="button"><span class="icon" id="themeIcon">🌙</span><span id="themeLabel">Dark mode</span></button>
+      <a href="mailto:alexturcanu03@gmail.com" class="btn btn-amber full">Email me</a>
+      <div class="status mono"><span class="dot">●</span> open to internships and part-time work</div>
+    </div>
+  </aside>
+
+  <main class="stage">
+
+    <section class="monitor" id="hero">
+      <div class="window-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="filename mono">program_monitor, alex_turcanu.mov</div>
+      </div>
+      <div class="monitor-body">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <div class="rec-line"><span class="rec-dot"></span>open to internships and part-time work</div>
+            <h1 class="name">ALEXADNRU<br><span class="hl">TURCANU</span></h1>
+            <p class="hero-role">
+              Software Engineering student at <b>VIA University College</b>, Horsens. I build applications
+              during the day and edit video for clients the rest of the time.
+            </p>
+            <div class="hero-cta">
+              <a href="mailto:alexturcanu03@gmail.com" class="btn btn-amber">Email me</a>
+              <a href="#build" class="btn btn-slate">Experience</a>
+              <a href="#create" class="btn btn-amber">Video Editing</a>
+              <a href="CV Alex Turcanu.pdf" download class="btn btn-outline">Download CV</a>
+            </div>
+            <div class="hero-social" aria-label="Social links">
+              <a href="https://github.com/a1izo" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.4-4-1.4-.5-1.3-1.2-1.7-1.2-1.7-1-.7.1-.7.1-.7 1.1.1 1.8 1.2 1.8 1.2 1 .1 1.5.8 1.5.8.9 1.6 2.4 1.1 3 .8.1-.8.4-1.1.7-1.4-2.6-.3-5.4-1.3-5.4-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.9 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.7.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.4 5.9.4.3.8 1 .8 2.1v3.1c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
+                <span>GitHub</span>
+              </a>
+              <a href="https://www.linkedin.com/in/alexandru-turcanu-377642295" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5A2.48 2.48 0 1 1 4.97 8a2.48 2.48 0 0 1 .01-4.5zM3 8.75h4v12H3v-12zm7 0h3.8v1.64h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1v6.31h-4v-5.59c0-1.33-.03-3.05-1.86-3.05-1.87 0-2.15 1.46-2.15 2.95v5.69h-4v-12z"/></svg>
+                <span>LinkedIn</span>
+              </a>
+            </div>
+          </div>
+          <div class="hero-photo">
+            <div class="photo-frame">
+              <div class="photo-fallback mono">AT</div>
+              <img src="pfp.PNG" alt="Alex Turcanu" onerror="this.style.display='none';">
+              <div class="frame-corner tl"></div>
+              <div class="frame-corner tr"></div>
+              <div class="frame-corner bl"></div>
+              <div class="frame-corner br"></div>
+              <div class="frame-tag mono">SUBJECT 01</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="scrub-bar"><div class="scrub-fill" id="scrubFill"></div></div>
+    </section>
+
+    <section class="panel" id="about">
+      <div class="window-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="filename mono">about.seq</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-title"><span class="idx">00:01</span><h2>About</h2></div>
+        <div class="about-body">
+          <p>I study software engineering at VIA University College. I hold Certiport certifications in Python, databases and device configuration, and I spent two years teaching IT and robotics workshops at ROBOCODE.</p>
+          <p>Outside class, I edit videos. I cut promos and short form content in After Effects for clients who need raw footage turned into something people actually finish watching. Pairing the two wasn't really a plan, it just happened, and now I split my time between them fairly evenly.</p>
+          <p>I like having a clear direction and understanding the bigger goal, but I don't wait for a plan to be perfect before starting. I break a problem into smaller steps, work through them, and adjust as I go. In a team I tend to become the person keeping things organized and moving, and I care as much about people feeling comfortable contributing as I do about the technical work itself. Learn by doing, communicate clearly, take ownership until the job is actually done, that's roughly how I work.</p>
+          <p>Right now I'm looking for a part time student job. Tech work would be ideal, but I'm open to any office role that keeps me busy.</p>
+        </div>
+        <div class="lang-strip">
+          <span class="chip">🇬🇧 English, <b>Fluent</b></span>
+          <span class="chip">🇷🇴 Romanian, <b>Native</b></span>
+          <span class="chip">🇷🇺 Russian, <b>B2</b></span>
+          <span class="chip">🇫🇷 French, <b>B2</b></span>
+          <span class="chip">🇩🇰 Danish, <b>DU3 Module 2</b></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="education">
+      <div class="window-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="filename mono">education.log</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-title"><span class="idx">00:02</span><h2>Education</h2></div>
+        <div class="queue">
+          <div class="queue-row head">
+            <div>Program</div>
+            <div class="col-year">Period</div>
+            <div>Location</div>
+          </div>
+          <div class="queue-row">
+            <div class="job">Baccalaureate Diploma<span class="org">Mihai Viteazul Theoretical Lyceum</span></div>
+            <div class="col-year">2023 to 2025</div>
+            <div class="loc">🇲🇩 Chisinau, Moldova</div>
+          </div>
+          <div class="queue-row">
+            <div class="job">Software Technology Engineering, B.Eng.<span class="org">VIA University College</span></div>
+            <div class="col-year">2025, ongoing</div>
+            <div class="loc">🇩🇰 Horsens, Denmark</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="build">
+      <div class="window-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="filename mono">experience.timeline</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-title"><span class="idx">00:03</span><h2>Experience</h2></div>
+
+        <div class="timeline-wrap">
+          <div class="timeline-inner">
+            <div class="ruler">
+              <div class="tick" style="left:0%">2023</div>
+              <div class="tick" style="left:28.6%">2024</div>
+              <div class="tick" style="left:57.1%">2025</div>
+              <div class="tick" style="left:85.7%">2026</div>
+            </div>
+            <div class="track-row">
+              <span class="track-label">V3</span>
+              <div class="clip amber" style="left:0%; width:57.1%;">
+                <h4>IT Assistant Teacher</h4>
+                <p>ROBOCODE, 2023 to 2025</p>
+                <div class="badge-row">
+                  <span>2 years teaching</span>
+                  <span>Robotics workshops</span>
+                  <span>Python instruction</span>
+                  <span>IT education</span>
+                </div>
+              </div>
+            </div>
+            <div class="track-row">
+              <span class="track-label">V2</span>
+              <div class="clip slate" style="left:28.6%; width:28.5%;">
+                <h4>Waiter / Kitchen Assistant</h4>
+                <p>Oliva, 2024 to 2025</p>
+                <div class="badge-row">
+                  <span>Fast-paced restaurant</span>
+                  <span>Front &amp; back of house</span>
+                  <span>Team coordination</span>
+                </div>
+              </div>
+            </div>
+            <div class="track-row">
+              <span class="track-label">V1</span>
+              <div class="clip amber" style="left:57.1%; width:42.9%;">
+                <h4>Studenterunderviser</h4>
+                <p>VIA på Vejen, 2025, ongoing</p>
+                <div class="badge-row">
+                  <span>Student mentor</span>
+                  <span>Educational guidance</span>
+                  <span>Workshops</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="track-legend">
+          <div class="legend-rows">
+            <div class="legend-row"><span class="swatch amber"></span><span>Taught programming fundamentals and ran robotics workshops at <b>ROBOCODE</b>, from first Python scripts to building and coding actual robots. <a href="https://robocode.md" target="_blank" rel="noopener">robocode.md</a></span></div>
+            <div class="legend-row"><span class="swatch slate"></span><span>Worked front and back of house at <b>Oliva</b>, running food during rushes and keeping the kitchen moving when tickets piled up. <a href="https://oliva.md/" target="_blank" rel="noopener">oliva.md</a></span></div>
+            <div class="legend-row"><span class="swatch amber"></span><span>Teach and support students all over Denmark at <b>VIA på Vejen</b>, filling the gaps between what they like and what they can do in the future. <a href="https://www.via.dk/" target="_blank" rel="noopener">via.dk</a></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="journey">
+      <div class="window-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="filename mono">journey.timeline</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-title"><span class="idx">00:04</span><h2>Journey</h2></div>
+        <div class="journey-list" aria-label="Timeline of milestones">
+          <article class="journey-item"><span class="journey-year">2023</span><div class="journey-card"><h3>Started teaching at ROBOCODE</h3><p>Helping students learn programming and robotics through hands-on workshops.</p></div></article>
+          <article class="journey-item"><span class="journey-year">2024</span><div class="journey-card"><h3>Earned Certiport certifications</h3><p>Finished certifications in Python, databases, and device configuration.</p></div></article>
+          <article class="journey-item"><span class="journey-year">2025</span><div class="journey-card"><h3>Moved to Denmark</h3><p>Relocated and continued my studies in a new environment.</p></div></article>
+          <article class="journey-item"><span class="journey-year">2025</span><div class="journey-card"><h3>Started Software Engineering at VIA</h3><p>Began the Software Technology Engineering programme at VIA University College.</p></div></article>
+          <article class="journey-item"><span class="journey-year">2025</span><div class="journey-card"><h3>Began teaching at VIA på Vejen</h3><p>Joined as a student mentor supporting learners across Denmark.</p></div></article>
+          <article class="journey-item"><span class="journey-year">2026</span><div class="journey-card"><h3>Looking for internship</h3><p>Actively searching for a place where I can contribute and keep learning.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="projects">
+      <div class="window-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="filename mono">projects.bin</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-title"><span class="idx">00:05</span><h2>Projects</h2></div>
+        <div class="bin-hint">scroll to browse the bin →</div>
+        <div class="bin-row">
+          <div class="card">
+            <span class="card-tag">Semester 1, team of 4</span>
+            <h3>CloverNet</h3>
+            <p>CloverNet manages green actions, communal tasks and point trades for a fictional eco village. My team built it start to finish in one semester: requirements, use cases, a domain model, a JavaFX admin app backed by JSON, and a read only site so residents can see the community's progress.</p>
+            <div class="card-meta" aria-label="Project metadata">
+              <span>4 developers</span><span>16 weeks</span><span>Completed</span><span>Java</span><span>JavaFX</span><span>University</span>
+            </div>
+            <div class="stack"><span>Java</span><span>JavaFX</span><span>HTML/CSS</span><span>JavaScript</span><span>JSON</span><span>UML</span></div>
+            <div class="card-status">21 / 22 requirements delivered</div>
+          </div>
+          <div class="card">
+            <span class="card-tag">Semester 2, team project</span>
+            <h3>Flight Booking System</h3>
+            <p>A booking platform for searching flights, comparing fares and reserving seats, with an admin side for managing routes and schedules. Same process as CloverNet: model the data before touching the interface.</p>
+            <div class="card-meta" aria-label="Project metadata">
+              <span>Team project</span><span>12 weeks</span><span>Completed</span><span>Java</span><span>Database</span><span>University</span>
+            </div>
+            <div class="stack"><span>Java</span><span>Database Design</span><span>OOP</span><span>UML</span></div>
+            <div class="card-status">SEP2 deliverable</div>
+          </div>
+          <div class="card">
+            <span class="card-tag">Personal, in progress</span>
+            <h3>Bot Arena</h3>
+            <p>A side project that grew out of teaching robotics at ROBOCODE: bots that navigate a grid and fight using basic pathfinding and decision logic. Still unfinished, the AI cheats less than it used to.</p>
+            <div class="card-meta" aria-label="Project metadata">
+              <span>Solo</span><span>Ongoing</span><span>In progress</span><span>Python</span><span>Pygame</span><span>Personal</span>
+            </div>
+            <div class="stack"><span>Python</span><span>Pygame</span><span>Pathfinding</span></div>
+            <div class="card-status">work in progress</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="create">
+      <div class="window-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="filename mono">reel.mov</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-title"><span class="idx">00:06</span><h2>Video Editing</h2></div>
+        <div class="create-intro">
+          <p>I edit video freelance, mostly promos and short form content in After Effects. Below is a recent showcase reel, footage cut for pace, retention and a clean handoff to the client.</p>
+        </div>
+        <div class="video-frame">
+          <video controls preload="metadata">
+            <source src="Video Editing showcase.mp4" type="video/mp4">
+            Your browser does not support embedded video. 
+          </video>
+        </div>
+        <div class="video-caption">
+          <span class="live"><span class="live-dot"></span>Showcase reel, Fiver ad</span>
+          <span>0:24</span>
+        </div>
+        <div class="tools-row">
+          <div class="tool-pill"><span class="dot"></span>Adobe After Effects</div>
+          <div class="tool-pill"><span class="dot"></span>Motion graphics</div>
+          <div class="tool-pill"><span class="dot"></span>Short form editing</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="skills">
+      <div class="window-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="filename mono">levels.mixer</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-title"><span class="idx">00:07</span><h2>Skillset</h2></div>
+        <div class="mixer-groups">
+          <div class="mixer-group">
+            <h4>Development</h4>
+            <div class="mixer">
+              <div class="channel">
+                <div class="fader-track"><div class="fader-fill amber" style="height:85%"></div></div>
+                <div class="val">85</div>
+                <div class="cap">Java</div>
+              </div>
+              <div class="channel">
+                <div class="fader-track"><div class="fader-fill amber" style="height:90%"></div></div>
+                <div class="val">90</div>
+                <div class="cap">Python</div>
+              </div>
+              <div class="channel">
+                <div class="fader-track"><div class="fader-fill amber" style="height:75%"></div></div>
+                <div class="val">75</div>
+                <div class="cap">C++</div>
+              </div>
+              <div class="channel">
+                <div class="fader-track"><div class="fader-fill amber" style="height:80%"></div></div>
+                <div class="val">80</div>
+                <div class="cap">Web Dev</div>
+              </div>
+            </div>
+          </div>
+          <div class="mixer-group">
+            <h4>Creative</h4>
+            <div class="mixer">
+              <div class="channel">
+                <div class="fader-track"><div class="fader-fill slate" style="height:90%"></div></div>
+                <div class="val">90</div>
+                <div class="cap">After Effects</div>
+              </div>
+              <div class="channel">
+                <div class="fader-track"><div class="fader-fill slate" style="height:85%"></div></div>
+                <div class="val">85</div>
+                <div class="cap">Video Edit</div>
+              </div>
+              <div class="channel">
+                <div class="fader-track"><div class="fader-fill slate" style="height:80%"></div></div>
+                <div class="val">80</div>
+                <div class="cap">Web Design</div>
+              </div>
+              <div class="channel">
+                <div class="fader-track"><div class="fader-fill slate" style="height:100%"></div></div>
+                <div class="val">100</div>
+                <div class="cap">Coordination</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tech-stack">
+          <div class="tech-column">
+            <h4>Languages</h4>
+            <div class="tech-chips"><span>Java</span><span>Python</span><span>C++</span><span>JavaScript</span><span>SQL</span></div>
+          </div>
+          <div class="tech-column">
+            <h4>Frameworks &amp; Libraries</h4>
+            <div class="tech-chips"><span>JavaFX</span><span>Pygame</span></div>
+          </div>
+          <div class="tech-column">
+            <h4>Tools</h4>
+            <div class="tech-chips"><span>Git</span><span>IntelliJ</span><span>VS Code</span><span>Figma</span><span>After Effects</span><span>Photoshop</span><span>Canva</span></div>
+          </div>
+          <div class="tech-column">
+            <h4>Methods</h4>
+            <div class="tech-chips"><span>Scrum</span><span>Agile</span><span>UML</span><span>Git Flow</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="panel" id="log">
+      <div class="window-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="filename mono">render_queue.log</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-title"><span class="idx">00:08</span><h2>Certifications</h2></div>
+        <div class="queue">
+          <div class="queue-row head">
+            <div>Job</div>
+            <div class="col-year">Year</div>
+            <div>Status</div>
+          </div>
+          <div class="queue-row">
+            <div class="job">IT Specialist, Databases<span class="org">Certiport</span></div>
+            <div class="col-year">2024</div>
+            <div class="status">Complete</div>
+          </div>
+          <div class="queue-row">
+            <div class="job">IT Specialist, Device Configuration &amp; Management<span class="org">Certiport</span></div>
+            <div class="col-year">2024</div>
+            <div class="status">Complete</div>
+          </div>
+          <div class="queue-row">
+            <div class="job">IT Specialist, Python<span class="org">Certiport</span></div>
+            <div class="col-year">2024</div>
+            <div class="status">Complete</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="panel" id="contact">
+      <div class="window-chrome">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="filename mono">export.dialog</div>
+      </div>
+      <div class="panel-body">
+        <div class="panel-title"><span class="idx">00:09</span><h2>Export Contact</h2></div>
+        <div class="export-dialog">
+          <div class="export-field"><span class="k">Name</span><span class="v">Alex Turcanu</span></div>
+          <div class="export-field"><span class="k">Availability</span><span class="v"><span class="availability-list"><span>Internships</span><span>Student jobs</span><span>Freelance video editing</span></span></span></div>
+          <div class="export-field"><span class="k">Response time</span><span class="v">Usually within 24 hours</span></div>
+          <div class="export-field"><span class="k">Location</span><span class="v">Horsens, Denmark</span></div>
+          <div class="export-field copyable"><span class="k">Email</span><span class="v"><a href="mailto:alexturcanu03@gmail.com" data-copy-value="alexturcanu03@gmail.com">alexturcanu03@gmail.com</a><button class="copy-btn" type="button" data-copy-target="email" aria-label="Copy email address">Copy <span class="copy-tip" aria-hidden="true">Copied!</span></button></span></div>
+          <div class="export-field copyable"><span class="k">Phone</span><span class="v"><a href="tel:+4571511975" data-copy-value="+4571511975">+45 71 51 19 75</a><button class="copy-btn" type="button" data-copy-target="phone" aria-label="Copy phone number">Copy <span class="copy-tip" aria-hidden="true">Copied!</span></button></span></div>
+          <div class="export-field"><span class="k">Status</span><span class="v">open to internships and part-time work</span></div>
+          <div class="export-actions">
+            <a href="mailto:alexturcanu03@gmail.com" class="btn btn-amber">Send email</a>
+            <a href="tel:+4571511975" class="btn btn-outline">Call</a>
+          </div>
+        </div>
+        <div class="foot-note">// built by alex</div>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  document.documentElement.classList.add('js-ready');
+
+  var root = document.documentElement;
+  var toggleBtn = document.getElementById('themeToggle');
+  var themeIcon = document.getElementById('themeIcon');
+  var themeLabel = document.getElementById('themeLabel');
+  var copyButtons = Array.prototype.slice.call(document.querySelectorAll('.copy-btn'));
+  var backToTop = document.createElement('button');
+  backToTop.type = 'button';
+  backToTop.className = 'back-to-top';
+  backToTop.setAttribute('aria-label', 'Back to top');
+  backToTop.innerHTML = '<span>Top</span>';
+  document.body.appendChild(backToTop);
+
+  function applyTheme(theme){
+    if(theme === 'dark'){
+      root.setAttribute('data-theme', 'dark');
+      themeIcon.textContent = '☀️';
+      themeLabel.textContent = 'Light mode';
+    } else {
+      root.removeAttribute('data-theme');
+      themeIcon.textContent = '🌙';
+      themeLabel.textContent = 'Dark mode';
+    }
+  }
+
+  var savedTheme = null;
+  try { savedTheme = localStorage.getItem('alex-portfolio-theme'); } catch(e){}
+  applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
+
+  if(toggleBtn){
+    toggleBtn.addEventListener('click', function(){
+      var isDark = root.getAttribute('data-theme') === 'dark';
+      var next = isDark ? 'light' : 'dark';
+      applyTheme(next);
+      try { localStorage.setItem('alex-portfolio-theme', next); } catch(e){}
+    });
+  }
+
+  var start = Date.now();
+  var tcEl = document.getElementById('tc');
+  function pad(n){ return n.toString().padStart(2,'0'); }
+  function tickClock(){
+    var elapsed = Date.now() - start;
+    var totalFrames = Math.floor(elapsed/1000*25);
+    var ff = totalFrames % 25;
+    var totalSeconds = Math.floor(elapsed/1000);
+    var ss = totalSeconds % 60;
+    var mm = Math.floor(totalSeconds/60) % 60;
+    if(tcEl){ tcEl.textContent = pad(mm)+':'+pad(ss)+':'+pad(ff); }
+    requestAnimationFrame(tickClock);
+  }
+  requestAnimationFrame(tickClock);
+
+  function copyText(value, button){
+    var done = function(){
+      if(!button) return;
+      button.classList.add('is-copied');
+      window.clearTimeout(button._copyTimer);
+      button._copyTimer = window.setTimeout(function(){ button.classList.remove('is-copied'); }, 1200);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(value).then(done).catch(function(){ done(); });
+      return;
+    }
+    var helper = document.createElement('textarea');
+    helper.value = value;
+    helper.setAttribute('readonly', 'readonly');
+    helper.style.position = 'absolute';
+    helper.style.left = '-9999px';
+    document.body.appendChild(helper);
+    helper.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(helper);
+    done();
+  }
+
+  copyButtons.forEach(function(button){
+    button.addEventListener('click', function(){
+      var row = button.closest('.copyable');
+      if(!row) return;
+      var link = row.querySelector('[data-copy-value]');
+      if(!link) return;
+      copyText(link.getAttribute('data-copy-value') || link.textContent.trim(), button);
+    });
+  });
+
+  var scrubFill = document.getElementById('scrubFill');
+  function updateScrub(){
+    if(!scrubFill) return;
+    var doc = document.documentElement;
+    var scrollTop = window.scrollY || doc.scrollTop;
+    var max = (doc.scrollHeight - window.innerHeight) || 1;
+    var frac = Math.min(1, Math.max(0, scrollTop / max));
+    scrubFill.style.width = (frac*100) + '%';
+  }
+  window.addEventListener('scroll', updateScrub, {passive:true});
+  window.addEventListener('resize', updateScrub);
+  updateScrub();
+
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.side-nav a'));
+  var sections = navLinks.map(function(a){ return document.getElementById(a.dataset.sec); }).filter(Boolean);
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      var link = document.querySelector('.side-nav a[data-sec="'+entry.target.id+'"]');
+      if(!link) return;
+      if(entry.isIntersecting){
+        navLinks.forEach(function(l){ l.classList.remove('active'); });
+        link.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-40% 0px -50% 0px', threshold:0});
+  sections.forEach(function(s){ observer.observe(s); });
+
+  var topTimer = null;
+  function updateBackToTop(){
+    var show = (window.scrollY || document.documentElement.scrollTop) > 600;
+    backToTop.classList.toggle('visible', show);
+  }
+  backToTop.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+  window.addEventListener('scroll', function(){
+    updateBackToTop();
+  }, {passive:true});
+  updateBackToTop();
+
+  /* ---------- Mobile nav drawer ---------- */
+  var mobileToggle = document.getElementById('mobileNavToggle');
+  var mobileOverlay = document.getElementById('mobileNavOverlay');
+
+  function openMobileNav(){
+    document.body.classList.add('nav-open');
+    if(mobileToggle) mobileToggle.setAttribute('aria-expanded', 'true');
+    if(mobileOverlay) mobileOverlay.hidden = false;
+  }
+  function closeMobileNav(){
+    document.body.classList.remove('nav-open');
+    if(mobileToggle) mobileToggle.setAttribute('aria-expanded', 'false');
+    if(mobileOverlay) mobileOverlay.hidden = true;
+  }
+  if(mobileToggle){
+    mobileToggle.addEventListener('click', function(){
+      var isOpen = document.body.classList.contains('nav-open');
+      if(isOpen){ closeMobileNav(); } else { openMobileNav(); }
+    });
+  }
+  if(mobileOverlay){
+    mobileOverlay.addEventListener('click', closeMobileNav);
+  }
+  navLinks.forEach(function(a){
+    a.addEventListener('click', closeMobileNav);
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ closeMobileNav(); }
+  });
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 900){ closeMobileNav(); }
+  });
+</script>
+
+</body>
+</html>
