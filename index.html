@@ -3,531 +3,331 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#d9822b">
+<meta name="theme-color" content="#e0221a">
 <meta property="og:title" content="Alex Turcanu | Software Engineering Student">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="./">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23211c16'/%3E%3Cpath d='M17 44L28 20h8l11 24h-8l-2-5H27l-2 5h-8zm13-11h6l-3-8-3 8z' fill='%23d9822b'/%3E%3C/svg%3E">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='36' fill='%23211c16'/%3E%3Cpath d='M47 126L78 54h24l31 72h-22l-6-16H75l-6 16H47zm36-33h14l-7-20-7 20z' fill='%23d9822b'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230e0e0c'/%3E%3Cpath d='M17 44L28 20h8l11 24h-8l-2-5H27l-2 5h-8zm13-11h6l-3-8-3 8z' fill='%23e0221a'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' fill='%230e0e0c'/%3E%3Cpath d='M47 126L78 54h24l31 72h-22l-6-16H75l-6 16H47zm36-33h14l-7-20-7 20z' fill='%23e0221a'/%3E%3C/svg%3E">
 <title>Alex Turcanu | Software Engineering Student and Video Editor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="mobile.css">
 </head>
 <body>
 
-<div class="boot-loader" aria-hidden="true"><span></span></div>
+<div class="bg-grid" aria-hidden="true"></div>
 
-<div class="mobile-topbar">
-  <div class="mobile-logo">alex<span>2dev</span></div>
-  <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primarySidebar">
-    <span></span><span></span><span></span>
-  </button>
-</div>
-<div class="mobile-nav-overlay" id="mobileNavOverlay" hidden></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="spark-shape" viewBox="0 0 24 24">
+    <path d="M12 0 L14.2 9.8 L24 12 L14.2 14.2 L12 24 L9.8 14.2 L0 12 L9.8 9.8 Z" fill="currentColor"/>
+  </symbol>
+</svg>
 
-<div class="app-shell">
-
-  <aside class="sidebar" id="primarySidebar">
-    <div class="sidebar-top">
-      <div class="logo">alex<span>2dev</span></div>
-      <div class="tc-readout mono"><span class="rec-dot"></span>REC <span id="tc">00:00:00</span></div>
-      <nav class="side-nav" aria-label="Primary">
-        <a href="#hero" data-sec="hero"><span class="idx">00:00</span>Home</a>
-        <a href="#about" data-sec="about"><span class="idx">00:01</span>About</a>
-        <a href="#education" data-sec="education"><span class="idx">00:02</span>Education</a>
-        <a href="#build" data-sec="build"><span class="idx">00:03</span>Experience</a>
-        <a href="#journey" data-sec="journey"><span class="idx">00:04</span>Journey</a>
-        <a href="#projects" data-sec="projects"><span class="idx">00:05</span>Projects</a>
-        <a href="#create" data-sec="create"><span class="idx">00:06</span>Video Editing</a>
-        <a href="#skills" data-sec="skills"><span class="idx">00:07</span>Skillset</a>
-        <a href="#log" data-sec="log"><span class="idx">00:08</span>Certifications</a>
-        <a href="#contact" data-sec="contact"><span class="idx">00:09</span>Contact</a>
-      </nav>
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">alex<span class="accent">2dev</span></a>
+    <ul class="nav-links">
+      <li><a href="#about" data-sec="about"><span class="idx mono">01</span>About</a></li>
+      <li><a href="#work" data-sec="work"><span class="idx mono">02</span>Work</a></li>
+      <li><a href="#projects" data-sec="projects"><span class="idx mono">03</span>Projects</a></li>
+      <li><a href="#reel" data-sec="reel"><span class="idx mono">04</span>Video</a></li>
+      <li><a href="#reference" data-sec="reference"><span class="idx mono">05</span>Qualifications</a></li>
+      <li><a href="#contact" data-sec="contact"><span class="idx mono">06</span>Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <span id="themeIcon">&#9789;</span>
+      </button>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobileDrawer">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <div class="sidebar-bottom">
-      <button class="theme-toggle mono" id="themeToggle" type="button"><span class="icon" id="themeIcon">🌙</span><span id="themeLabel">Dark mode</span></button>
-      <a href="mailto:alexturcanu03@gmail.com" class="btn btn-amber full">Email me</a>
-    </div>
-  </aside>
+  </div>
+</header>
 
-  <main class="stage">
+<nav class="mobile-drawer" id="mobileDrawer" aria-label="Mobile">
+  <a href="#about" data-sec="about"><span class="idx mono">01</span>About</a>
+  <a href="#work" data-sec="work"><span class="idx mono">02</span>Work</a>
+  <a href="#projects" data-sec="projects"><span class="idx mono">03</span>Projects</a>
+  <a href="#reel" data-sec="reel"><span class="idx mono">04</span>Video</a>
+  <a href="#reference" data-sec="reference"><span class="idx mono">05</span>Qualifications</a>
+  <a href="#contact" data-sec="contact"><span class="idx mono">06</span>Contact</a>
+  <div class="drawer-status"><span class="dot"></span>Open to internships and part-time work</div>
+</nav>
 
-    <section class="monitor" id="hero">
-      <div class="window-chrome">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="filename mono">program_monitor, alex_turcanu.mov</div>
+<main>
+
+  <section class="hero" id="hero">
+    <div class="hero-grid">
+      <div class="hero-photo">
+        <div class="photo-frame">
+          <div class="photo-fallback mono">AT</div>
+          <img src="pfp.png" alt="Alex Turcanu" onerror="this.style.display='none';">
+          <span class="frame-tick tl"></span><span class="frame-tick tr"></span>
+          <span class="frame-tick bl"></span><span class="frame-tick br"></span>
+        </div>
       </div>
-      <div class="monitor-body">
-        <div class="hero-grid">
-          <div class="hero-text">
-            <div class="rec-line"><span class="rec-dot"></span>open to internships and part-time work</div>
-            <h1 class="name">ALEXADNRU<br><span class="hl">TURCANU</span></h1>
-            <p class="hero-role">
-              Software Engineering student at <b>VIA University College</b>, building applications with Java, Python and C#. I also work freelance in video editing.
-            </p>
+      <div class="hero-main">
+        <div class="hero-eyebrow">Software Engineering Student / Video Editor</div>
+        <h1 class="hero-name">Alexandru<br><span class="accent">Turcanu</span><span class="dot-end">.</span></h1>
+        <div class="hero-foot">
+          <div>
+            <p class="hero-desc">Software Engineering student at <b>VIA University College</b>, building applications with Java, Python and C#. I also work freelance in video editing.</p>
             <div class="hero-cta">
-              <a href="mailto:alexturcanu03@gmail.com" class="btn btn-amber">Email me</a>
-              <a href="#build" class="btn btn-slate">Experience</a>
-              <a href="#create" class="btn btn-amber">Video Editing</a>
+              <a href="mailto:alexturcanu03@gmail.com" class="btn btn-outline">Get in touch</a>
               <a href="CV Alex Turcanu.pdf" download class="btn btn-outline">Download CV</a>
-            </div>
-            <div class="hero-social" aria-label="Social links">
-              <a href="https://github.com/a1izo" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.4-4-1.4-.5-1.3-1.2-1.7-1.2-1.7-1-.7.1-.7.1-.7 1.1.1 1.8 1.2 1.8 1.2 1 .1 1.5.8 1.5.8.9 1.6 2.4 1.1 3 .8.1-.8.4-1.1.7-1.4-2.6-.3-5.4-1.3-5.4-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.9 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.7.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.4 5.9.4.3.8 1 .8 2.1v3.1c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>
-                <span>GitHub</span>
-              </a>
-              <a href="https://www.linkedin.com/in/alexandru-turcanu-377642295" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5A2.48 2.48 0 1 1 4.97 8a2.48 2.48 0 0 1 .01-4.5zM3 8.75h4v12H3v-12zm7 0h3.8v1.64h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1v6.31h-4v-5.59c0-1.33-.03-3.05-1.86-3.05-1.87 0-2.15 1.46-2.15 2.95v5.69h-4v-12z"/></svg>
-                <span>LinkedIn</span>
-              </a>
-            </div>
-          </div>
-          <div class="hero-photo">
-            <div class="photo-frame">
-              <div class="photo-fallback mono">AT</div>
-              <img src="pfp.PNG" alt="Alex Turcanu" onerror="this.style.display='none';">
-              <div class="frame-corner tl"></div>
-              <div class="frame-corner tr"></div>
-              <div class="frame-corner bl"></div>
-              <div class="frame-corner br"></div>
-              <div class="frame-tag mono">SUBJECT 01</div>
+              <a href="https://github.com/a1izo" class="btn btn-outline" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a href="https://www.linkedin.com/in/alexandru-turcanu-377642295" class="btn btn-outline" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             </div>
           </div>
         </div>
       </div>
-      <div class="scrub-bar"><div class="scrub-fill" id="scrubFill"></div></div>
-    </section>
+    </div>
+  </section>
 
-    <section class="panel" id="about">
-      <div class="window-chrome">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="filename mono">about.seq</div>
-      </div>
-      <div class="panel-body">
-        <div class="panel-title"><span class="idx">00:01</span><h2>About</h2></div>
-        <div class="about-body">
-          <p>I study software engineering at VIA University College. I hold Certiport certifications in Python, databases and device configuration, and I spent two years teaching IT and robotics workshops at ROBOCODE.</p>
-          <p>Outside class, I edit videos. I cut promos and short form content in After Effects for clients who need raw footage turned into something people actually finish watching. Pairing the two wasn't really a plan, it just happened, and now I split my time between them fairly evenly.</p>
-          <p>I'm a motivated and adaptable student with experience in IT training, workshops, and project coordination. I have certifications in Python, Databases, and Device Configuration, plus skills in C++, Java, and web development. I enjoy solving problems, working in teams, and contributing to innovative projects.</p>
-          <p>Right now I'm looking for a part time student job.</p>
-        </div>
-        <div class="lang-strip">
-          <span class="chip">🇬🇧 English, <b>Fluent</b></span>
-          <span class="chip">🇷🇴 Romanian, <b>Native</b></span>
-          <span class="chip">🇷🇺 Russian, <b>B2</b></span>
-          <span class="chip">🇫🇷 French, <b>B2</b></span>
-          <span class="chip">🇩🇰 Danish, <b>DU3 Module 2</b></span>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel" id="education">
-      <div class="window-chrome">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="filename mono">education.log</div>
-      </div>
-      <div class="panel-body">
-        <div class="panel-title"><span class="idx">00:02</span><h2>Education</h2></div>
-        <div class="queue">
-          <div class="queue-row head">
-            <div>Program</div>
-            <div class="col-year">Period</div>
-            <div>Location</div>
-          </div>
-          <div class="queue-row">
-            <div class="job">Baccalaureate Diploma<span class="org">Mihai Viteazul Theoretical Lyceum</span></div>
-            <div class="col-year">2023 to 2025</div>
-            <div class="loc">🇲🇩 Chisinau, Moldova</div>
-          </div>
-          <div class="queue-row">
-            <div class="job">Software Technology Engineering, B.Eng.<span class="org">VIA University College</span></div>
-            <div class="col-year">2025, ongoing</div>
-            <div class="loc">🇩🇰 Horsens, Denmark</div>
-          </div>
+  <section class="section" id="about">
+    <div class="eyebrow">
+      <span class="spark"><svg viewBox="0 0 24 24" width="11" height="11"><use href="#spark-shape"></use></svg></span>
+      <span class="num mono">01</span><span class="label mono">Profile</span><span class="rule"></span>
+    </div>
+    <h2 class="sec-title">About</h2>
+    <div class="about-grid">
+      <p class="about-tagline">Two disciplines,<br><span class="accent">one</span> way of working.</p>
+      <div class="about-body">
+        <p>I study software engineering at VIA University College. I hold Certiport certifications in Python, databases and device configuration, and I spent two years teaching IT and robotics workshops at ROBOCODE.</p>
+        <p>Outside class, I edit videos. I cut promos and short form content in After Effects for clients who need raw footage turned into something people actually finish watching. Pairing the two wasn't really a plan, it just happened, and now I split my time between them fairly evenly.</p>
+        <p>I'm a motivated and adaptable student with experience in IT training, workshops, and project coordination. I have certifications in Python, Databases, and Device Configuration, plus skills in C++, Java, and web development. I enjoy solving problems, working in teams, and contributing to innovative projects.</p>
+        <p>Right now I'm looking for a part time student job.</p>
+        <div class="about-langs mono">
+          <span>&#127468;&#127463; English, <b>Fluent</b></span>
+          <span>&#127479;&#127476; Romanian, <b>Native</b></span>
+          <span>&#127479;&#127482; Russian, <b>B2</b></span>
+          <span>&#127467;&#127479; French, <b>B2</b></span>
+          <span>&#127465;&#127472; Danish, <b>DU3 Module 2</b></span>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="panel" id="build">
-      <div class="window-chrome">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="filename mono">experience.timeline</div>
+  <section class="section" id="work">
+    <div class="eyebrow">
+      <span class="spark"><svg viewBox="0 0 24 24" width="11" height="11"><use href="#spark-shape"></use></svg></span>
+      <span class="num mono">02</span><span class="label mono">Trajectory</span><span class="rule"></span>
+    </div>
+    <h2 class="sec-title">Experience</h2>
+
+    <div class="xp-row">
+      <div class="xp-when mono"><span class="dot"></span>2025 - Ongoing</div>
+      <div>
+        <h3 class="xp-title">Studenterunderviser</h3>
+        <div class="xp-org"><a href="https://www.via.dk/" target="_blank" rel="noopener">VIA p&aring; Vejen</a></div>
       </div>
-      <div class="panel-body">
-        <div class="panel-title"><span class="idx">00:03</span><h2>Experience</h2></div>
+      <div>
+        <p class="xp-desc">Teach and support students all over Denmark, filling the gaps between what they like and what they can do in the future.</p>
+        <div class="xp-tags mono"><span>Student Mentor</span><span>Educational Guidance</span><span>Workshops</span></div>
+      </div>
+    </div>
 
-        <div class="timeline-wrap">
-          <div class="timeline-inner">
-            <div class="ruler">
-              <div class="tick" style="left:0%">2023</div>
-              <div class="tick" style="left:28.6%">2024</div>
-              <div class="tick" style="left:57.1%">2025</div>
-              <div class="tick" style="left:85.7%">2026</div>
-            </div>
-            <div class="track-row">
-              <span class="track-label">V3</span>
-              <div class="clip amber" style="left:0%; width:57.1%;">
-                <h4>IT Assistant Teacher</h4>
-                <p>ROBOCODE, 2023 to 2025</p>
-                <div class="badge-row">
-                  <span>2 years teaching</span>
-                  <span>Robotics workshops</span>
-                  <span>Python instruction</span>
-                  <span>IT education</span>
-                </div>
-              </div>
-            </div>
-            <div class="track-row">
-              <span class="track-label">V2</span>
-              <div class="clip slate" style="left:28.6%; width:28.5%;">
-                <h4>Waiter / Kitchen Assistant</h4>
-                <p>Oliva, 2024 to 2025</p>
-                <div class="badge-row">
-                  <span>Fast-paced restaurant</span>
-                  <span>Front &amp; back of house</span>
-                  <span>Team coordination</span>
-                </div>
-              </div>
-            </div>
-            <div class="track-row">
-              <span class="track-label">V1</span>
-              <div class="clip amber" style="left:57.1%; width:42.9%;">
-                <h4>Studenterunderviser</h4>
-                <p>VIA på Vejen, 2025, ongoing</p>
-                <div class="badge-row">
-                  <span>Student mentor</span>
-                  <span>Educational guidance</span>
-                  <span>Workshops</span>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="xp-row">
+      <div class="xp-when mono">2023 - 2025</div>
+      <div>
+        <h3 class="xp-title">IT Assistant Teacher</h3>
+        <div class="xp-org"><a href="https://robocode.md" target="_blank" rel="noopener">ROBOCODE</a></div>
+      </div>
+      <div>
+        <p class="xp-desc">Taught programming fundamentals and ran robotics workshops, from first Python scripts to building and coding actual robots.</p>
+        <div class="xp-tags mono"><span>2 Years Teaching</span><span>Robotics Workshops</span><span>Python Instruction</span><span>IT Education</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="eyebrow">
+      <span class="spark"><svg viewBox="0 0 24 24" width="11" height="11"><use href="#spark-shape"></use></svg></span>
+      <span class="num mono">03</span><span class="label mono">Portfolio</span><span class="rule"></span>
+    </div>
+    <h2 class="sec-title">Projects</h2>
+
+    <div class="proj-row">
+      <div class="proj-head">
+        <span class="proj-tag mono">Semester 1 Project</span>
+        <span class="proj-status mono">Completed</span>
+      </div>
+      <h3 class="proj-title">CloverNet</h3>
+      <p class="proj-desc">A community management system built for a fictional eco-village. CloverNet tracks communal tasks, environmental actions, point-based rewards and exchanges between residents. The project covered the full development process, from requirements and use cases to a Java application and a separate read-only web interface.</p>
+      <div class="proj-stack mono"><span>Java</span><span>JavaFX</span><span>HTML/CSS</span><span>JavaScript</span><span>JSON</span><span>UML</span></div>
+    </div>
+
+    <div class="proj-row">
+      <div class="proj-head">
+        <span class="proj-tag mono">Semester 2 Project</span>
+        <span class="proj-status mono">Completed</span>
+      </div>
+      <h3 class="proj-title">Flight Booking System</h3>
+      <p class="proj-desc">A Java-based flight booking system developed around a client-server architecture. The application handles flight searches, bookings and user management, with administrative functionality for managing the underlying flight data. The project also includes automated tests and a structured relational database design.</p>
+      <div class="proj-stack mono"><span>Java</span><span>Client / Server</span><span>SQL</span><span>OOP</span><span>JUnit</span><span>UML</span></div>
+    </div>
+
+    <div class="proj-row">
+      <div class="proj-head">
+        <span class="proj-tag mono">Workshoping</span>
+        <span class="proj-status mono">Ongoing</span>
+      </div>
+      <h3 class="proj-title">Social Media Platform</h3>
+      <p class="proj-desc">A modular social media platform built around a simple CRUD-focused Web API and a Blazor front-end. The server uses Entity Framework Core with SQLite for persistence, while the application is split into separate projects for the network, persistence, domain entities and repository contracts. A major feature will be a highly customizable profile builder, giving users control over how their profiles look and feel.</p>
+      <div class="proj-stack mono"><span>C#</span><span>.NET</span><span>Web API</span><span>Blazor</span><span>EF Core</span><span>SQLite</span><span>Repositories</span></div>
+    </div>
+
+    <div class="proj-row">
+      <div class="proj-head">
+        <span class="proj-tag mono">Personal</span>
+        <span class="proj-status mono">Ongoing</span>
+      </div>
+      <h3 class="proj-title">Portfolio Website</h3>
+      <p class="proj-desc">My personal developer portfolio, designed and built from scratch. It combines project documentation, personal information and an intentionally unconventional visual style into a single interactive site. The project is continuously updated alongside my studies and software work.</p>
+      <div class="proj-stack mono"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Git</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="reel">
+    <div class="eyebrow">
+      <span class="spark"><svg viewBox="0 0 24 24" width="11" height="11"><use href="#spark-shape"></use></svg></span>
+      <span class="num mono">04</span><span class="label mono">Showreel</span><span class="rule"></span>
+    </div>
+    <h2 class="sec-title">Video Editing</h2>
+    <p class="reel-intro">I edit video freelance, mostly promos and short form content in After Effects.</p>
+    <div class="reel-frame">
+      <video controls preload="metadata">
+        <source src="Video Editing showcase.mp4" type="video/mp4">
+        Your browser does not support embedded video.
+      </video>
+    </div>
+    <div class="reel-caption mono">
+      <span class="live">Showcase video</span>
+      <span>0:24</span>
+    </div>
+  </section>
+
+  <section class="section" id="reference">
+    <div class="eyebrow">
+      <span class="spark"><svg viewBox="0 0 24 24" width="11" height="11"><use href="#spark-shape"></use></svg></span>
+      <span class="num mono">05</span><span class="label mono">Details</span><span class="rule"></span>
+    </div>
+    <h2 class="sec-title">Qualifications</h2>
+    <div class="ref-cols">
+
+      <div class="ref-col">
+        <div class="ref-col-label mono">Skillset</div>
+        <div class="ref-group">
+          <h4>Languages</h4>
+          <div class="ref-words mono"><span>Java</span><span>Python</span><span>C++</span><span>C#</span><span>JavaScript</span><span>SQL</span></div>
         </div>
-
-        <div class="track-legend">
-          <div class="legend-rows">
-            <div class="legend-row"><span class="swatch amber"></span><span>Taught programming fundamentals and ran robotics workshops at <b>ROBOCODE</b>, from first Python scripts to building and coding actual robots. <a href="https://robocode.md" target="_blank" rel="noopener">robocode.md</a></span></div>
-            <div class="legend-row"><span class="swatch slate"></span><span>Worked front and back of house at <b>Oliva</b>, running food during rushes and keeping the kitchen moving when tickets piled up. <a href="https://oliva.md/" target="_blank" rel="noopener">oliva.md</a></span></div>
-            <div class="legend-row"><span class="swatch amber"></span><span>Teach and support students all over Denmark at <b>VIA på Vejen</b>, filling the gaps between what they like and what they can do in the future. <a href="https://www.via.dk/" target="_blank" rel="noopener">via.dk</a></span></div>
-          </div>
+        <div class="ref-group">
+          <h4>Web &amp; Backend</h4>
+          <div class="ref-words mono"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>.NET</span><span>Web API</span><span>Blazor</span></div>
         </div>
-      </div>
-    </section>
-
-    <section class="panel" id="journey">
-      <div class="window-chrome">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="filename mono">journey.timeline</div>
-      </div>
-      <div class="panel-body">
-        <div class="panel-title"><span class="idx">00:04</span><h2>Journey</h2></div>
-        <div class="journey-list" aria-label="Timeline of milestones">
-          <article class="journey-item"><span class="journey-year">2023</span><div class="journey-card"><h3>Started teaching at ROBOCODE</h3><p>Helping students learn programming and robotics through hands-on workshops.</p></div></article>
-          <article class="journey-item"><span class="journey-year">2024</span><div class="journey-card"><h3>Earned Certiport certifications</h3><p>Finished certifications in Python, databases, and device configuration.</p></div></article>
-          <article class="journey-item"><span class="journey-year">2025</span><div class="journey-card"><h3>Moved to Denmark</h3><p>Relocated and continued my studies in a new environment.</p></div></article>
-          <article class="journey-item"><span class="journey-year">2025</span><div class="journey-card"><h3>Started Software Engineering at VIA</h3><p>Began the Software Technology Engineering programme at VIA University College.</p></div></article>
-          <article class="journey-item"><span class="journey-year">2025</span><div class="journey-card"><h3>Began teaching at VIA på Vejen</h3><p>Joined as a student mentor supporting learners across Denmark.</p></div></article>
-          <article class="journey-item"><span class="journey-year">2026</span><div class="journey-card"><h3>Looking for internship</h3><p>Actively searching for a place where I can contribute and keep learning.</p></div></article>
+        <div class="ref-group">
+          <h4>Data &amp; Architecture</h4>
+          <div class="ref-words mono"><span>SQL</span><span>SQLite</span><span>Entity Framework Core</span><span>OOP</span><span>REST APIs</span><span>Repository Pattern</span><span>UML</span></div>
         </div>
-      </div>
-    </section>
-
-    <section class="panel" id="projects">
-      <div class="window-chrome">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="filename mono">projects.bin</div>
-      </div>
-
-      <div class="panel-body">
-        <div class="panel-title">
-          <span class="idx">00:05</span>
-          <h2>Projects</h2>
-        </div>
-
-        <div class="bin-hint">scroll to browse the bin →</div>
-
-        <div class="bin-row">
-
-          <div class="card">
-            <span class="card-tag">Semester 1 project - completed </span>
-            <h3>CloverNet</h3>
-
-            <p>
-              A community management system built for a fictional eco-village.
-              CloverNet tracks communal tasks, environmental actions, point-based
-              rewards and exchanges between residents. The project covered the
-              full development process, from requirements and use cases to a
-              Java application and a separate read-only web interface.
-            </p>
-
-            <div class="stack">
-              <span>Java</span>
-              <span>JavaFX</span>
-              <span>HTML/CSS</span>
-              <span>JavaScript</span>
-              <span>JSON</span>
-              <span>UML</span>
-            </div>
-          </div>
-
-
-          <div class="card">
-            <span class="card-tag">Semester 2 project - completed</span>
-            <h3>Flight Booking System</h3>
-
-            <p>
-              A Java-based flight booking system developed around a client-server
-              architecture. The application handles flight searches, bookings and
-              user management, with administrative functionality for managing the
-              underlying flight data. The project also includes automated tests
-              and a structured relational database design.
-            </p>
-
-            <div class="stack">
-              <span>Java</span>
-              <span>Client / Server</span>
-              <span>SQL</span>
-              <span>OOP</span>
-              <span>JUnit</span>
-              <span>UML</span>
-            </div>
-          </div>
-
-
-          <div class="card">
-            <span class="card-tag">Workshoping - ongoing</span>
-            <h3>Social Media Platform</h3>
-
-            <p>
-              A modular social media platform built around a simple CRUD-focused
-              Web API and a Blazor front-end. The server uses Entity Framework Core
-              with SQLite for persistence, while the application is split into
-              separate projects for the network, persistence, domain entities and
-              repository contracts. A major feature will be a highly customizable
-              profile builder, giving users control over how their profiles look
-              and feel.
-            </p>
-
-            <div class="stack">
-              <span>C#</span>
-              <span>.NET</span>
-              <span>Web API</span>
-              <span>Blazor</span>
-              <span>EF Core</span>
-              <span>SQLite</span>
-              <span>Repositories</span>
-            </div>
-          </div>
-
-
-          <div class="card">
-            <span class="card-tag">Personal - ongoing</span>
-            <h3>Portfolio Website</h3>
-
-            <p>
-              My personal developer portfolio, designed and built from scratch.
-              It combines project documentation, personal information and an
-              intentionally unconventional visual style into a single interactive
-              site. The project is continuously updated alongside my studies and
-              software work.
-            </p>
-            <div class="stack">
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>JavaScript</span>
-              <span>Git</span>
-            </div>
-          </div>
-
+        <div class="ref-group">
+          <h4>Tools &amp; Practices</h4>
+          <div class="ref-words mono"><span>Git</span><span>GitHub</span><span>JUnit</span><span>Figma</span><span>Scrum</span><span>Git Flow</span></div>
         </div>
       </div>
-    </section>
 
-    <section class="panel" id="create">
-      <div class="window-chrome">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="filename mono">reel.mov</div>
-      </div>
-      <div class="panel-body">
-        <div class="panel-title"><span class="idx">00:06</span><h2>Video Editing</h2></div>
-        <div class="create-intro">
-          <p>I edit video freelance, mostly promos and short form content in After Effects. Below is a showcase reel, footage cut for pace, retention and a clean handoff to the client.</p>
+      <div class="ref-col">
+        <div class="ref-col-label mono">Education</div>
+        <div class="ref-group">
+          <h4>Software Technology Engineering, B.Eng.</h4>
+          <div class="ref-org mono">VIA University College</div>
+          <div class="ref-meta mono">2025 - Ongoing | Horsens, DK</div>
         </div>
-        <div class="video-frame">
-          <video controls preload="metadata">
-            <source src="Video Editing showcase.mp4" type="video/mp4">
-            Your browser does not support embedded video. 
-          </video>
-        </div>
-        <div class="video-caption">
-          <span class="live"><span class="live-dot"></span>Showcase reel, Fiver ad</span>
-          <span>0:24</span>
+        <div class="ref-group">
+          <h4>Baccalaureate Diploma</h4>
+          <div class="ref-org mono">Mihai Viteazul Lyceum</div>
+          <div class="ref-meta mono">2023 - 2025 | Chisinau, MD</div>
         </div>
       </div>
-    </section>
 
-    <section class="panel" id="skills">
-      <div class="window-chrome">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="filename mono">levels.mixer</div>
-      </div>
-
-      <div class="panel-body">
-        <div class="panel-title">
-          <span class="idx">00:07</span>
-          <h2>Skillset</h2>
+      <div class="ref-col">
+        <div class="ref-col-label mono">Certifications</div>
+        <div class="ref-group">
+          <h4>IT Specialist, Databases</h4>
+          <div class="ref-meta mono">Certiport | 2024</div>
         </div>
-
-        <div class="tech-stack">
-
-          <div class="tech-column">
-            <h4>Languages</h4>
-            <div class="tech-chips">
-              <span>Java</span>
-              <span>Python</span>
-              <span>C++</span>
-              <span>C#</span>
-              <span>JavaScript</span>
-              <span>SQL</span>
-            </div>
-          </div>
-
-          <div class="tech-column">
-            <h4>Web &amp; Backend</h4>
-            <div class="tech-chips">
-              <span>HTML</span>
-              <span>CSS</span>
-              <span>JavaScript</span>
-              <span>.NET</span>
-              <span>Web API</span>
-              <span>Blazor</span>
-            </div>
-          </div>
-
-          <div class="tech-column">
-            <h4>Data &amp; Architecture</h4>
-            <div class="tech-chips">
-              <span>SQL</span>
-              <span>SQLite</span>
-              <span>Entity Framework Core</span>
-              <span>OOP</span>
-              <span>REST APIs</span>
-              <span>Repository Pattern</span>
-              <span>UML</span>
-            </div>
-          </div>
-
-          <div class="tech-column">
-            <h4>Tools &amp; Practices</h4>
-            <div class="tech-chips">
-              <span>Git</span>
-              <span>GitHub</span>
-              <span>JUnit</span>
-              <span>Figma</span>
-              <span>Scrum</span>
-              <span>Git Flow</span>
-            </div>
-          </div>
+        <div class="ref-group">
+          <h4>IT Specialist, Python</h4>
+          <div class="ref-meta mono">Certiport | 2024</div>
+        </div>
+        <div class="ref-group">
+          <h4>Device Config &amp; Mgmt</h4>
+          <div class="ref-meta mono">Certiport | 2024</div>
         </div>
       </div>
-    </section>
 
-    <section class="panel" id="log">
-      <div class="window-chrome">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="filename mono">render_queue.log</div>
-      </div>
-      <div class="panel-body">
-        <div class="panel-title"><span class="idx">00:08</span><h2>Certifications</h2></div>
-        <div class="queue">
-          <div class="queue-row head">
-            <div>Job</div>
-            <div class="col-year">Year</div>
-            <div>Status</div>
-          </div>
-          <div class="queue-row">
-            <div class="job">IT Specialist, Databases<span class="org">Certiport</span></div>
-            <div class="col-year">2024</div>
-            <div class="status">Complete</div>
-          </div>
-          <div class="queue-row">
-            <div class="job">IT Specialist, Device Configuration &amp; Management<span class="org">Certiport</span></div>
-            <div class="col-year">2024</div>
-            <div class="status">Complete</div>
-          </div>
-          <div class="queue-row">
-            <div class="job">IT Specialist, Python<span class="org">Certiport</span></div>
-            <div class="col-year">2024</div>
-            <div class="status">Complete</div>
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
+  </section>
 
-    <footer class="panel" id="contact">
-      <div class="window-chrome">
-        <div class="dots"><span></span><span></span><span></span></div>
-        <div class="filename mono">export.dialog</div>
+  <section class="contact" id="contact">
+    <div class="corner-mark cross" aria-hidden="true">
+      <svg viewBox="0 0 40 40" width="26" height="26">
+        <line x1="20" y1="4" x2="20" y2="36" stroke="currentColor" stroke-width="1.3"/>
+        <line x1="4" y1="20" x2="36" y2="20" stroke="currentColor" stroke-width="1.3"/>
+      </svg>
+    </div>
+    <h2 class="contact-title">Let's <span class="accent">talk</span></h2>
+    <div class="contact-meta mono">
+      <span>Internships</span><span>Student Jobs</span><span>Freelance Video Editing</span>
+    </div>
+    <div class="contact-links">
+      <div class="contact-line">
+        <a href="mailto:alexturcanu03@gmail.com">alexturcanu03@gmail.com</a>
+        <button class="copy" type="button" data-copy="alexturcanu03@gmail.com">Copy</button>
       </div>
-      <div class="panel-body">
-        <div class="panel-title"><span class="idx">00:09</span><h2>Export Contact</h2></div>
-        <div class="export-dialog">
-          <div class="export-field"><span class="k">Name</span><span class="v">Alex Turcanu</span></div>
-          <div class="export-field"><span class="k">Availability</span><span class="v"><span class="availability-list"><span>Internships</span><span>Student jobs</span><span>Freelance video editing</span></span></span></div>
-          <div class="export-field"><span class="k">Response time</span><span class="v">Usually within 24 hours</span></div>
-          <div class="export-field"><span class="k">Location</span><span class="v">Horsens, Denmark</span></div>
-          <div class="export-field copyable"><span class="k">Email</span><span class="v"><a href="mailto:alexturcanu03@gmail.com" data-copy-value="alexturcanu03@gmail.com">alexturcanu03@gmail.com</a><button class="copy-btn" type="button" data-copy-target="email" aria-label="Copy email address">Copy <span class="copy-tip" aria-hidden="true">Copied!</span></button></span></div>
-          <div class="export-field copyable"><span class="k">Phone</span><span class="v"><a href="tel:+4571511975" data-copy-value="+4571511975">+45 71 51 19 75</a><button class="copy-btn" type="button" data-copy-target="phone" aria-label="Copy phone number">Copy <span class="copy-tip" aria-hidden="true">Copied!</span></button></span></div>
-          <div class="export-field"><span class="k">Status</span><span class="v">open to internships and part-time work</span></div>
-          <div class="export-actions">
-            <a href="mailto:alexturcanu03@gmail.com" class="btn btn-amber">Send email</a>
-            <a href="tel:+4571511975" class="btn btn-outline">Call</a>
-          </div>
-        </div>
-        <div class="foot-note">// built by alex</div>
+      <div class="contact-line">
+        <a href="tel:+4571511975">+45 71 51 19 75</a>
+        <button class="copy" type="button" data-copy="+4571511975">Copy</button>
       </div>
-    </footer>
+    </div>
+  </section>
 
-  </main>
-</div>
+  <footer class="site-foot">
+    <div>&copy; 2026 Alexandru Turcanu</div>
+    <div>Horsens, Denmark</div>
+    <div class="foot-links">
+      <a href="https://github.com/a1izo" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/alexandru-turcanu-377642295" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+  </footer>
+
+</main>
+
+<button class="back-to-top mono" id="backToTop" type="button" aria-label="Back to top">&uarr; Top</button>
 
 <script>
-  document.documentElement.classList.add('js-ready');
-
   var root = document.documentElement;
-  var toggleBtn = document.getElementById('themeToggle');
+  var themeToggle = document.getElementById('themeToggle');
   var themeIcon = document.getElementById('themeIcon');
-  var themeLabel = document.getElementById('themeLabel');
-  var copyButtons = Array.prototype.slice.call(document.querySelectorAll('.copy-btn'));
-  var backToTop = document.createElement('button');
-  backToTop.type = 'button';
-  backToTop.className = 'back-to-top';
-  backToTop.setAttribute('aria-label', 'Back to top');
-  backToTop.innerHTML = '<span>Top</span>';
-  document.body.appendChild(backToTop);
 
   function applyTheme(theme){
     if(theme === 'dark'){
       root.setAttribute('data-theme', 'dark');
-      themeIcon.textContent = '☀️';
-      themeLabel.textContent = 'Light mode';
+      themeIcon.innerHTML = '&#9788;';
     } else {
       root.removeAttribute('data-theme');
-      themeIcon.textContent = '🌙';
-      themeLabel.textContent = 'Dark mode';
+      themeIcon.innerHTML = '&#9789;';
     }
   }
-
   var savedTheme = null;
   try { savedTheme = localStorage.getItem('alex-portfolio-theme'); } catch(e){}
   applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
 
-  if(toggleBtn){
-    toggleBtn.addEventListener('click', function(){
+  if(themeToggle){
+    themeToggle.addEventListener('click', function(){
       var isDark = root.getAttribute('data-theme') === 'dark';
       var next = isDark ? 'light' : 'dark';
       applyTheme(next);
@@ -535,30 +335,64 @@
     });
   }
 
-  var start = Date.now();
-  var tcEl = document.getElementById('tc');
-  function pad(n){ return n.toString().padStart(2,'0'); }
-  function tickClock(){
-    var elapsed = Date.now() - start;
-    var totalFrames = Math.floor(elapsed/1000*25);
-    var ff = totalFrames % 25;
-    var totalSeconds = Math.floor(elapsed/1000);
-    var ss = totalSeconds % 60;
-    var mm = Math.floor(totalSeconds/60) % 60;
-    if(tcEl){ tcEl.textContent = pad(mm)+':'+pad(ss)+':'+pad(ff); }
-    requestAnimationFrame(tickClock);
+  var navToggle = document.getElementById('navToggle');
+  function closeDrawer(){
+    document.body.classList.remove('nav-open');
+    if(navToggle) navToggle.setAttribute('aria-expanded', 'false');
   }
-  requestAnimationFrame(tickClock);
+  if(navToggle){
+    navToggle.addEventListener('click', function(){
+      var isOpen = document.body.classList.contains('nav-open');
+      document.body.classList.toggle('nav-open', !isOpen);
+      navToggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+  }
+  document.querySelectorAll('.mobile-drawer a').forEach(function(a){
+    a.addEventListener('click', closeDrawer);
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ closeDrawer(); }
+  });
+  window.addEventListener('resize', function(){
+    if(window.innerWidth > 760){ closeDrawer(); }
+  });
 
-  function copyText(value, button){
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a, .mobile-drawer a'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('main section[id]'));
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(!entry.isIntersecting) return;
+      navLinks.forEach(function(a){
+        a.classList.toggle('active', a.dataset.sec === entry.target.id);
+      });
+    });
+  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+  sections.forEach(function(s){ observer.observe(s); });
+
+  var backToTop = document.getElementById('backToTop');
+  function updateBackToTop(){
+    var show = (window.scrollY || document.documentElement.scrollTop) > 600;
+    backToTop.classList.toggle('visible', show);
+  }
+  backToTop.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  window.addEventListener('scroll', updateBackToTop, { passive: true });
+  updateBackToTop();
+
+  function copyValue(value, button){
     var done = function(){
-      if(!button) return;
       button.classList.add('is-copied');
+      var original = button.textContent;
+      button.textContent = 'Copied';
       window.clearTimeout(button._copyTimer);
-      button._copyTimer = window.setTimeout(function(){ button.classList.remove('is-copied'); }, 1200);
+      button._copyTimer = window.setTimeout(function(){
+        button.textContent = original;
+        button.classList.remove('is-copied');
+      }, 1200);
     };
     if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(value).then(done).catch(function(){ done(); });
+      navigator.clipboard.writeText(value).then(done).catch(done);
       return;
     }
     var helper = document.createElement('textarea');
@@ -572,87 +406,10 @@
     document.body.removeChild(helper);
     done();
   }
-
-  copyButtons.forEach(function(button){
+  document.querySelectorAll('.copy').forEach(function(button){
     button.addEventListener('click', function(){
-      var row = button.closest('.copyable');
-      if(!row) return;
-      var link = row.querySelector('[data-copy-value]');
-      if(!link) return;
-      copyText(link.getAttribute('data-copy-value') || link.textContent.trim(), button);
+      copyValue(button.getAttribute('data-copy'), button);
     });
-  });
-
-  var scrubFill = document.getElementById('scrubFill');
-  function updateScrub(){
-    if(!scrubFill) return;
-    var doc = document.documentElement;
-    var scrollTop = window.scrollY || doc.scrollTop;
-    var max = (doc.scrollHeight - window.innerHeight) || 1;
-    var frac = Math.min(1, Math.max(0, scrollTop / max));
-    scrubFill.style.width = (frac*100) + '%';
-  }
-  window.addEventListener('scroll', updateScrub, {passive:true});
-  window.addEventListener('resize', updateScrub);
-  updateScrub();
-
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.side-nav a'));
-  var sections = navLinks.map(function(a){ return document.getElementById(a.dataset.sec); }).filter(Boolean);
-  var observer = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      var link = document.querySelector('.side-nav a[data-sec="'+entry.target.id+'"]');
-      if(!link) return;
-      if(entry.isIntersecting){
-        navLinks.forEach(function(l){ l.classList.remove('active'); });
-        link.classList.add('active');
-      }
-    });
-  }, {rootMargin:'-40% 0px -50% 0px', threshold:0});
-  sections.forEach(function(s){ observer.observe(s); });
-
-  var topTimer = null;
-  function updateBackToTop(){
-    var show = (window.scrollY || document.documentElement.scrollTop) > 600;
-    backToTop.classList.toggle('visible', show);
-  }
-  backToTop.addEventListener('click', function(){
-    window.scrollTo({top:0, behavior:'smooth'});
-  });
-  window.addEventListener('scroll', function(){
-    updateBackToTop();
-  }, {passive:true});
-  updateBackToTop();
-
-  var mobileToggle = document.getElementById('mobileNavToggle');
-  var mobileOverlay = document.getElementById('mobileNavOverlay');
-
-  function openMobileNav(){
-    document.body.classList.add('nav-open');
-    if(mobileToggle) mobileToggle.setAttribute('aria-expanded', 'true');
-    if(mobileOverlay) mobileOverlay.hidden = false;
-  }
-  function closeMobileNav(){
-    document.body.classList.remove('nav-open');
-    if(mobileToggle) mobileToggle.setAttribute('aria-expanded', 'false');
-    if(mobileOverlay) mobileOverlay.hidden = true;
-  }
-  if(mobileToggle){
-    mobileToggle.addEventListener('click', function(){
-      var isOpen = document.body.classList.contains('nav-open');
-      if(isOpen){ closeMobileNav(); } else { openMobileNav(); }
-    });
-  }
-  if(mobileOverlay){
-    mobileOverlay.addEventListener('click', closeMobileNav);
-  }
-  navLinks.forEach(function(a){
-    a.addEventListener('click', closeMobileNav);
-  });
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape'){ closeMobileNav(); }
-  });
-  window.addEventListener('resize', function(){
-    if(window.innerWidth > 900){ closeMobileNav(); }
   });
 </script>
 
