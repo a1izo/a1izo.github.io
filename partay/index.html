@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#e0221a">
+<title>Partay Scrum Tracker</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230e0e0c'/%3E%3Cpath d='M17 44L28 20h8l11 24h-8l-2-5H27l-2 5h-8zm13-11h6l-3-8-3 8z' fill='%23e0221a'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one column, summary strip, tabbed tables, a save bar that appears when there are unsent changes. */
+:root{
+  --paper:#f7f6f1; --paper-2:#eeece3; --ink:#0e0e0c; --dim:#6f6c64; --line:#dbd7cc;
+  --red:#e0221a; --red-soft:#fbe3e1; --btn-text:#f7f6f1;
+  --todo:#e6e3da; --doing:#dde7f4; --doing-ink:#1d4f91; --done:#dcefdf; --done-ink:#1f6b34; --edit:#fff3c4;
+  --serif:'Bodoni Moda', Georgia, serif; --sans:'Inter', system-ui, sans-serif; --mono:'JetBrains Mono', ui-monospace, monospace;
+  color-scheme: light;
+}
+html[data-theme="dark"]{
+  --paper:#0c0c0b; --paper-2:#17150f; --ink:#f3f1ea; --dim:#9a968c; --line:#2a2823;
+  --red:#ff5b4e; --red-soft:#3a1714; --btn-text:#0c0c0b;
+  --todo:#26241f; --doing:#1a2a40; --doing-ink:#9cc2f5; --done:#183021; --done-ink:#8fd9a3; --edit:#3d3413;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+header.top{border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px;flex-wrap:wrap}
+.logo{font-family:var(--serif);font-size:22px;font-weight:600;text-decoration:none}
+.logo i{color:var(--red)}
+.top-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.mono{font-family:var(--mono)}
+.label{font-family:var(--mono);font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--dim)}
+select,input,button{font:inherit;color:inherit}
+select,input[type=text],input[type=number]{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:5px 8px;min-width:0}
+select:focus-visible,input:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.btn{border:1px solid var(--ink);background:var(--ink);color:var(--btn-text);border-radius:999px;padding:7px 16px;cursor:pointer;font-weight:500;font-size:14px}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.red{background:var(--red);border-color:var(--red);color:#fff}
+.icon-btn{border:1px solid var(--line);background:transparent;border-radius:999px;width:34px;height:34px;cursor:pointer}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,5vw,56px);line-height:1.05;margin:28px 0 6px;text-wrap:balance}
+h1 i{color:var(--red)}
+.lede{color:var(--dim);max-width:62ch;margin:0 0 22px}
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:26px}
+.strip>div{background:var(--paper);padding:14px 16px;min-width:0}
+.strip .v{font-family:var(--serif);font-size:28px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.2}
+.strip .s{color:var(--dim);font-size:13px}
+.bar{height:6px;background:var(--paper-2);border-radius:3px;margin-top:8px;overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--red)}
+nav.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow-x:auto}
+nav.tabs button{border:0;background:none;padding:10px 14px;cursor:pointer;color:var(--dim);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-weight:500}
+nav.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--red)}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:13px}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--btn-text);border-color:var(--ink)}
+.chip .now{color:var(--red);font-family:var(--mono);font-size:10px;margin-left:6px;letter-spacing:.8px}
+.chip[aria-pressed=true] .now{color:var(--red-soft)}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:760px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);font-weight:500;background:var(--paper-2);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td input[type=number]{width:72px;text-align:right}
+td select{max-width:140px}
+td.id{font-family:var(--mono);font-size:12px;color:var(--dim);white-space:nowrap}
+td.story{font-family:var(--mono);font-size:12px;white-space:nowrap}
+.changed{background:var(--edit)!important}
+tr.deleted td{text-decoration:line-through;opacity:.55}
+tr.new td{background:var(--edit)}
+.pill{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:500;white-space:nowrap}
+.st-To-do{background:var(--todo)}
+.st-In-progress{background:var(--doing);color:var(--doing-ink)}
+.st-Done{background:var(--done);color:var(--done-ink)}
+select.st-In-progress{color:var(--doing-ink)} select.st-Done{color:var(--done-ink)}
+.x{border:0;background:none;color:var(--dim);cursor:pointer;font-size:16px;padding:0 4px}
+.x:hover{color:var(--red)}
+.addrow{display:grid;grid-template-columns:110px minmax(0,1fr) 130px 90px auto;gap:8px;margin-top:12px;align-items:center}
+.addrow.story{grid-template-columns:minmax(0,1fr) 130px 150px auto}
+@media (max-width:700px){.addrow,.addrow.story{grid-template-columns:1fr 1fr}.addrow input[type=text]{grid-column:1/-1}}
+.note{color:var(--dim);font-size:13px;margin:10px 0 0}
+.chart{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--paper)}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;gap:18px;font-size:13px;color:var(--dim);margin:6px 4px 0;flex-wrap:wrap}
+.legend span::before{content:"";display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:6px;background:var(--c)}
+.log li{padding:10px 0;border-bottom:1px solid var(--line);list-style:none}
+.log{padding:0;margin:0}
+.log .when{font-family:var(--mono);font-size:12px;color:var(--dim)}
+.howto{max-width:68ch}
+.howto ol{padding-left:20px}
+.howto li{margin-bottom:8px}
+.savebar{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--btn-text);padding-bottom:env(safe-area-inset-bottom,0px);z-index:20}
+.savebar .wrap{display:flex;gap:12px;align-items:center;justify-content:space-between;padding-block:12px;flex-wrap:wrap}
+.savebar .btn.ghost{color:var(--btn-text);border-color:var(--btn-text)}
+.banner{border:1px solid var(--red);background:var(--red-soft);border-radius:10px;padding:12px 14px;margin-bottom:16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.muted{color:var(--dim)}
+footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
+.loading{padding:40px 0;color:var(--dim)}
+@media (prefers-reduced-motion:no-preference){.bar>span{transition:width .4s ease}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="/">alex<i>2dev</i></a>
+    <div class="top-right">
+      <label class="label" for="me">You are</label>
+      <select id="me"><option value="">Pick your name</option></select>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode">&#9789;</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1>Partay <i>scrum tracker</i></h1>
+  <p class="lede">SEP3 at VIA University College. Product backlog, sprint backlog and burndown for the Partay team. Change what you need, then press Send. Updates go through GitHub and show here about a minute later.</p>
+  <div id="banner"></div>
+  <section class="strip" id="strip" aria-label="Sprint summary"></section>
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-sprint" aria-selected="true">Sprint backlog</button>
+    <button role="tab" id="tab-product" aria-selected="false">Product backlog</button>
+    <button role="tab" id="tab-burndown" aria-selected="false">Burndown</button>
+    <button role="tab" id="tab-log" aria-selected="false">Activity</button>
+    <button role="tab" id="tab-howto" aria-selected="false">How it works</button>
+  </nav>
+  <section id="view"><p class="loading">Loading the tracker…</p></section>
+</main>
+<footer><div class="wrap" id="foot"></div></footer>
+<div class="savebar" id="savebar" hidden></div>
+
+<script>
+(function(){
+  var REPO = 'a1izo/a1izo.github.io';
+  var API = 'https://api.github.com/repos/' + REPO + '/contents/partay/data.json?ref=main';
+  var STATUS = ['To do', 'In progress', 'Done'];
+  var root = document.documentElement;
+
+  // theme, shared with the main site
+  function applyTheme(t){ if(t === 'dark'){ root.setAttribute('data-theme','dark'); } else { root.removeAttribute('data-theme'); } document.getElementById('themeToggle').innerHTML = t === 'dark' ? '&#9788;' : '&#9789;'; }
+  var saved = null; try { saved = localStorage.getItem('alex-portfolio-theme'); } catch(e){}
+  applyTheme(saved === 'dark' ? 'dark' : 'light');
+  document.getElementById('themeToggle').addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next); try { localStorage.setItem('alex-portfolio-theme', next); } catch(e){}
+    render();
+  });
+
+  function store(k, v){ try { if(v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } }
+
+  var data = null, tab = 'sprint', sprintSel = null;
+  var pending = emptyPending();
+  function emptyPending(){ return { tasks:{}, stories:{}, addTasks:[], addStories:[], del:{} }; }
+
+  function h(tag, attrs, kids){
+    var el = document.createElement(tag);
+    if(attrs) for(var k in attrs){
+      var v = attrs[k]; if(v == null || v === false) continue;
+      if(k === 'text') el.textContent = v;
+      else if(k.slice(0,2) === 'on') el.addEventListener(k.slice(2), v);
+      else if(k === 'value') el.value = v;
+      else el.setAttribute(k, v === true ? '' : v);
+    }
+    (kids || []).forEach(function(c){ if(c == null) return; el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return el;
+  }
+  function today(){ return new Intl.DateTimeFormat('en-CA', { timeZone:'Europe/Copenhagen' }).format(new Date()); }
+  function fmtDate(d){ var p = d.split('-'); var dt = new Date(Date.UTC(+p[0], +p[1]-1, +p[2])); return dt.toLocaleDateString('en-GB', { day:'numeric', month:'short', timeZone:'UTC' }); }
+  function days(a, b){ var out = [], d = new Date(a + 'T00:00:00Z'), e = new Date(b + 'T00:00:00Z'); while(d <= e){ out.push(d.toISOString().slice(0,10)); d.setUTCDate(d.getUTCDate()+1); } return out; }
+  function cls(s){ return 'st-' + String(s).replace(/ /g,'-'); }
+  function num(v){ return v == null || v === '' ? '' : String(Math.round(v*10)/10); }
+
+  function currentSprint(){ var t = today(); return data.sprints.find(function(s){ return s.start <= t && t <= s.end; }) || data.sprints[data.sprints.length-1]; }
+  function taskVal(t, k){ var p = pending.tasks[t.id]; return p && k in p ? p[k] : t[k]; }
+  function storyVal(s, k){ var p = pending.stories[s.id]; return p && k in p ? p[k] : s[k]; }
+  function setTask(t, k, v){ var p = pending.tasks[t.id] || (pending.tasks[t.id] = {}); if(v === t[k] || (v === '' && t[k] == null)) delete p[k]; else p[k] = v; if(!Object.keys(p).length) delete pending.tasks[t.id]; afterEdit(); }
+  function setStory(s, k, v){ var p = pending.stories[s.id] || (pending.stories[s.id] = {}); if(v === s[k] || (v === '' && s[k] == null)) delete p[k]; else p[k] = v; if(!Object.keys(p).length) delete pending.stories[s.id]; afterEdit(); }
+  function countPending(){ var n = 0; for(var k in pending.tasks) n += Object.keys(pending.tasks[k]).length; for(var j in pending.stories) n += Object.keys(pending.stories[j]).length; return n + pending.addTasks.length + pending.addStories.length + Object.keys(pending.del).length; }
+  function afterEdit(){ renderSavebar(); renderStrip(); }
+
+  function sprintStats(name){
+    var ts = data.tasks.filter(function(t){ return t.sprint === name; });
+    var est = 0, left = 0, done = 0, hasEst = false;
+    ts.forEach(function(t){
+      var st = taskVal(t,'status'), e = taskVal(t,'estimate'), r = taskVal(t,'remaining');
+      if(e != null && e !== '') { est += +e; hasEst = true; }
+      if(st === 'Done') done++; else left += +(r != null && r !== '' ? r : (e || 0));
+    });
+    return { tasks: ts, est: est, left: Math.round(left*10)/10, done: done, hasEst: hasEst };
+  }
+
+  function renderStrip(){
+    var el = document.getElementById('strip'); el.innerHTML = '';
+    var cur = currentSprint(), st = sprintStats(cur.name), t = today();
+    var all = days(cur.start, cur.end), idx = Math.max(0, all.indexOf(t));
+    var cell = function(label, value, sub, pct){ return h('div', null, [h('div', {class:'label', text:label}), h('div', {class:'v', text:value}), sub ? h('div', {class:'s', text:sub}) : null, pct != null ? h('div', {class:'bar'}, [h('span', {style:'width:' + Math.min(100, Math.max(0, pct)) + '%'})]) : null]); };
+    el.appendChild(cell('Current sprint', cur.name, fmtDate(cur.start) + ' to ' + fmtDate(cur.end) + ' · ' + cur.phase));
+    el.appendChild(cell('Day', (idx+1) + ' of ' + all.length, (all.length - idx - 1) + ' days left', (idx+1) / all.length * 100));
+    el.appendChild(cell('Hours left', st.hasEst ? num(st.left) + ' h' : 'Not tracked', st.hasEst ? 'of ' + num(st.est) + ' h planned' : 'Hours tracking starts in Sprint 3', st.hasEst && st.est ? (1 - st.left / st.est) * 100 : null));
+    el.appendChild(cell('Tasks done', st.done + ' of ' + st.tasks.length, null, st.tasks.length ? st.done / st.tasks.length * 100 : 0));
+  }
+
+  function statusSelect(value, onchange, changed){
+    var s = h('select', { class: cls(value) + (changed ? ' changed' : ''), 'aria-label':'Status', onchange: function(){ onchange(s.value); } }, STATUS.map(function(x){ return h('option', { value:x, text:x }); }));
+    s.value = value; return s;
+  }
+  function ownerSelect(value, onchange, changed){
+    var s = h('select', { class: changed ? 'changed' : null, 'aria-label':'Owner', onchange: function(){ onchange(s.value); } }, [h('option', { value:'', text:'Nobody' })].concat(data.team.map(function(x){ return h('option', { value:x, text:x }); })));
+    s.value = value || ''; return s;
+  }
+  function hoursInput(value, onchange, changed, label){
+    var i = h('input', { type:'number', min:'0', max:'500', step:'0.5', inputmode:'decimal', 'aria-label':label, class: changed ? 'changed' : null, value: value == null ? '' : value, onchange: function(){ onchange(i.value === '' ? '' : +i.value); } });
+    return i;
+  }
+
+  function renderSprint(view){
+    var names = data.sprints.map(function(s){ return s.name; });
+    var cur = currentSprint().name;
+    if(!sprintSel) sprintSel = cur;
+    view.appendChild(h('div', { class:'toolbar' }, names.map(function(n){
+      return h('button', { class:'chip', 'aria-pressed': String(n === sprintSel), onclick: function(){ sprintSel = n; render(); } }, [n, n === cur ? h('span', { class:'now', text:'NOW' }) : null]);
+    })));
+    var rows = data.tasks.filter(function(t){ return t.sprint === sprintSel; });
+    var body = h('tbody');
+    rows.forEach(function(t){
+      var p = pending.tasks[t.id] || {}, del = pending.del[t.id];
+      var tr = h('tr', { class: del ? 'deleted' : null }, [
+        h('td', { class:'id', text:t.id }),
+        h('td', { class:'story', text:t.story }),
+        h('td', { text:t.title }),
+        h('td', null, [ownerSelect(taskVal(t,'owner'), function(v){ setTask(t,'owner',v); render(); }, 'owner' in p)]),
+        h('td', { class:'num' }, [hoursInput(taskVal(t,'estimate'), function(v){ setTask(t,'estimate',v); render(); }, 'estimate' in p, 'Estimate for ' + t.id)]),
+        h('td', { class:'num' }, [hoursInput(taskVal(t,'remaining'), function(v){ setTask(t,'remaining',v); render(); }, 'remaining' in p, 'Hours left for ' + t.id)]),
+        h('td', null, [statusSelect(taskVal(t,'status'), function(v){ setTask(t,'status',v); if(v === 'Done' && taskVal(t,'remaining')) setTask(t,'remaining',0); render(); }, 'status' in p)]),
+        h('td', null, [h('button', { class:'x', title: del ? 'Keep this task' : 'Delete this task', 'aria-label': (del ? 'Keep ' : 'Delete ') + t.id, text: del ? '↺' : '×', onclick: function(){ if(del) delete pending.del[t.id]; else pending.del[t.id] = true; render(); } })])
+      ]);
+      body.appendChild(tr);
+    });
+    pending.addTasks.forEach(function(a, i){
+      if(a.sprint !== sprintSel) return;
+      body.appendChild(h('tr', { class:'new' }, [h('td', { class:'id', text:'new' }), h('td', { class:'story', text:a.story }), h('td', { text:a.title }), h('td', { text:a.owner || 'Nobody' }), h('td', { class:'num', text:num(a.estimate) }), h('td', { class:'num', text:num(a.estimate) }), h('td', null, [h('span', { class:'pill st-To-do', text:'To do' })]), h('td', null, [h('button', { class:'x', 'aria-label':'Remove new task', text:'×', onclick: function(){ pending.addTasks.splice(i,1); render(); } })])]));
+    });
+    var table = h('table', null, [h('thead', null, [h('tr', null, ['ID','Story','Task','Owner','Est. (h)','Left (h)','Status',''].map(function(x, i){ return h('th', { class: i === 4 || i === 5 ? 'num' : null, text:x }); }))]), body]);
+    view.appendChild(h('div', { class:'table-wrap' }, [table]));
+    if(!rows.length) view.appendChild(h('p', { class:'note', text:'No tasks in this sprint yet. Add the first one below at sprint planning.' }));
+    var st = sprintStats(sprintSel);
+    if(!st.hasEst && rows.length) view.appendChild(h('p', { class:'note', text:'Hours were not tracked in this sprint. Tracking starts with Sprint 3.' }));
+    // add task
+    var storySel = h('select', { 'aria-label':'Story' }, [h('option', { value:'-', text:'No story' })].concat(data.stories.map(function(s){ return h('option', { value:s.id, text:s.id }); })));
+    var title = h('input', { type:'text', placeholder:'New task, for example: Blazor join page', 'aria-label':'New task', maxlength:'200', id:'newTaskTitle' });
+    var own = ownerSelect('', function(){}, false);
+    var est = h('input', { type:'number', min:'0', max:'500', step:'0.5', placeholder:'Hours', 'aria-label':'Estimate in hours', id:'newTaskEst' });
+    var add = h('button', { class:'btn ghost', type:'button', text:'Add task', onclick: function(){
+      var tt = title.value.replace(/\s+/g,' ').trim(); if(!tt){ title.focus(); return; }
+      pending.addTasks.push({ sprint: sprintSel, story: storySel.value, title: tt, owner: own.value, estimate: est.value === '' ? null : +est.value });
+      render();
+    } });
+    view.appendChild(h('div', { class:'addrow' }, [storySel, title, own, est, add]));
+  }
+
+  function renderProduct(view){
+    var body = h('tbody');
+    var sprintNames = data.sprints.map(function(s){ return s.name; });
+    data.stories.forEach(function(s){
+      var p = pending.stories[s.id] || {};
+      var pr = h('select', { class: 'priority' in p ? 'changed' : null, 'aria-label':'Priority', onchange: function(){ setStory(s,'priority',pr.value); render(); } }, ['Core','Additional'].map(function(x){ return h('option', { value:x, text:x }); })); pr.value = storyVal(s,'priority');
+      var sp = h('select', { class: 'sprint' in p ? 'changed' : null, 'aria-label':'Sprint', onchange: function(){ setStory(s,'sprint',sp.value); render(); } }, sprintNames.map(function(x){ return h('option', { value:x, text:x }); })); sp.value = storyVal(s,'sprint');
+      var pts = h('input', { type:'number', min:'0', max:'100', step:'1', 'aria-label':'Story points for ' + s.id, class: 'points' in p ? 'changed' : null, value: storyVal(s,'points') == null ? '' : storyVal(s,'points'), onchange: function(){ setStory(s,'points', pts.value === '' ? '' : Math.round(+pts.value)); render(); } });
+      body.appendChild(h('tr', null, [
+        h('td', { class:'id', text:s.id }),
+        h('td', { text:s.text }),
+        h('td', null, [pr]), h('td', null, [sp]),
+        h('td', null, [statusSelect(storyVal(s,'status'), function(v){ setStory(s,'status',v); render(); }, 'status' in p)]),
+        h('td', { class:'num' }, [pts]),
+        h('td', { class:'story', text:s.feature || '' })
+      ]));
+    });
+    pending.addStories.forEach(function(a, i){
+      body.appendChild(h('tr', { class:'new' }, [h('td', { class:'id', text:'new' }), h('td', { text:a.text }), h('td', { text:a.priority }), h('td', { text:a.sprint }), h('td', null, [h('span', { class:'pill st-To-do', text:'To do' })]), h('td', { class:'num' }), h('td', null, [h('button', { class:'x', 'aria-label':'Remove new story', text:'×', onclick: function(){ pending.addStories.splice(i,1); render(); } })])]));
+    });
+    view.appendChild(h('div', { class:'table-wrap' }, [h('table', null, [h('thead', null, [h('tr', null, ['ID','User story','Priority','Sprint','Status','Points','Feature'].map(function(x, i){ return h('th', { class: i === 5 ? 'num' : null, text:x }); }))]), body])]));
+    view.appendChild(h('p', { class:'note', text:'Points are empty until the team estimates them with planning poker. T items are technical work that is no user story.' }));
+    var txt = h('input', { type:'text', placeholder:'As a …, I want …, so that …', 'aria-label':'New user story', maxlength:'400', id:'newStoryText' });
+    var pr2 = h('select', { 'aria-label':'Priority' }, ['Additional','Core'].map(function(x){ return h('option', { value:x, text:x }); }));
+    var sp2 = h('select', { 'aria-label':'Sprint' }, sprintNames.map(function(x){ return h('option', { value:x, text:x }); })); sp2.value = 'Sprint 4';
+    view.appendChild(h('div', { class:'addrow story' }, [txt, pr2, sp2, h('button', { class:'btn ghost', type:'button', text:'Add story', onclick: function(){ var t = txt.value.replace(/\s+/g,' ').trim(); if(!t){ txt.focus(); return; } pending.addStories.push({ text:t, priority:pr2.value, sprint:sp2.value }); render(); } })]));
+  }
+
+  function renderBurndown(view){
+    var names = data.sprints.map(function(s){ return s.name; });
+    if(!sprintSel) sprintSel = currentSprint().name;
+    view.appendChild(h('div', { class:'toolbar' }, names.map(function(n){ return h('button', { class:'chip', 'aria-pressed': String(n === sprintSel), onclick: function(){ sprintSel = n; render(); } }, [n]); })));
+    var sp = data.sprints.find(function(s){ return s.name === sprintSel; });
+    var st = sprintStats(sp.name);
+    if(!st.hasEst){ view.appendChild(h('p', { class:'note', text: st.tasks.length ? 'Hours were not tracked in ' + sp.name + ', so it has no burndown.' : 'Plan the tasks for ' + sp.name + ' with hour estimates, and its burndown starts on ' + fmtDate(sp.start) + '.' })); return; }
+    var dl = days(sp.start, sp.end), n = dl.length, total = 0;
+    st.tasks.forEach(function(t){ if(t.estimate != null) total += +t.estimate; });
+    var snaps = (data.burndown || {})[sp.name] || {}, t = today();
+    var actual = dl.map(function(d){ if(d in snaps) return snaps[d]; if(d === t) return sprintStats(sp.name).left; return null; });
+    var W = 720, H = 320, L = 52, R = 16, T = 18, B = 40;
+    var max = Math.max(total, Math.max.apply(null, actual.filter(function(v){ return v != null; }).concat([0]))) || 1;
+    var step = [1,2,5,10,20,25,50,100].map(function(m){ return m; }).find(function(m){ return max / m <= 6; }) || 100; var top = Math.ceil(max / step) * step;
+    var x = function(i){ return L + (n > 1 ? i * (W - L - R) / (n - 1) : 0); }, y = function(v){ return T + (H - T - B) * (1 - v / top); };
+    var cs = getComputedStyle(root), ink = cs.getPropertyValue('--ink').trim(), dim = cs.getPropertyValue('--dim').trim(), line = cs.getPropertyValue('--line').trim(), red = cs.getPropertyValue('--red').trim();
+    var NS = 'http://www.w3.org/2000/svg';
+    function s(tag, a, kids){ var e = document.createElementNS(NS, tag); for(var k in a) e.setAttribute(k, a[k]); (kids||[]).forEach(function(c){ e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); }); return e; }
+    var svg = s('svg', { viewBox:'0 0 ' + W + ' ' + H, role:'img', 'aria-label': sp.name + ' burndown: ' + num(st.left) + ' of ' + num(total) + ' hours left' });
+    for(var v = 0; v <= top; v += step){ svg.appendChild(s('line', { x1:L, x2:W-R, y1:y(v), y2:y(v), stroke: v ? line : dim, 'stroke-width':1 })); svg.appendChild(s('text', { x:L-8, y:y(v)+4, 'text-anchor':'end', 'font-size':11, fill:dim, 'font-family':'JetBrains Mono, monospace' }, [String(v)])); }
+    var every = Math.ceil(n / 7);
+    dl.forEach(function(d, i){ if(i % every === 0 || i === n-1) svg.appendChild(s('text', { x:x(i), y:H-B+20, 'text-anchor': i === 0 ? 'start' : i === n-1 ? 'end' : 'middle', 'font-size':11, fill: d === t ? red : dim, 'font-family':'JetBrains Mono, monospace' }, [fmtDate(d)])); });
+    svg.appendChild(s('path', { d:'M' + x(0) + ' ' + y(total) + ' L' + x(n-1) + ' ' + y(0), stroke:dim, 'stroke-width':2, 'stroke-dasharray':'6 6', fill:'none' }));
+    var pts = actual.map(function(v, i){ return v == null ? null : [x(i), y(v), v, dl[i]]; }).filter(Boolean);
+    if(pts.length){
+      svg.appendChild(s('path', { d: pts.map(function(p, i){ return (i ? 'L' : 'M') + p[0] + ' ' + p[1]; }).join(' '), stroke:red, 'stroke-width':2.5, fill:'none', 'stroke-linejoin':'round' }));
+      pts.forEach(function(p){ svg.appendChild(s('circle', { cx:p[0], cy:p[1], r:3.5, fill:red }, [s('title', {}, [fmtDate(p[3]) + ': ' + num(p[2]) + ' h left'])])); });
+      var last = pts[pts.length-1]; svg.appendChild(s('text', { x: Math.min(last[0] + 8, W - R - 50), y: last[1] - 8, 'font-size':12, fill:ink, 'font-weight':600 }, [num(last[2]) + ' h']));
+    }
+    view.appendChild(h('div', { class:'chart' }, [svg, h('div', { class:'legend' }, [h('span', { style:'--c:' + red, text:'Actual hours left' }), h('span', { style:'--c:' + dim, text:'Ideal, from ' + num(total) + ' h to 0' })])]));
+    view.appendChild(h('p', { class:'note', text:'A point is saved with every update, and every night at 23:50. Today’s point follows the table live.' }));
+  }
+
+  function renderLog(view){
+    var ul = h('ul', { class:'log' });
+    (data.log || []).forEach(function(e){
+      var when = new Date(e.at).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+      ul.appendChild(h('li', null, [h('div', { class:'when' }, [when + ' · ' + e.by, e.issue ? ' · ' : null, e.issue ? h('a', { href:'https://github.com/' + REPO + '/issues/' + e.issue, target:'_blank', rel:'noopener', text:'#' + e.issue }) : null]), h('div', { text:e.summary })]));
+    });
+    view.appendChild(ul);
+  }
+
+  function renderHowto(view){
+    var steps = ['Send Alex your GitHub username once. The tracker only accepts updates from the team.', 'Pick your name at the top. The page remembers it on this device.', 'Change owners, hours left and statuses in the tables, or add tasks and stories. Changed cells turn yellow.', 'Press Send at the bottom. GitHub opens with your changes filled in. Press Submit new issue there. You need to be logged in to GitHub.', 'A GitHub Action applies the changes to the tracker within about a minute, replies on the issue and closes it. Refresh this page to see them.', 'Each day, set Left (h) on your tasks to the hours you think are left, not the hours you spent. Mark a task Done when it meets the definition of done.'];
+    view.appendChild(h('div', { class:'howto' }, [h('ol', null, steps.map(function(x){ return h('li', { text:x }); })), h('p', { class:'muted', text:'The burndown saves a point with every update and every night at 23:50 Copenhagen time, so it fills in without anyone copying numbers. Everything lives in partay/data.json in the repository, so every change has a history.' })]));
+  }
+
+  function buildChanges(){
+    var out = [];
+    for(var id in pending.tasks) out.push({ op:'task', id:id, set: pending.tasks[id] });
+    for(var sid in pending.stories) out.push({ op:'story', id:sid, set: pending.stories[sid] });
+    pending.addTasks.forEach(function(a){ out.push({ op:'addTask', sprint:a.sprint, story:a.story, title:a.title, owner:a.owner, estimate:a.estimate }); });
+    pending.addStories.forEach(function(a){ out.push({ op:'addStory', text:a.text, priority:a.priority, sprint:a.sprint }); });
+    for(var d in pending.del) out.push({ op:'deleteTask', id:d });
+    return out;
+  }
+  function describe(c){
+    if(c.op === 'task' || c.op === 'story') return c.id + ': ' + Object.keys(c.set).map(function(k){ return k + ' → ' + (c.set[k] === '' ? 'empty' : c.set[k]); }).join(', ');
+    if(c.op === 'addTask') return 'New task in ' + c.sprint + ': ' + c.title;
+    if(c.op === 'addStory') return 'New story: ' + c.text;
+    return 'Delete ' + c.id;
+  }
+  function send(){
+    var me = store('partay-me');
+    if(!me){ document.getElementById('me').focus(); flash('Pick your name at the top first.'); return; }
+    var changes = buildChanges();
+    var body = 'Update from ' + me + ' on the Partay tracker.\n\n' + changes.map(function(c){ return '- ' + describe(c); }).join('\n') + '\n\n```json\n' + JSON.stringify({ name: me, changes: changes }) + '\n```\n\nPress Submit new issue. A GitHub Action applies the changes and closes this issue.';
+    var title = '[tracker] ' + me + ': ' + changes.length + ' change' + (changes.length === 1 ? '' : 's');
+    var url = 'https://github.com/' + REPO + '/issues/new?title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
+    if(url.length > 7800){ flash('Too many changes for one update. Send about half now and the rest after.'); return; }
+    window.open(url, '_blank', 'noopener');
+    pending = emptyPending();
+    waiting = true;
+    render();
+  }
+  var waiting = false;
+  function flash(msg){ var b = document.getElementById('banner'); b.innerHTML = ''; b.appendChild(h('div', { class:'banner', role:'status' }, [h('span', { text:msg })])); }
+  function renderBanner(){
+    var b = document.getElementById('banner'); b.innerHTML = '';
+    if(waiting) b.appendChild(h('div', { class:'banner', role:'status' }, [h('span', { text:'GitHub opened in a new tab. Press Submit new issue there. Your changes show here about a minute later.' }), h('button', { class:'btn ghost', type:'button', text:'Refresh', onclick: function(){ waiting = false; load(); } })]));
+  }
+  function renderSavebar(){
+    var bar = document.getElementById('savebar'), n = countPending();
+    bar.hidden = n === 0; bar.innerHTML = '';
+    if(!n) return;
+    bar.appendChild(h('div', { class:'wrap' }, [h('span', { text: n + ' change' + (n === 1 ? '' : 's') + ' not sent yet' }), h('div', { class:'toolbar', style:'margin:0' }, [h('button', { class:'btn ghost', type:'button', text:'Discard', onclick: function(){ pending = emptyPending(); render(); } }), h('button', { class:'btn red', type:'button', text:'Send', onclick: send })])]));
+  }
+
+  function render(){
+    if(!data) return;
+    ['sprint','product','burndown','log','howto'].forEach(function(k){ document.getElementById('tab-' + k).setAttribute('aria-selected', String(k === tab)); });
+    var view = document.getElementById('view'); view.innerHTML = '';
+    ({ sprint:renderSprint, product:renderProduct, burndown:renderBurndown, log:renderLog, howto:renderHowto })[tab](view);
+    renderStrip(); renderSavebar(); renderBanner();
+  }
+  ['sprint','product','burndown','log','howto'].forEach(function(k){ document.getElementById('tab-' + k).addEventListener('click', function(){ tab = k; store('partay-tab', k); render(); }); });
+  var savedTab = store('partay-tab'); if(['sprint','product','burndown','log','howto'].indexOf(savedTab) >= 0) tab = savedTab;
+
+  window.addEventListener('beforeunload', function(e){ if(countPending()){ e.preventDefault(); e.returnValue = ''; } });
+
+  function setup(){
+    var me = document.getElementById('me');
+    while(me.options.length > 1) me.remove(1);
+    data.team.forEach(function(n){ me.appendChild(h('option', { value:n, text:n })); });
+    me.value = store('partay-me') || '';
+    me.onchange = function(){ store('partay-me', me.value); };
+    var last = data.log && data.log[0];
+    document.getElementById('foot').textContent = 'Data: partay/data.json in ' + REPO + (last ? ' · Last update ' + new Date(last.at).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : '');
+  }
+  function load(){
+    fetch(API, { headers:{ Accept:'application/vnd.github.raw+json' }, cache:'no-store' })
+      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+      .catch(function(){ return fetch('data.json', { cache:'no-store' }).then(function(r){ return r.json(); }); })
+      .then(function(d){ data = d; setup(); render(); })
+      .catch(function(){ document.getElementById('view').innerHTML = ''; document.getElementById('view').appendChild(h('p', { class:'loading', text:'The tracker could not load. Check your connection and refresh the page.' })); });
+  }
+  load();
+})();
+</script>
+</body>
+</html>
