@@ -8,25 +8,19 @@
  ],
  "sprints": [
   {
-   "name": "Sprint 0",
+   "name": "Inception",
    "start": "2026-09-14",
-   "end": "2026-10-01",
-   "phase": "Inception"
-  },
-  {
-   "name": "Sprints 1 and 2",
-   "start": "2026-10-02",
    "end": "2026-11-16",
-   "phase": "Inception and elaboration"
+   "phase": "Inception and elaboration, before the sprints"
   },
   {
-   "name": "Sprint 3",
+   "name": "Sprint 1",
    "start": "2026-11-17",
    "end": "2026-11-30",
    "phase": "Construction"
   },
   {
-   "name": "Sprint 4",
+   "name": "Sprint 2",
    "start": "2026-12-01",
    "end": "2026-12-11",
    "phase": "Construction and transition"
@@ -43,7 +37,7 @@
    "id": "US1",
    "text": "As a Party Host, I want to create a party by logging in with Spotify, so that Partay creates a party playlist on my account.",
    "priority": "Core",
-   "sprint": "Sprint 3",
+   "sprint": "Sprint 1",
    "status": "To do",
    "points": null,
    "feature": "F1",
@@ -53,7 +47,7 @@
    "id": "US2",
    "text": "As a Party Guest, I want to join a party by scanning a QR code and picking a nickname, so that I join in under a minute without an account.",
    "priority": "Core",
-   "sprint": "Sprint 3",
+   "sprint": "Sprint 1",
    "status": "To do",
    "points": null,
    "feature": "F2",
@@ -63,7 +57,7 @@
    "id": "US3",
    "text": "As a Party Guest, I want to search Spotify and add a song to the queue, so that my song gets played without asking the host.",
    "priority": "Core",
-   "sprint": "Sprint 3",
+   "sprint": "Sprint 1",
    "status": "To do",
    "points": null,
    "feature": "F3",
@@ -73,7 +67,7 @@
    "id": "US4",
    "text": "As a Party Guest, I want to vote on songs in the queue and take my vote back, so that the group decides what plays next.",
    "priority": "Core",
-   "sprint": "Sprint 3",
+   "sprint": "Sprint 1",
    "status": "To do",
    "points": null,
    "feature": "F4",
@@ -83,7 +77,7 @@
    "id": "US5",
    "text": "As a Party Guest, I want to see the queue, the votes and the song that plays now, so that I know what comes next.",
    "priority": "Core",
-   "sprint": "Sprint 3",
+   "sprint": "Sprint 1",
    "status": "To do",
    "points": null,
    "feature": "F5, F6",
@@ -93,7 +87,7 @@
    "id": "US6",
    "text": "As a Party Host, I want to have the party playlist stay in vote order, so that the top song plays next without me touching it.",
    "priority": "Core",
-   "sprint": "Sprint 3",
+   "sprint": "Sprint 1",
    "status": "To do",
    "points": null,
    "feature": "F7",
@@ -103,7 +97,7 @@
    "id": "US7",
    "text": "As a Party Host, I want to remove songs from the queue, so that I keep control of the mood.",
    "priority": "Core",
-   "sprint": "Sprint 3",
+   "sprint": "Sprint 1",
    "status": "To do",
    "points": null,
    "feature": "F8",
@@ -113,7 +107,7 @@
    "id": "US8",
    "text": "As a Party Host, I want to limit each guest to 3 songs in the queue, so that one guest does not fill the queue.",
    "priority": "Additional",
-   "sprint": "Sprint 4",
+   "sprint": "Sprint 2",
    "status": "To do",
    "points": null,
    "feature": "F9",
@@ -123,7 +117,7 @@
    "id": "US9",
    "text": "As a Party Guest, I want to choose whether my name shows on the songs I add, so that I add songs without being judged.",
    "priority": "Additional",
-   "sprint": "Sprint 4",
+   "sprint": "Sprint 2",
    "status": "To do",
    "points": null,
    "feature": "F10",
@@ -133,7 +127,7 @@
    "id": "US10",
    "text": "As a Party Host, I want to lock the queue, so that no new songs come in when the queue is long enough.",
    "priority": "Additional",
-   "sprint": "Sprint 4",
+   "sprint": "Sprint 2",
    "status": "To do",
    "points": null,
    "feature": "F11",
@@ -143,7 +137,7 @@
    "id": "US11",
    "text": "As a Party Host, I want to block a guest, so that the guest and their songs leave the party and the guest cannot rejoin.",
    "priority": "Additional",
-   "sprint": "Sprint 4",
+   "sprint": "Sprint 2",
    "status": "To do",
    "points": null,
    "feature": "F12",
@@ -153,7 +147,7 @@
    "id": "US12",
    "text": "As a Party Host, I want to keep or remove the party playlist when the party ends, so that we keep the music of the night if we want to.",
    "priority": "Additional",
-   "sprint": "Sprint 4",
+   "sprint": "Sprint 2",
    "status": "To do",
    "points": null,
    "feature": "F13",
@@ -163,7 +157,7 @@
    "id": "US13",
    "text": "As a Party Host, I want to set a party theme, so that guests pick songs that fit the party.",
    "priority": "Additional",
-   "sprint": "Sprint 4",
+   "sprint": "Sprint 2",
    "status": "To do",
    "points": null,
    "feature": "F14",
@@ -173,7 +167,7 @@
    "id": "US14",
    "text": "As a Party Host, I want to filter out explicit songs, so that the music fits my guests.",
    "priority": "Additional",
-   "sprint": "Sprint 4",
+   "sprint": "Sprint 2",
    "status": "To do",
    "points": null,
    "feature": "F15",
@@ -183,7 +177,7 @@
    "id": "T1",
    "text": "Inception document: all sections, domain model, read-through and table of contents.",
    "priority": "Core",
-   "sprint": "Sprints 1 and 2",
+   "sprint": "Inception",
    "status": "In progress",
    "points": null,
    "feature": "",
@@ -193,7 +187,7 @@
    "id": "T2",
    "text": "Proof of concept: REST from the client to the Application Server, gRPC to the Data Server, MySQL, Spotify search, add and vote.",
    "priority": "Core",
-   "sprint": "Sprints 1 and 2",
+   "sprint": "Inception",
    "status": "In progress",
    "points": null,
    "feature": "",
@@ -203,7 +197,7 @@
    "id": "T3",
    "text": "GitHub repository for the system, branch protection with 1 review, GitHub Projects board.",
    "priority": "Core",
-   "sprint": "Sprints 1 and 2",
+   "sprint": "Inception",
    "status": "To do",
    "points": null,
    "feature": "",
@@ -222,8 +216,8 @@
  ],
  "tasks": [
   {
-   "id": "S0-01",
-   "sprint": "Sprint 0",
+   "id": "IN-01",
+   "sprint": "Inception",
    "story": "-",
    "title": "Field study: survey with 48 respondents",
    "owner": "",
@@ -235,8 +229,8 @@
    "done": "2026-09-25"
   },
   {
-   "id": "S0-02",
-   "sprint": "Sprint 0",
+   "id": "IN-02",
+   "sprint": "Inception",
    "story": "-",
    "title": "Write the Project Description and get it approved",
    "owner": "",
@@ -248,8 +242,8 @@
    "done": "2026-10-01"
   },
   {
-   "id": "S0-03",
-   "sprint": "Sprint 0",
+   "id": "IN-03",
+   "sprint": "Inception",
    "story": "-",
    "title": "Agree on team roles: Alex Scrum Master, Rodrigo Product Owner",
    "owner": "",
@@ -261,8 +255,8 @@
    "done": "2026-09-18"
   },
   {
-   "id": "S12-01",
-   "sprint": "Sprints 1 and 2",
+   "id": "IN-04",
+   "sprint": "Inception",
    "story": "T1",
    "title": "Inception: scope and requirements",
    "owner": "Ilja",
@@ -274,8 +268,8 @@
    "done": "2026-11-05"
   },
   {
-   "id": "S12-02",
-   "sprint": "Sprints 1 and 2",
+   "id": "IN-05",
+   "sprint": "Inception",
    "story": "T1",
    "title": "Inception: C1, C2 and sprint calendar",
    "owner": "Rodrigo",
@@ -287,8 +281,8 @@
    "done": "2026-11-06"
   },
   {
-   "id": "S12-03",
-   "sprint": "Sprints 1 and 2",
+   "id": "IN-06",
+   "sprint": "Inception",
    "story": "T1",
    "title": "Inception: risks, use case modelling and development method",
    "owner": "Alex",
@@ -300,8 +294,8 @@
    "done": "2026-11-08"
   },
   {
-   "id": "S12-04",
-   "sprint": "Sprints 1 and 2",
+   "id": "IN-07",
+   "sprint": "Inception",
    "story": "T1",
    "title": "Inception: C3, C4, definition of done and what we are making",
    "owner": "Kristína",
@@ -313,8 +307,8 @@
    "done": "2026-11-11"
   },
   {
-   "id": "S12-05",
-   "sprint": "Sprints 1 and 2",
+   "id": "IN-08",
+   "sprint": "Inception",
    "story": "T1",
    "title": "Architecture diagram in draw.io",
    "owner": "Alex",
@@ -326,21 +320,8 @@
    "done": "2026-11-08"
   },
   {
-   "id": "S12-06",
-   "sprint": "Sprints 1 and 2",
-   "story": "T1",
-   "title": "Inception layout, citations, table of contents and figure lists",
-   "owner": "Alex",
-   "estimate": 8,
-   "remaining": 0,
-   "status": "Done",
-   "position": 9,
-   "spent": 10,
-   "done": "2026-11-08"
-  },
-  {
-   "id": "S12-07",
-   "sprint": "Sprints 1 and 2",
+   "id": "IN-09",
+   "sprint": "Inception",
    "story": "T2",
    "title": "Proof of concept: App Server REST API, Data Server gRPC, MySQL, Spotify search, add, vote, 30-vote stress test",
    "owner": "Alex",
@@ -352,21 +333,8 @@
    "spent": 34
   },
   {
-   "id": "S12-08",
-   "sprint": "Sprints 1 and 2",
-   "story": "T2",
-   "title": "Spotify test: party playlist, reorder during playback and now playing",
-   "owner": "Alex",
-   "estimate": 3,
-   "remaining": 0,
-   "status": "Done",
-   "done": "2026-11-12",
-   "position": 11,
-   "spent": 3
-  },
-  {
-   "id": "S12-09",
-   "sprint": "Sprints 1 and 2",
+   "id": "IN-10",
+   "sprint": "Inception",
    "story": "-",
    "title": "Re-plan the sprint calendar",
    "owner": "Alex",
@@ -378,8 +346,8 @@
    "spent": 2
   },
   {
-   "id": "S12-10",
-   "sprint": "Sprints 1 and 2",
+   "id": "IN-11",
+   "sprint": "Inception",
    "story": "T1",
    "title": "Domain model, done with the team",
    "owner": "Alex",
@@ -391,8 +359,8 @@
    "done": null
   },
   {
-   "id": "S12-11",
-   "sprint": "Sprints 1 and 2",
+   "id": "IN-12",
+   "sprint": "Inception",
    "story": "T1",
    "title": "Inception read-through and table of contents update",
    "owner": "",
@@ -404,8 +372,8 @@
    "done": null
   },
   {
-   "id": "S12-12",
-   "sprint": "Sprints 1 and 2",
+   "id": "IN-13",
+   "sprint": "Inception",
    "story": "T2",
    "title": "Blazor client that calls the App Server (replaces the demo page)",
    "owner": "",
@@ -417,8 +385,8 @@
    "done": null
   },
   {
-   "id": "S12-13",
-   "sprint": "Sprints 1 and 2",
+   "id": "IN-14",
+   "sprint": "Inception",
    "story": "T3",
    "title": "GitHub repository, branch protection and GitHub Projects board",
    "owner": "",
@@ -430,8 +398,8 @@
    "done": null
   },
   {
-   "id": "S3-01",
-   "sprint": "Sprint 3",
+   "id": "S1-01",
+   "sprint": "Sprint 1",
    "story": "US1",
    "title": "Spotify login with PKCE for the Party Host",
    "owner": "",
@@ -443,8 +411,8 @@
    "done": null
   },
   {
-   "id": "S3-02",
-   "sprint": "Sprint 3",
+   "id": "S1-02",
+   "sprint": "Sprint 1",
    "story": "US1",
    "title": "MySQL schema and Data Server gRPC service for parties, guests and songs",
    "owner": "",
@@ -456,8 +424,8 @@
    "done": null
   },
   {
-   "id": "S3-03",
-   "sprint": "Sprint 3",
+   "id": "S1-03",
+   "sprint": "Sprint 1",
    "story": "US1",
    "title": "Create party: REST endpoint, Party Service and gRPC call to the Data Server",
    "owner": "",
@@ -469,8 +437,8 @@
    "done": null
   },
   {
-   "id": "S3-04",
-   "sprint": "Sprint 3",
+   "id": "S1-04",
+   "sprint": "Sprint 1",
    "story": "US1",
    "title": "Create the party playlist on the Spotify account of the host",
    "owner": "",
@@ -482,8 +450,8 @@
    "done": null
   },
   {
-   "id": "S3-05",
-   "sprint": "Sprint 3",
+   "id": "S1-05",
+   "sprint": "Sprint 1",
    "story": "US1",
    "title": "Blazor page: create party, show join code and QR code",
    "owner": "",
@@ -495,8 +463,8 @@
    "done": null
   },
   {
-   "id": "S3-06",
-   "sprint": "Sprint 3",
+   "id": "S1-06",
+   "sprint": "Sprint 1",
    "story": "US2",
    "title": "Join by code: endpoint, guest session and nickname",
    "owner": "",
@@ -508,8 +476,8 @@
    "done": null
   },
   {
-   "id": "S3-07",
-   "sprint": "Sprint 3",
+   "id": "S1-07",
+   "sprint": "Sprint 1",
    "story": "US2",
    "title": "Blazor page: join with QR code or join code",
    "owner": "",
@@ -521,8 +489,8 @@
    "done": null
   },
   {
-   "id": "S3-08",
-   "sprint": "Sprint 3",
+   "id": "S1-08",
+   "sprint": "Sprint 1",
    "story": "US3",
    "title": "Spotify search endpoint",
    "owner": "",
@@ -534,8 +502,8 @@
    "done": null
   },
   {
-   "id": "S3-09",
-   "sprint": "Sprint 3",
+   "id": "S1-09",
+   "sprint": "Sprint 1",
    "story": "US3",
    "title": "Add a song to the queue and to the party playlist",
    "owner": "",
@@ -547,8 +515,8 @@
    "done": null
   },
   {
-   "id": "S3-10",
-   "sprint": "Sprint 3",
+   "id": "S1-10",
+   "sprint": "Sprint 1",
    "story": "US3",
    "title": "Blazor search and add view",
    "owner": "",
@@ -560,8 +528,8 @@
    "done": null
   },
   {
-   "id": "S3-11",
-   "sprint": "Sprint 3",
+   "id": "S1-11",
+   "sprint": "Sprint 1",
    "story": "US4",
    "title": "Vote and remove vote in Redis, one vote per guest per song",
    "owner": "",
@@ -573,8 +541,8 @@
    "done": null
   },
   {
-   "id": "S3-12",
-   "sprint": "Sprint 3",
+   "id": "S1-12",
+   "sprint": "Sprint 1",
    "story": "US4",
    "title": "Blazor vote buttons",
    "owner": "",
@@ -586,8 +554,8 @@
    "done": null
   },
   {
-   "id": "S3-13",
-   "sprint": "Sprint 3",
+   "id": "S1-13",
+   "sprint": "Sprint 1",
    "story": "US5",
    "title": "Live updates: WebSocket from the Application Server to Blazor, SignalR to the browsers",
    "owner": "",
@@ -599,8 +567,8 @@
    "done": null
   },
   {
-   "id": "S3-14",
-   "sprint": "Sprint 3",
+   "id": "S1-14",
+   "sprint": "Sprint 1",
    "story": "US5",
    "title": "Read the song that plays now from Spotify",
    "owner": "",
@@ -612,8 +580,8 @@
    "done": null
   },
   {
-   "id": "S3-15",
-   "sprint": "Sprint 3",
+   "id": "S1-15",
+   "sprint": "Sprint 1",
    "story": "US5",
    "title": "Blazor queue and now playing view",
    "owner": "",
@@ -625,8 +593,8 @@
    "done": null
   },
   {
-   "id": "S3-16",
-   "sprint": "Sprint 3",
+   "id": "S1-16",
+   "sprint": "Sprint 1",
    "story": "US6",
    "title": "Rank the queue and reorder the Spotify playlist after each vote",
    "owner": "",
@@ -638,8 +606,8 @@
    "done": null
   },
   {
-   "id": "S3-17",
-   "sprint": "Sprint 3",
+   "id": "S1-17",
+   "sprint": "Sprint 1",
    "story": "US6",
    "title": "Test the reorder with several guests voting at once",
    "owner": "",
@@ -651,8 +619,8 @@
    "done": null
   },
   {
-   "id": "S3-18",
-   "sprint": "Sprint 3",
+   "id": "S1-18",
+   "sprint": "Sprint 1",
    "story": "US7",
    "title": "Remove a song from the queue and the playlist",
    "owner": "",
@@ -664,8 +632,8 @@
    "done": null
   },
   {
-   "id": "S3-19",
-   "sprint": "Sprint 3",
+   "id": "S1-19",
+   "sprint": "Sprint 1",
    "story": "US7",
    "title": "Blazor host controls",
    "owner": "",
@@ -677,8 +645,8 @@
    "done": null
   },
   {
-   "id": "S3-20",
-   "sprint": "Sprint 3",
+   "id": "S1-20",
+   "sprint": "Sprint 1",
    "story": "-",
    "title": "Redis setup and party state cache",
    "owner": "",
@@ -690,8 +658,8 @@
    "done": null
   },
   {
-   "id": "S3-21",
-   "sprint": "Sprint 3",
+   "id": "S1-21",
+   "sprint": "Sprint 1",
    "story": "-",
    "title": "Unit and integration tests for the core flows",
    "owner": "",
@@ -703,8 +671,8 @@
    "done": null
   },
   {
-   "id": "S3-22",
-   "sprint": "Sprint 3",
+   "id": "S1-22",
+   "sprint": "Sprint 1",
    "story": "-",
    "title": "Sprint planning, review and retrospective",
    "owner": "",
@@ -716,10 +684,10 @@
    "done": null
   },
   {
-   "id": "S3-23",
-   "sprint": "Sprint 3",
+   "id": "S1-23",
+   "sprint": "Sprint 1",
    "story": "-",
-   "title": "Process report notes for Sprint 3",
+   "title": "Process report notes for Sprint 1",
    "owner": "",
    "estimate": 4,
    "remaining": 4,
