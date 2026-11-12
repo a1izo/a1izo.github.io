@@ -232,7 +232,7 @@
    "status": "Done",
    "position": 1,
    "spent": 18,
-   "done": null
+   "done": "2026-09-25"
   },
   {
    "id": "S0-02",
@@ -245,7 +245,7 @@
    "status": "Done",
    "position": 2,
    "spent": 24,
-   "done": null
+   "done": "2026-10-01"
   },
   {
    "id": "S0-03",
@@ -258,7 +258,7 @@
    "status": "Done",
    "position": 3,
    "spent": 2,
-   "done": null
+   "done": "2026-09-18"
   },
   {
    "id": "S12-01",
@@ -271,7 +271,7 @@
    "status": "Done",
    "position": 4,
    "spent": 14,
-   "done": null
+   "done": "2026-11-05"
   },
   {
    "id": "S12-02",
@@ -284,7 +284,7 @@
    "status": "Done",
    "position": 5,
    "spent": 12,
-   "done": null
+   "done": "2026-11-06"
   },
   {
    "id": "S12-03",
@@ -297,7 +297,7 @@
    "status": "Done",
    "position": 6,
    "spent": 20,
-   "done": null
+   "done": "2026-11-08"
   },
   {
    "id": "S12-04",
@@ -310,7 +310,7 @@
    "status": "Done",
    "position": 7,
    "spent": 16,
-   "done": null
+   "done": "2026-11-11"
   },
   {
    "id": "S12-05",
@@ -323,7 +323,7 @@
    "status": "Done",
    "position": 8,
    "spent": 8,
-   "done": null
+   "done": "2026-11-08"
   },
   {
    "id": "S12-06",
@@ -336,7 +336,7 @@
    "status": "Done",
    "position": 9,
    "spent": 10,
-   "done": null
+   "done": "2026-11-08"
   },
   {
    "id": "S12-07",

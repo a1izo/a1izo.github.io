@@ -81,6 +81,7 @@ select.st-In-progress{color:var(--doing-ink)} select.st-Done{color:var(--done-in
 .x:hover{color:var(--red)}
 .btn.small{padding:3px 10px;font-size:12px}
 td.confirm{white-space:nowrap}
+input.donedate{display:block;margin-top:4px;width:136px;font-size:12px;padding:3px 6px;background:var(--paper);border:1px solid var(--line);border-radius:6px;color:var(--dim)}
 td.confirm .x{font-size:12px}
 .addrow{display:grid;grid-template-columns:110px minmax(0,1fr) 130px 90px auto;gap:8px;margin-top:12px;align-items:center}
 .addrow.story{grid-template-columns:minmax(0,1fr) 130px 150px auto}
@@ -303,7 +304,7 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
         h('td', { class:'num' }, [hoursInput(t.estimate, function(v){ setTask(t,'estimate',v); render(); }, false, 'Estimate for ' + t.id)]),
         h('td', { class:'num' }, [hoursInput(t.spent, function(v){ setTask(t,'spent',v); }, false, 'Hours spent on ' + t.id)]),
         h('td', { class:'num' }, [hoursInput(t.remaining, function(v){ setTask(t,'remaining',v); render(); }, false, 'Hours left for ' + t.id)]),
-        h('td', null, [statusSelect(t.status, function(v){ setTask(t,'status',v); render(); }, false)]),
+        h('td', null, [statusSelect(t.status, function(v){ setTask(t,'status',v); render(); }, false), t.status === 'Done' ? h('input', { type:'date', class:'donedate', 'aria-label':'Done date for ' + t.id, title:'Done on', value: t.done || '', min: '2026-09-01', max: today(), onchange: function(e){ setTask(t,'done', e.target.value); } }) : null]),
         delCell
       ]));
     });
@@ -357,7 +358,9 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
     var dl = days(sp.start, sp.end), n = dl.length, total = 0;
     st.tasks.forEach(function(t){ if(t.estimate != null) total += +t.estimate; });
     var snaps = (data.burndown || {})[sp.name] || {}, t = today();
-    var actual = dl.map(function(d){ if(d in snaps) return snaps[d]; if(d === t) return sprintStats(sp.name).left; return null; });
+    // a day's point: the saved snapshot if there is one, today live, and otherwise worked out from the done dates of the tasks
+    var derived = function(d){ return Math.round(st.tasks.reduce(function(a, x){ return a + (x.done && x.done <= d ? 0 : (+x.estimate || 0)); }, 0) * 10) / 10; };
+    var actual = dl.map(function(d){ if(d > t) return null; if(d === t) return st.left; if(d in snaps) return snaps[d]; return derived(d); });
     var W = 720, H = 320, L = 52, R = 16, T = 18, B = 40;
     var max = Math.max(total, Math.max.apply(null, actual.filter(function(v){ return v != null; }).concat([0]))) || 1;
     var step = [1,2,5,10,20,25,50,100].map(function(m){ return m; }).find(function(m){ return max / m <= 6; }) || 100; var top = Math.ceil(max / step) * step;
@@ -368,16 +371,16 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
     var svg = s('svg', { viewBox:'0 0 ' + W + ' ' + H, role:'img', 'aria-label': sp.name + ' burndown: ' + num(st.left) + ' of ' + num(total) + ' hours left' });
     for(var v = 0; v <= top; v += step){ svg.appendChild(s('line', { x1:L, x2:W-R, y1:y(v), y2:y(v), stroke: v ? line : dim, 'stroke-width':1 })); svg.appendChild(s('text', { x:L-8, y:y(v)+4, 'text-anchor':'end', 'font-size':11, fill:dim, 'font-family':'JetBrains Mono, monospace' }, [String(v)])); }
     var every = Math.ceil(n / 7);
-    dl.forEach(function(d, i){ if(i % every === 0 || i === n-1) svg.appendChild(s('text', { x:x(i), y:H-B+20, 'text-anchor': i === 0 ? 'start' : i === n-1 ? 'end' : 'middle', 'font-size':11, fill: d === t ? red : dim, 'font-family':'JetBrains Mono, monospace' }, [fmtDate(d)])); });
+    dl.forEach(function(d, i){ if((i % every === 0 && (n - 1 - i) >= every * 0.7) || i === n-1) svg.appendChild(s('text', { x:x(i), y:H-B+20, 'text-anchor': i === 0 ? 'start' : i === n-1 ? 'end' : 'middle', 'font-size':11, fill: d === t ? red : dim, 'font-family':'JetBrains Mono, monospace' }, [fmtDate(d)])); });
     svg.appendChild(s('path', { d:'M' + x(0) + ' ' + y(total) + ' L' + x(n-1) + ' ' + y(0), stroke:dim, 'stroke-width':2, 'stroke-dasharray':'6 6', fill:'none' }));
     var pts = actual.map(function(v, i){ return v == null ? null : [x(i), y(v), v, dl[i]]; }).filter(Boolean);
     if(pts.length){
       svg.appendChild(s('path', { d: pts.map(function(p, i){ return (i ? 'L' : 'M') + p[0] + ' ' + p[1]; }).join(' '), stroke:red, 'stroke-width':2.5, fill:'none', 'stroke-linejoin':'round' }));
-      pts.forEach(function(p){ svg.appendChild(s('circle', { cx:p[0], cy:p[1], r:3.5, fill:red }, [s('title', {}, [fmtDate(p[3]) + ': ' + num(p[2]) + ' h left'])])); });
-      var last = pts[pts.length-1]; svg.appendChild(s('text', { x: Math.min(last[0] + 8, W - R - 50), y: last[1] - 8, 'font-size':12, fill:ink, 'font-weight':600 }, [num(last[2]) + ' h']));
+      pts.forEach(function(p){ svg.appendChild(s('circle', { cx:p[0], cy:p[1], r: n > 20 ? 2.5 : 3.5, fill:red }, [s('title', {}, [fmtDate(p[3]) + ': ' + num(p[2]) + ' h left'])])); });
+      var last = pts[pts.length-1], nearEnd = last[0] > W - R - 40; svg.appendChild(s('text', { x: nearEnd ? last[0] - 8 : last[0] + 8, y: last[1] - 10, 'text-anchor': nearEnd ? 'end' : 'start', 'font-size':12, fill:ink, 'font-weight':600 }, [num(last[2]) + ' h']));
     }
     view.appendChild(h('div', { class:'chart' }, [svg, h('div', { class:'legend' }, [h('span', { style:'--c:' + red, text:'Actual hours left' }), h('span', { style:'--c:' + dim, text:'Ideal, from ' + num(total) + ' h to 0' })])]));
-    view.appendChild(h('p', { class:'note', text:'A point is saved with every update, and every night at 23:50. Today’s point follows the table live.' }));
+    view.appendChild(h('p', { class:'note', text:'The red line is the hours left each day, from the done dates of the tasks and the nightly snapshots. Today’s point follows the table live. The dashed line is the ideal pace.' }));
   }
 
   function renderLog(view){
