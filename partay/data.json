@@ -46,7 +46,8 @@
    "sprint": "Sprint 3",
    "status": "To do",
    "points": null,
-   "feature": "F1"
+   "feature": "F1",
+   "position": 1
   },
   {
    "id": "US2",
@@ -55,7 +56,8 @@
    "sprint": "Sprint 3",
    "status": "To do",
    "points": null,
-   "feature": "F2"
+   "feature": "F2",
+   "position": 2
   },
   {
    "id": "US3",
@@ -64,7 +66,8 @@
    "sprint": "Sprint 3",
    "status": "To do",
    "points": null,
-   "feature": "F3"
+   "feature": "F3",
+   "position": 3
   },
   {
    "id": "US4",
@@ -73,7 +76,8 @@
    "sprint": "Sprint 3",
    "status": "To do",
    "points": null,
-   "feature": "F4"
+   "feature": "F4",
+   "position": 4
   },
   {
    "id": "US5",
@@ -82,7 +86,8 @@
    "sprint": "Sprint 3",
    "status": "To do",
    "points": null,
-   "feature": "F5, F6"
+   "feature": "F5, F6",
+   "position": 5
   },
   {
    "id": "US6",
@@ -91,7 +96,8 @@
    "sprint": "Sprint 3",
    "status": "To do",
    "points": null,
-   "feature": "F7"
+   "feature": "F7",
+   "position": 6
   },
   {
    "id": "US7",
@@ -100,7 +106,8 @@
    "sprint": "Sprint 3",
    "status": "To do",
    "points": null,
-   "feature": "F8"
+   "feature": "F8",
+   "position": 7
   },
   {
    "id": "US8",
@@ -109,7 +116,8 @@
    "sprint": "Sprint 4",
    "status": "To do",
    "points": null,
-   "feature": "F9"
+   "feature": "F9",
+   "position": 8
   },
   {
    "id": "US9",
@@ -118,7 +126,8 @@
    "sprint": "Sprint 4",
    "status": "To do",
    "points": null,
-   "feature": "F10"
+   "feature": "F10",
+   "position": 9
   },
   {
    "id": "US10",
@@ -127,7 +136,8 @@
    "sprint": "Sprint 4",
    "status": "To do",
    "points": null,
-   "feature": "F11"
+   "feature": "F11",
+   "position": 10
   },
   {
    "id": "US11",
@@ -136,7 +146,8 @@
    "sprint": "Sprint 4",
    "status": "To do",
    "points": null,
-   "feature": "F12"
+   "feature": "F12",
+   "position": 11
   },
   {
    "id": "US12",
@@ -145,7 +156,8 @@
    "sprint": "Sprint 4",
    "status": "To do",
    "points": null,
-   "feature": "F13"
+   "feature": "F13",
+   "position": 12
   },
   {
    "id": "US13",
@@ -154,7 +166,8 @@
    "sprint": "Sprint 4",
    "status": "To do",
    "points": null,
-   "feature": "F14"
+   "feature": "F14",
+   "position": 13
   },
   {
    "id": "US14",
@@ -163,7 +176,8 @@
    "sprint": "Sprint 4",
    "status": "To do",
    "points": null,
-   "feature": "F15"
+   "feature": "F15",
+   "position": 14
   },
   {
    "id": "T1",
@@ -172,7 +186,8 @@
    "sprint": "Sprints 1 and 2",
    "status": "In progress",
    "points": null,
-   "feature": ""
+   "feature": "",
+   "position": 15
   },
   {
    "id": "T2",
@@ -181,7 +196,8 @@
    "sprint": "Sprints 1 and 2",
    "status": "In progress",
    "points": null,
-   "feature": ""
+   "feature": "",
+   "position": 16
   },
   {
    "id": "T3",
@@ -190,7 +206,8 @@
    "sprint": "Sprints 1 and 2",
    "status": "To do",
    "points": null,
-   "feature": ""
+   "feature": "",
+   "position": 17
   },
   {
    "id": "T4",
@@ -199,7 +216,8 @@
    "sprint": "Final week",
    "status": "To do",
    "points": null,
-   "feature": ""
+   "feature": "",
+   "position": 18
   }
  ],
  "tasks": [
@@ -209,9 +227,12 @@
    "story": "-",
    "title": "Field study: survey with 48 respondents",
    "owner": "",
-   "estimate": null,
+   "estimate": 16,
    "remaining": 0,
-   "status": "Done"
+   "status": "Done",
+   "position": 1,
+   "spent": 18,
+   "done": null
   },
   {
    "id": "S0-02",
@@ -219,9 +240,12 @@
    "story": "-",
    "title": "Write the Project Description and get it approved",
    "owner": "",
-   "estimate": null,
+   "estimate": 20,
    "remaining": 0,
-   "status": "Done"
+   "status": "Done",
+   "position": 2,
+   "spent": 24,
+   "done": null
   },
   {
    "id": "S0-03",
@@ -229,9 +253,12 @@
    "story": "-",
    "title": "Agree on team roles: Alex Scrum Master, Rodrigo Product Owner",
    "owner": "",
-   "estimate": null,
+   "estimate": 2,
    "remaining": 0,
-   "status": "Done"
+   "status": "Done",
+   "position": 3,
+   "spent": 2,
+   "done": null
   },
   {
    "id": "S12-01",
@@ -239,9 +266,12 @@
    "story": "T1",
    "title": "Inception: scope and requirements",
    "owner": "Ilja",
-   "estimate": null,
+   "estimate": 12,
    "remaining": 0,
-   "status": "Done"
+   "status": "Done",
+   "position": 4,
+   "spent": 14,
+   "done": null
   },
   {
    "id": "S12-02",
@@ -249,9 +279,12 @@
    "story": "T1",
    "title": "Inception: C1, C2 and sprint calendar",
    "owner": "Rodrigo",
-   "estimate": null,
+   "estimate": 10,
    "remaining": 0,
-   "status": "Done"
+   "status": "Done",
+   "position": 5,
+   "spent": 12,
+   "done": null
   },
   {
    "id": "S12-03",
@@ -259,9 +292,12 @@
    "story": "T1",
    "title": "Inception: risks, use case modelling and development method",
    "owner": "Alex",
-   "estimate": null,
+   "estimate": 16,
    "remaining": 0,
-   "status": "Done"
+   "status": "Done",
+   "position": 6,
+   "spent": 20,
+   "done": null
   },
   {
    "id": "S12-04",
@@ -269,9 +305,12 @@
    "story": "T1",
    "title": "Inception: C3, C4, definition of done and what we are making",
    "owner": "Kristína",
-   "estimate": null,
+   "estimate": 14,
    "remaining": 0,
-   "status": "Done"
+   "status": "Done",
+   "position": 7,
+   "spent": 16,
+   "done": null
   },
   {
    "id": "S12-05",
@@ -279,9 +318,12 @@
    "story": "T1",
    "title": "Architecture diagram in draw.io",
    "owner": "Alex",
-   "estimate": null,
+   "estimate": 6,
    "remaining": 0,
-   "status": "Done"
+   "status": "Done",
+   "position": 8,
+   "spent": 8,
+   "done": null
   },
   {
    "id": "S12-06",
@@ -289,9 +331,12 @@
    "story": "T1",
    "title": "Inception layout, citations, table of contents and figure lists",
    "owner": "Alex",
-   "estimate": null,
+   "estimate": 8,
    "remaining": 0,
-   "status": "Done"
+   "status": "Done",
+   "position": 9,
+   "spent": 10,
+   "done": null
   },
   {
    "id": "S12-07",
@@ -299,10 +344,12 @@
    "story": "T2",
    "title": "Proof of concept: App Server REST API, Data Server gRPC, MySQL, Spotify search, add, vote, 30-vote stress test",
    "owner": "Alex",
-   "estimate": null,
+   "estimate": 30,
    "remaining": 0,
    "status": "Done",
-   "done": "2026-10-27"
+   "done": "2026-10-27",
+   "position": 10,
+   "spent": 34
   },
   {
    "id": "S12-08",
@@ -310,10 +357,12 @@
    "story": "T2",
    "title": "Spotify test: party playlist, reorder during playback and now playing",
    "owner": "Alex",
-   "estimate": null,
+   "estimate": 3,
    "remaining": 0,
    "status": "Done",
-   "done": "2026-11-12"
+   "done": "2026-11-12",
+   "position": 11,
+   "spent": 3
   },
   {
    "id": "S12-09",
@@ -321,10 +370,12 @@
    "story": "-",
    "title": "Re-plan the sprint calendar",
    "owner": "Alex",
-   "estimate": null,
+   "estimate": 2,
    "remaining": 0,
    "status": "Done",
-   "done": "2026-11-12"
+   "done": "2026-11-12",
+   "position": 12,
+   "spent": 2
   },
   {
    "id": "S12-10",
@@ -332,9 +383,12 @@
    "story": "T1",
    "title": "Domain model, done with the team",
    "owner": "Alex",
-   "estimate": null,
-   "remaining": null,
-   "status": "To do"
+   "estimate": 6,
+   "remaining": 6,
+   "status": "To do",
+   "position": 13,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S12-11",
@@ -342,9 +396,12 @@
    "story": "T1",
    "title": "Inception read-through and table of contents update",
    "owner": "",
-   "estimate": null,
-   "remaining": null,
-   "status": "To do"
+   "estimate": 4,
+   "remaining": 4,
+   "status": "To do",
+   "position": 14,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S12-12",
@@ -352,9 +409,12 @@
    "story": "T2",
    "title": "Blazor client that calls the App Server (replaces the demo page)",
    "owner": "",
-   "estimate": null,
-   "remaining": null,
-   "status": "To do"
+   "estimate": 10,
+   "remaining": 10,
+   "status": "To do",
+   "position": 15,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S12-13",
@@ -362,9 +422,12 @@
    "story": "T3",
    "title": "GitHub repository, branch protection and GitHub Projects board",
    "owner": "",
-   "estimate": null,
-   "remaining": null,
-   "status": "To do"
+   "estimate": 3,
+   "remaining": 3,
+   "status": "To do",
+   "position": 16,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-01",
@@ -374,7 +437,10 @@
    "owner": "",
    "estimate": 10,
    "remaining": 10,
-   "status": "To do"
+   "status": "To do",
+   "position": 17,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-02",
@@ -384,7 +450,10 @@
    "owner": "",
    "estimate": 12,
    "remaining": 12,
-   "status": "To do"
+   "status": "To do",
+   "position": 18,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-03",
@@ -394,7 +463,10 @@
    "owner": "",
    "estimate": 10,
    "remaining": 10,
-   "status": "To do"
+   "status": "To do",
+   "position": 19,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-04",
@@ -404,7 +476,10 @@
    "owner": "",
    "estimate": 6,
    "remaining": 6,
-   "status": "To do"
+   "status": "To do",
+   "position": 20,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-05",
@@ -414,7 +489,10 @@
    "owner": "",
    "estimate": 8,
    "remaining": 8,
-   "status": "To do"
+   "status": "To do",
+   "position": 21,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-06",
@@ -424,7 +502,10 @@
    "owner": "",
    "estimate": 8,
    "remaining": 8,
-   "status": "To do"
+   "status": "To do",
+   "position": 22,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-07",
@@ -434,7 +515,10 @@
    "owner": "",
    "estimate": 6,
    "remaining": 6,
-   "status": "To do"
+   "status": "To do",
+   "position": 23,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-08",
@@ -444,7 +528,10 @@
    "owner": "",
    "estimate": 6,
    "remaining": 6,
-   "status": "To do"
+   "status": "To do",
+   "position": 24,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-09",
@@ -454,7 +541,10 @@
    "owner": "",
    "estimate": 8,
    "remaining": 8,
-   "status": "To do"
+   "status": "To do",
+   "position": 25,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-10",
@@ -464,7 +554,10 @@
    "owner": "",
    "estimate": 8,
    "remaining": 8,
-   "status": "To do"
+   "status": "To do",
+   "position": 26,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-11",
@@ -474,7 +567,10 @@
    "owner": "",
    "estimate": 10,
    "remaining": 10,
-   "status": "To do"
+   "status": "To do",
+   "position": 27,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-12",
@@ -484,7 +580,10 @@
    "owner": "",
    "estimate": 4,
    "remaining": 4,
-   "status": "To do"
+   "status": "To do",
+   "position": 28,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-13",
@@ -494,7 +593,10 @@
    "owner": "",
    "estimate": 14,
    "remaining": 14,
-   "status": "To do"
+   "status": "To do",
+   "position": 29,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-14",
@@ -504,7 +606,10 @@
    "owner": "",
    "estimate": 6,
    "remaining": 6,
-   "status": "To do"
+   "status": "To do",
+   "position": 30,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-15",
@@ -514,7 +619,10 @@
    "owner": "",
    "estimate": 8,
    "remaining": 8,
-   "status": "To do"
+   "status": "To do",
+   "position": 31,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-16",
@@ -524,7 +632,10 @@
    "owner": "",
    "estimate": 12,
    "remaining": 12,
-   "status": "To do"
+   "status": "To do",
+   "position": 32,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-17",
@@ -534,7 +645,10 @@
    "owner": "",
    "estimate": 6,
    "remaining": 6,
-   "status": "To do"
+   "status": "To do",
+   "position": 33,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-18",
@@ -544,7 +658,10 @@
    "owner": "",
    "estimate": 6,
    "remaining": 6,
-   "status": "To do"
+   "status": "To do",
+   "position": 34,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-19",
@@ -554,7 +671,10 @@
    "owner": "",
    "estimate": 4,
    "remaining": 4,
-   "status": "To do"
+   "status": "To do",
+   "position": 35,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-20",
@@ -564,7 +684,10 @@
    "owner": "",
    "estimate": 6,
    "remaining": 6,
-   "status": "To do"
+   "status": "To do",
+   "position": 36,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-21",
@@ -574,7 +697,10 @@
    "owner": "",
    "estimate": 16,
    "remaining": 16,
-   "status": "To do"
+   "status": "To do",
+   "position": 37,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-22",
@@ -584,7 +710,10 @@
    "owner": "",
    "estimate": 12,
    "remaining": 12,
-   "status": "To do"
+   "status": "To do",
+   "position": 38,
+   "spent": 0,
+   "done": null
   },
   {
    "id": "S3-23",
@@ -594,16 +723,12 @@
    "owner": "",
    "estimate": 4,
    "remaining": 4,
-   "status": "To do"
+   "status": "To do",
+   "position": 39,
+   "spent": 0,
+   "done": null
   }
  ],
  "burndown": {},
- "log": [
-  {
-   "at": "2026-11-12T10:30:00+01:00",
-   "by": "a1izo",
-   "summary": "Tracker created. Sprints 0 to 2 filled in from the inception and the proof of concept. Hours were not tracked before Sprint 3."
-  }
- ],
- "allowed": []
+ "log": []
 }

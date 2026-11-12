@@ -79,6 +79,9 @@ tr.new td{background:var(--edit)}
 select.st-In-progress{color:var(--doing-ink)} select.st-Done{color:var(--done-ink)}
 .x{border:0;background:none;color:var(--dim);cursor:pointer;font-size:16px;padding:0 4px}
 .x:hover{color:var(--red)}
+.btn.small{padding:3px 10px;font-size:12px}
+td.confirm{white-space:nowrap}
+td.confirm .x{font-size:12px}
 .addrow{display:grid;grid-template-columns:110px minmax(0,1fr) 130px 90px auto;gap:8px;margin-top:12px;align-items:center}
 .addrow.story{grid-template-columns:minmax(0,1fr) 130px 150px auto}
 @media (max-width:700px){.addrow,.addrow.story{grid-template-columns:1fr 1fr}.addrow input[type=text]{grid-column:1/-1}}
@@ -117,7 +120,7 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
 
 <main class="wrap">
   <h1>Partay <i>scrum tracker</i></h1>
-  <p class="lede">SEP3 at VIA University College. Product backlog, sprint backlog and burndown for the Partay team. Change what you need, then press Send. Updates go through GitHub and show here about a minute later.</p>
+  <p class="lede">SEP3 at VIA University College. Product backlog, sprint backlog and burndown for the Partay team. Change anything in the tables. It saves at once, and everyone with the page open sees it.</p>
   <div id="banner"></div>
   <section class="strip" id="strip" aria-label="Sprint summary"></section>
   <nav class="tabs" role="tablist">
@@ -132,11 +135,14 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
 <footer><div class="wrap" id="foot"></div></footer>
 <div class="savebar" id="savebar" hidden></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 (function(){
-  var REPO = 'a1izo/a1izo.github.io';
-  var API = 'https://api.github.com/repos/' + REPO + '/contents/partay/data.json?ref=main';
+  // Supabase project. The key is the public anon key: the page needs it to read and write.
+  var SUPABASE_URL = '';
+  var SUPABASE_KEY = '';
   var STATUS = ['To do', 'In progress', 'Done'];
+  var PREFIX = { 'Sprint 0': 'S0', 'Sprints 1 and 2': 'S12', 'Sprint 3': 'S3', 'Sprint 4': 'S4', 'Final week': 'FW' };
   var root = document.documentElement;
 
   // theme, shared with the main site
@@ -150,10 +156,6 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
   });
 
   function store(k, v){ try { if(v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch(e){ return null; } }
-
-  var data = null, tab = 'sprint', sprintSel = null;
-  var pending = emptyPending();
-  function emptyPending(){ return { tasks:{}, stories:{}, addTasks:[], addStories:[], del:{} }; }
 
   function h(tag, attrs, kids){
     var el = document.createElement(tag);
@@ -174,13 +176,6 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
   function num(v){ return v == null || v === '' ? '' : String(Math.round(v*10)/10); }
 
   function currentSprint(){ var t = today(); return data.sprints.find(function(s){ return s.start <= t && t <= s.end; }) || data.sprints[data.sprints.length-1]; }
-  function taskVal(t, k){ var p = pending.tasks[t.id]; return p && k in p ? p[k] : t[k]; }
-  function storyVal(s, k){ var p = pending.stories[s.id]; return p && k in p ? p[k] : s[k]; }
-  function setTask(t, k, v){ var p = pending.tasks[t.id] || (pending.tasks[t.id] = {}); if(v === t[k] || (v === '' && t[k] == null)) delete p[k]; else p[k] = v; if(!Object.keys(p).length) delete pending.tasks[t.id]; afterEdit(); }
-  function setStory(s, k, v){ var p = pending.stories[s.id] || (pending.stories[s.id] = {}); if(v === s[k] || (v === '' && s[k] == null)) delete p[k]; else p[k] = v; if(!Object.keys(p).length) delete pending.stories[s.id]; afterEdit(); }
-  function countPending(){ var n = 0; for(var k in pending.tasks) n += Object.keys(pending.tasks[k]).length; for(var j in pending.stories) n += Object.keys(pending.stories[j]).length; return n + pending.addTasks.length + pending.addStories.length + Object.keys(pending.del).length; }
-  function afterEdit(){ renderSavebar(); renderStrip(); }
-
   function sprintStats(name){
     var ts = data.tasks.filter(function(t){ return t.sprint === name; });
     var est = 0, left = 0, done = 0, hasEst = false;
@@ -216,47 +211,114 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
     return i;
   }
 
+  // ---------- data layer: Supabase, saves each change at once ----------
+  var db = (SUPABASE_URL && SUPABASE_KEY && window.supabase) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+  var data = null, tab = 'sprint', sprintSel = null, confirmDel = null, lastSaved = null;
+  var TASK_COLS = 'id,sprint,story,title,owner,estimate,spent,remaining,status,done,position';
+
+  function me(){ return store('partay-me') || 'Someone'; }
+  function taskVal(t, k){ return t[k]; }
+  function storyVal(s, k){ return s[k]; }
+  function readOnly(){ flash('Editing is off until the database is connected.'); render(); return true; }
+  function failSave(err){ console.error(err); flash('That change did not save: ' + (err && err.message ? err.message : 'no connection') + '. The page reloaded the latest version.'); load(); }
+
+  function snapshot(){
+    var cur = data.sprints.find(function(s){ var t = today(); return s.start <= t && t <= s.end; });
+    if(!cur || !db) return Promise.resolve();
+    var st = sprintStats(cur.name); if(!st.hasEst) return Promise.resolve();
+    data.burndown[cur.name] = data.burndown[cur.name] || {}; data.burndown[cur.name][today()] = st.left;
+    return db.from('burndown').upsert({ sprint: cur.name, day: today(), hours: st.left });
+  }
+  function afterSave(summary){
+    lastSaved = new Date();
+    var entry = { at: lastSaved.toISOString(), by: me(), summary: summary };
+    data.log.unshift(entry);
+    Promise.all([db.from('log').insert({ by: entry.by, summary: summary }), snapshot()]).then(function(rs){ var e = rs.find(function(r){ return r && r.error; }); if(e) console.error(e.error); });
+    renderStrip(); setFoot();
+  }
+  function save(table, id, patch, summary){
+    if(!db) return readOnly();
+    db.from(table).update(patch).eq('id', id).then(function(r){ if(r.error) return failSave(r.error); afterSave(summary); }, failSave);
+  }
+  function setTask(t, k, v){
+    var val = v === '' ? null : v; if(t[k] === val) return;
+    var patch = {}; t[k] = val; patch[k] = val;
+    if(k === 'status'){
+      if(val === 'Done'){ t.remaining = 0; patch.remaining = 0; if(!t.done){ t.done = today(); patch.done = t.done; } }
+      else if(t.done){ t.done = null; patch.done = null; }
+    }
+    if(k === 'estimate' && t.status !== 'Done' && (t.remaining == null)){ t.remaining = val; patch.remaining = val; }
+    save('tasks', t.id, patch, t.id + ': ' + k + ' → ' + (val == null ? 'empty' : val));
+  }
+  function setStory(s, k, v){
+    var val = v === '' ? null : v; if(s[k] === val) return;
+    var patch = {}; s[k] = val; patch[k] = val;
+    save('stories', s.id, patch, s.id + ': ' + k + ' → ' + (val == null ? 'empty' : val));
+  }
+  function addTask(a){
+    if(!db) return readOnly();
+    var prefix = PREFIX[a.sprint] || 'T';
+    var n = Math.max.apply(null, [0].concat(data.tasks.filter(function(t){ return t.id.indexOf(prefix + '-') === 0; }).map(function(t){ return +t.id.split('-')[1] || 0; }))) + 1;
+    var t = { id: prefix + '-' + (n < 10 ? '0' : '') + n, sprint: a.sprint, story: a.story, title: a.title, owner: a.owner || null, estimate: a.estimate, spent: 0, remaining: a.estimate, status: 'To do', done: null,
+      position: Math.max.apply(null, [0].concat(data.tasks.map(function(x){ return x.position || 0; }))) + 1 };
+    data.tasks.push(t); render();
+    db.from('tasks').insert(t).then(function(r){ if(r.error) return failSave(r.error); afterSave('Added ' + t.id + ': ' + t.title); }, failSave);
+  }
+  function deleteTask(t){
+    if(!db) return readOnly();
+    data.tasks = data.tasks.filter(function(x){ return x.id !== t.id; }); confirmDel = null; render();
+    db.from('tasks').delete().eq('id', t.id).then(function(r){ if(r.error) return failSave(r.error); afterSave('Deleted ' + t.id + ': ' + t.title); }, failSave);
+  }
+  function addStory(a){
+    if(!db) return readOnly();
+    var n = Math.max.apply(null, [0].concat(data.stories.filter(function(s){ return /^US\d+$/.test(s.id); }).map(function(s){ return +s.id.slice(2); }))) + 1;
+    var s = { id: 'US' + n, text: a.text, priority: a.priority, sprint: a.sprint, status: 'To do', points: null, feature: '',
+      position: Math.max.apply(null, [0].concat(data.stories.map(function(x){ return x.position || 0; }))) + 1 };
+    data.stories.push(s); render();
+    db.from('stories').insert(s).then(function(r){ if(r.error) return failSave(r.error); afterSave('Added ' + s.id + ': ' + s.text); }, failSave);
+  }
+
+  function chips(names, cur, showNow){
+    return h('div', { class:'toolbar' }, names.map(function(n){
+      return h('button', { class:'chip', 'aria-pressed': String(n === sprintSel), onclick: function(){ sprintSel = n; confirmDel = null; render(); } }, [n, showNow && n === cur ? h('span', { class:'now', text:'NOW' }) : null]);
+    }));
+  }
+
   function renderSprint(view){
     var names = data.sprints.map(function(s){ return s.name; });
     var cur = currentSprint().name;
     if(!sprintSel) sprintSel = cur;
-    view.appendChild(h('div', { class:'toolbar' }, names.map(function(n){
-      return h('button', { class:'chip', 'aria-pressed': String(n === sprintSel), onclick: function(){ sprintSel = n; render(); } }, [n, n === cur ? h('span', { class:'now', text:'NOW' }) : null]);
-    })));
+    view.appendChild(chips(names, cur, true));
     var rows = data.tasks.filter(function(t){ return t.sprint === sprintSel; });
     var body = h('tbody');
     rows.forEach(function(t){
-      var p = pending.tasks[t.id] || {}, del = pending.del[t.id];
-      var tr = h('tr', { class: del ? 'deleted' : null }, [
+      var delCell = confirmDel === t.id
+        ? h('td', { class:'confirm' }, [h('button', { class:'btn red small', type:'button', text:'Delete', onclick: function(){ deleteTask(t); } }), h('button', { class:'x', type:'button', 'aria-label':'Keep ' + t.id, text:'Keep', onclick: function(){ confirmDel = null; render(); } })])
+        : h('td', null, [h('button', { class:'x', type:'button', title:'Delete this task', 'aria-label':'Delete ' + t.id, text:'×', onclick: function(){ confirmDel = t.id; render(); } })]);
+      body.appendChild(h('tr', null, [
         h('td', { class:'id', text:t.id }),
         h('td', { class:'story', text:t.story }),
         h('td', { text:t.title }),
-        h('td', null, [ownerSelect(taskVal(t,'owner'), function(v){ setTask(t,'owner',v); render(); }, 'owner' in p)]),
-        h('td', { class:'num' }, [hoursInput(taskVal(t,'estimate'), function(v){ setTask(t,'estimate',v); render(); }, 'estimate' in p, 'Estimate for ' + t.id)]),
-        h('td', { class:'num' }, [hoursInput(taskVal(t,'remaining'), function(v){ setTask(t,'remaining',v); render(); }, 'remaining' in p, 'Hours left for ' + t.id)]),
-        h('td', null, [statusSelect(taskVal(t,'status'), function(v){ setTask(t,'status',v); if(v === 'Done' && taskVal(t,'remaining')) setTask(t,'remaining',0); render(); }, 'status' in p)]),
-        h('td', null, [h('button', { class:'x', title: del ? 'Keep this task' : 'Delete this task', 'aria-label': (del ? 'Keep ' : 'Delete ') + t.id, text: del ? '↺' : '×', onclick: function(){ if(del) delete pending.del[t.id]; else pending.del[t.id] = true; render(); } })])
-      ]);
-      body.appendChild(tr);
+        h('td', null, [ownerSelect(t.owner, function(v){ setTask(t,'owner',v); }, false)]),
+        h('td', { class:'num' }, [hoursInput(t.estimate, function(v){ setTask(t,'estimate',v); render(); }, false, 'Estimate for ' + t.id)]),
+        h('td', { class:'num' }, [hoursInput(t.spent, function(v){ setTask(t,'spent',v); }, false, 'Hours spent on ' + t.id)]),
+        h('td', { class:'num' }, [hoursInput(t.remaining, function(v){ setTask(t,'remaining',v); render(); }, false, 'Hours left for ' + t.id)]),
+        h('td', null, [statusSelect(t.status, function(v){ setTask(t,'status',v); render(); }, false)]),
+        delCell
+      ]));
     });
-    pending.addTasks.forEach(function(a, i){
-      if(a.sprint !== sprintSel) return;
-      body.appendChild(h('tr', { class:'new' }, [h('td', { class:'id', text:'new' }), h('td', { class:'story', text:a.story }), h('td', { text:a.title }), h('td', { text:a.owner || 'Nobody' }), h('td', { class:'num', text:num(a.estimate) }), h('td', { class:'num', text:num(a.estimate) }), h('td', null, [h('span', { class:'pill st-To-do', text:'To do' })]), h('td', null, [h('button', { class:'x', 'aria-label':'Remove new task', text:'×', onclick: function(){ pending.addTasks.splice(i,1); render(); } })])]));
-    });
-    var table = h('table', null, [h('thead', null, [h('tr', null, ['ID','Story','Task','Owner','Est. (h)','Left (h)','Status',''].map(function(x, i){ return h('th', { class: i === 4 || i === 5 ? 'num' : null, text:x }); }))]), body]);
+    var table = h('table', null, [h('thead', null, [h('tr', null, ['ID','Story','Task','Owner','Est. (h)','Spent (h)','Left (h)','Status',''].map(function(x, i){ return h('th', { class: i >= 4 && i <= 6 ? 'num' : null, text:x }); }))]), body]);
     view.appendChild(h('div', { class:'table-wrap' }, [table]));
     if(!rows.length) view.appendChild(h('p', { class:'note', text:'No tasks in this sprint yet. Add the first one below at sprint planning.' }));
-    var st = sprintStats(sprintSel);
-    if(!st.hasEst && rows.length) view.appendChild(h('p', { class:'note', text:'Hours were not tracked in this sprint. Tracking starts with Sprint 3.' }));
-    // add task
-    var storySel = h('select', { 'aria-label':'Story' }, [h('option', { value:'-', text:'No story' })].concat(data.stories.map(function(s){ return h('option', { value:s.id, text:s.id }); })));
+    var st = sprintStats(sprintSel), spent = rows.reduce(function(a, t){ return a + (+t.spent || 0); }, 0);
+    if(st.hasEst) view.appendChild(h('p', { class:'note', text: num(st.est) + ' h estimated · ' + num(spent) + ' h spent · ' + num(st.left) + ' h left' }));
+    var storySel = h('select', { 'aria-label':'Story', id:'newTaskStory' }, [h('option', { value:'-', text:'No story' })].concat(data.stories.map(function(s){ return h('option', { value:s.id, text:s.id }); })));
     var title = h('input', { type:'text', placeholder:'New task, for example: Blazor join page', 'aria-label':'New task', maxlength:'200', id:'newTaskTitle' });
-    var own = ownerSelect('', function(){}, false);
+    var own = ownerSelect('', function(){}, false); own.id = 'newTaskOwner';
     var est = h('input', { type:'number', min:'0', max:'500', step:'0.5', placeholder:'Hours', 'aria-label':'Estimate in hours', id:'newTaskEst' });
     var add = h('button', { class:'btn ghost', type:'button', text:'Add task', onclick: function(){
       var tt = title.value.replace(/\s+/g,' ').trim(); if(!tt){ title.focus(); return; }
-      pending.addTasks.push({ sprint: sprintSel, story: storySel.value, title: tt, owner: own.value, estimate: est.value === '' ? null : +est.value });
-      render();
+      addTask({ sprint: sprintSel, story: storySel.value, title: tt.slice(0,200), owner: own.value, estimate: est.value === '' ? null : Math.max(0, Math.min(500, +est.value)) });
     } });
     view.appendChild(h('div', { class:'addrow' }, [storySel, title, own, est, add]));
   }
@@ -265,28 +327,24 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
     var body = h('tbody');
     var sprintNames = data.sprints.map(function(s){ return s.name; });
     data.stories.forEach(function(s){
-      var p = pending.stories[s.id] || {};
-      var pr = h('select', { class: 'priority' in p ? 'changed' : null, 'aria-label':'Priority', onchange: function(){ setStory(s,'priority',pr.value); render(); } }, ['Core','Additional'].map(function(x){ return h('option', { value:x, text:x }); })); pr.value = storyVal(s,'priority');
-      var sp = h('select', { class: 'sprint' in p ? 'changed' : null, 'aria-label':'Sprint', onchange: function(){ setStory(s,'sprint',sp.value); render(); } }, sprintNames.map(function(x){ return h('option', { value:x, text:x }); })); sp.value = storyVal(s,'sprint');
-      var pts = h('input', { type:'number', min:'0', max:'100', step:'1', 'aria-label':'Story points for ' + s.id, class: 'points' in p ? 'changed' : null, value: storyVal(s,'points') == null ? '' : storyVal(s,'points'), onchange: function(){ setStory(s,'points', pts.value === '' ? '' : Math.round(+pts.value)); render(); } });
+      var pr = h('select', { 'aria-label':'Priority for ' + s.id, onchange: function(){ setStory(s,'priority',pr.value); } }, ['Core','Additional'].map(function(x){ return h('option', { value:x, text:x }); })); pr.value = s.priority;
+      var sp = h('select', { 'aria-label':'Sprint for ' + s.id, onchange: function(){ setStory(s,'sprint',sp.value); } }, sprintNames.map(function(x){ return h('option', { value:x, text:x }); })); sp.value = s.sprint;
+      var pts = h('input', { type:'number', min:'0', max:'100', step:'1', 'aria-label':'Story points for ' + s.id, value: s.points == null ? '' : s.points, onchange: function(){ setStory(s,'points', pts.value === '' ? '' : Math.max(0, Math.round(+pts.value))); } });
       body.appendChild(h('tr', null, [
         h('td', { class:'id', text:s.id }),
         h('td', { text:s.text }),
         h('td', null, [pr]), h('td', null, [sp]),
-        h('td', null, [statusSelect(storyVal(s,'status'), function(v){ setStory(s,'status',v); render(); }, 'status' in p)]),
+        h('td', null, [statusSelect(s.status, function(v){ setStory(s,'status',v); render(); }, false)]),
         h('td', { class:'num' }, [pts]),
         h('td', { class:'story', text:s.feature || '' })
       ]));
     });
-    pending.addStories.forEach(function(a, i){
-      body.appendChild(h('tr', { class:'new' }, [h('td', { class:'id', text:'new' }), h('td', { text:a.text }), h('td', { text:a.priority }), h('td', { text:a.sprint }), h('td', null, [h('span', { class:'pill st-To-do', text:'To do' })]), h('td', { class:'num' }), h('td', null, [h('button', { class:'x', 'aria-label':'Remove new story', text:'×', onclick: function(){ pending.addStories.splice(i,1); render(); } })])]));
-    });
     view.appendChild(h('div', { class:'table-wrap' }, [h('table', null, [h('thead', null, [h('tr', null, ['ID','User story','Priority','Sprint','Status','Points','Feature'].map(function(x, i){ return h('th', { class: i === 5 ? 'num' : null, text:x }); }))]), body])]));
-    view.appendChild(h('p', { class:'note', text:'Points are empty until the team estimates them with planning poker. T items are technical work that is no user story.' }));
+    view.appendChild(h('p', { class:'note', text:'Points stay empty until the team estimates them with planning poker. T items are technical work that is no user story.' }));
     var txt = h('input', { type:'text', placeholder:'As a …, I want …, so that …', 'aria-label':'New user story', maxlength:'400', id:'newStoryText' });
-    var pr2 = h('select', { 'aria-label':'Priority' }, ['Additional','Core'].map(function(x){ return h('option', { value:x, text:x }); }));
-    var sp2 = h('select', { 'aria-label':'Sprint' }, sprintNames.map(function(x){ return h('option', { value:x, text:x }); })); sp2.value = 'Sprint 4';
-    view.appendChild(h('div', { class:'addrow story' }, [txt, pr2, sp2, h('button', { class:'btn ghost', type:'button', text:'Add story', onclick: function(){ var t = txt.value.replace(/\s+/g,' ').trim(); if(!t){ txt.focus(); return; } pending.addStories.push({ text:t, priority:pr2.value, sprint:sp2.value }); render(); } })]));
+    var pr2 = h('select', { 'aria-label':'Priority', id:'newStoryPriority' }, ['Additional','Core'].map(function(x){ return h('option', { value:x, text:x }); }));
+    var sp2 = h('select', { 'aria-label':'Sprint', id:'newStorySprint' }, sprintNames.map(function(x){ return h('option', { value:x, text:x }); })); sp2.value = 'Sprint 4';
+    view.appendChild(h('div', { class:'addrow story' }, [txt, pr2, sp2, h('button', { class:'btn ghost', type:'button', text:'Add story', onclick: function(){ var t = txt.value.replace(/\s+/g,' ').trim(); if(!t){ txt.focus(); return; } addStory({ text:t.slice(0,400), priority:pr2.value, sprint:sp2.value }); } })]));
   }
 
   function renderBurndown(view){
@@ -326,55 +384,21 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
     var ul = h('ul', { class:'log' });
     (data.log || []).forEach(function(e){
       var when = new Date(e.at).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
-      ul.appendChild(h('li', null, [h('div', { class:'when' }, [when + ' · ' + e.by, e.issue ? ' · ' : null, e.issue ? h('a', { href:'https://github.com/' + REPO + '/issues/' + e.issue, target:'_blank', rel:'noopener', text:'#' + e.issue }) : null]), h('div', { text:e.summary })]));
+      ul.appendChild(h('li', null, [h('div', { class:'when', text: when + ' · ' + e.by }), h('div', { text:e.summary })]));
     });
+    if(!(data.log || []).length) view.appendChild(h('p', { class:'note', text:'No changes yet.' }));
     view.appendChild(ul);
   }
 
   function renderHowto(view){
-    var steps = ['Send Alex your GitHub username once. The tracker only accepts updates from the team.', 'Pick your name at the top. The page remembers it on this device.', 'Change owners, hours left and statuses in the tables, or add tasks and stories. Changed cells turn yellow.', 'Press Send at the bottom. GitHub opens with your changes filled in. Press Submit new issue there. You need to be logged in to GitHub.', 'A GitHub Action applies the changes to the tracker within about a minute, replies on the issue and closes it. Refresh this page to see them.', 'Each day, set Left (h) on your tasks to the hours you think are left, not the hours you spent. Mark a task Done when it meets the definition of done.'];
-    view.appendChild(h('div', { class:'howto' }, [h('ol', null, steps.map(function(x){ return h('li', { text:x }); })), h('p', { class:'muted', text:'The burndown saves a point with every update and every night at 23:50 Copenhagen time, so it fills in without anyone copying numbers. Everything lives in partay/data.json in the repository, so every change has a history.' })]));
+    var steps = ['Pick your name at the top. The page remembers it on this device and writes it next to your changes in Activity.', 'Change owners, hours and statuses straight in the tables. Each change saves at once, and everyone with the page open sees it within a few seconds.', 'Add tasks and stories with the row under each table. To delete a task, press × and then Delete.', 'Each day you work on a task, add the time to Spent (h) and set Left (h) to the hours you think are left. Mark a task Done when it meets the definition of done.'];
+    view.appendChild(h('div', { class:'howto' }, [h('ol', null, steps.map(function(x){ return h('li', { text:x }); })), h('p', { class:'muted', text:'The burndown saves a point with every change and every night at 23:50 Copenhagen time, so it fills in without anyone copying numbers.' })]));
   }
 
-  function buildChanges(){
-    var out = [];
-    for(var id in pending.tasks) out.push({ op:'task', id:id, set: pending.tasks[id] });
-    for(var sid in pending.stories) out.push({ op:'story', id:sid, set: pending.stories[sid] });
-    pending.addTasks.forEach(function(a){ out.push({ op:'addTask', sprint:a.sprint, story:a.story, title:a.title, owner:a.owner, estimate:a.estimate }); });
-    pending.addStories.forEach(function(a){ out.push({ op:'addStory', text:a.text, priority:a.priority, sprint:a.sprint }); });
-    for(var d in pending.del) out.push({ op:'deleteTask', id:d });
-    return out;
-  }
-  function describe(c){
-    if(c.op === 'task' || c.op === 'story') return c.id + ': ' + Object.keys(c.set).map(function(k){ return k + ' → ' + (c.set[k] === '' ? 'empty' : c.set[k]); }).join(', ');
-    if(c.op === 'addTask') return 'New task in ' + c.sprint + ': ' + c.title;
-    if(c.op === 'addStory') return 'New story: ' + c.text;
-    return 'Delete ' + c.id;
-  }
-  function send(){
-    var me = store('partay-me');
-    if(!me){ document.getElementById('me').focus(); flash('Pick your name at the top first.'); return; }
-    var changes = buildChanges();
-    var body = 'Update from ' + me + ' on the Partay tracker.\n\n' + changes.map(function(c){ return '- ' + describe(c); }).join('\n') + '\n\n```json\n' + JSON.stringify({ name: me, changes: changes }) + '\n```\n\nPress Submit new issue. A GitHub Action applies the changes and closes this issue.';
-    var title = '[tracker] ' + me + ': ' + changes.length + ' change' + (changes.length === 1 ? '' : 's');
-    var url = 'https://github.com/' + REPO + '/issues/new?title=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
-    if(url.length > 7800){ flash('Too many changes for one update. Send about half now and the rest after.'); return; }
-    window.open(url, '_blank', 'noopener');
-    pending = emptyPending();
-    waiting = true;
-    render();
-  }
-  var waiting = false;
-  function flash(msg){ var b = document.getElementById('banner'); b.innerHTML = ''; b.appendChild(h('div', { class:'banner', role:'status' }, [h('span', { text:msg })])); }
-  function renderBanner(){
-    var b = document.getElementById('banner'); b.innerHTML = '';
-    if(waiting) b.appendChild(h('div', { class:'banner', role:'status' }, [h('span', { text:'GitHub opened in a new tab. Press Submit new issue there. Your changes show here about a minute later.' }), h('button', { class:'btn ghost', type:'button', text:'Refresh', onclick: function(){ waiting = false; load(); } })]));
-  }
-  function renderSavebar(){
-    var bar = document.getElementById('savebar'), n = countPending();
-    bar.hidden = n === 0; bar.innerHTML = '';
-    if(!n) return;
-    bar.appendChild(h('div', { class:'wrap' }, [h('span', { text: n + ' change' + (n === 1 ? '' : 's') + ' not sent yet' }), h('div', { class:'toolbar', style:'margin:0' }, [h('button', { class:'btn ghost', type:'button', text:'Discard', onclick: function(){ pending = emptyPending(); render(); } }), h('button', { class:'btn red', type:'button', text:'Send', onclick: send })])]));
+  function flash(msg){ var b = document.getElementById('banner'); b.innerHTML = ''; b.appendChild(h('div', { class:'banner', role:'status' }, [h('span', { text:msg }), h('button', { class:'btn ghost', type:'button', text:'Close', onclick: function(){ b.innerHTML = ''; } })])); }
+  function setFoot(){
+    var last = data.log && data.log[0];
+    document.getElementById('foot').textContent = (db ? 'Saves at once for everyone' : 'Read-only copy') + (last ? ' · Last change ' + new Date(last.at).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) + ' by ' + last.by : '');
   }
 
   function render(){
@@ -382,28 +406,44 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
     ['sprint','product','burndown','log','howto'].forEach(function(k){ document.getElementById('tab-' + k).setAttribute('aria-selected', String(k === tab)); });
     var view = document.getElementById('view'); view.innerHTML = '';
     ({ sprint:renderSprint, product:renderProduct, burndown:renderBurndown, log:renderLog, howto:renderHowto })[tab](view);
-    renderStrip(); renderSavebar(); renderBanner();
+    renderStrip(); setFoot();
   }
-  ['sprint','product','burndown','log','howto'].forEach(function(k){ document.getElementById('tab-' + k).addEventListener('click', function(){ tab = k; store('partay-tab', k); render(); }); });
+  ['sprint','product','burndown','log','howto'].forEach(function(k){ document.getElementById('tab-' + k).addEventListener('click', function(){ tab = k; confirmDel = null; store('partay-tab', k); render(); }); });
   var savedTab = store('partay-tab'); if(['sprint','product','burndown','log','howto'].indexOf(savedTab) >= 0) tab = savedTab;
 
-  window.addEventListener('beforeunload', function(e){ if(countPending()){ e.preventDefault(); e.returnValue = ''; } });
-
   function setup(){
-    var me = document.getElementById('me');
-    while(me.options.length > 1) me.remove(1);
-    data.team.forEach(function(n){ me.appendChild(h('option', { value:n, text:n })); });
-    me.value = store('partay-me') || '';
-    me.onchange = function(){ store('partay-me', me.value); };
-    var last = data.log && data.log[0];
-    document.getElementById('foot').textContent = 'Data: partay/data.json in ' + REPO + (last ? ' · Last update ' + new Date(last.at).toLocaleString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : '');
+    var sel = document.getElementById('me');
+    while(sel.options.length > 1) sel.remove(1);
+    data.team.forEach(function(n){ sel.appendChild(h('option', { value:n, text:n })); });
+    sel.value = store('partay-me') || '';
+    sel.onchange = function(){ store('partay-me', sel.value); };
   }
+
+  // a reload from another person's change waits until you leave the field you are typing in
+  var reloadWaiting = false, reloadTimer = null;
+  function editing(){ var a = document.activeElement; return a && document.getElementById('view').contains(a) && (a.tagName === 'INPUT' || a.tagName === 'SELECT'); }
+  function remoteChange(){ clearTimeout(reloadTimer); reloadTimer = setTimeout(function(){ if(editing()) reloadWaiting = true; else load(); }, 600); }
+  document.addEventListener('focusout', function(){ if(reloadWaiting){ reloadWaiting = false; setTimeout(function(){ if(!editing()) load(); else reloadWaiting = true; }, 300); } });
+
   function load(){
-    fetch(API, { headers:{ Accept:'application/vnd.github.raw+json' }, cache:'no-store' })
-      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
-      .catch(function(){ return fetch('data.json', { cache:'no-store' }).then(function(r){ return r.json(); }); })
-      .then(function(d){ data = d; setup(); render(); })
-      .catch(function(){ document.getElementById('view').innerHTML = ''; document.getElementById('view').appendChild(h('p', { class:'loading', text:'The tracker could not load. Check your connection and refresh the page.' })); });
+    fetch('data.json', { cache:'no-store' }).then(function(r){ return r.json(); }).then(function(base){
+      if(!db){ data = base; data.log = data.log || []; setup(); render(); flash('Editing is off until the database is connected. This is a read-only copy.'); return; }
+      return Promise.all([
+        db.from('tasks').select(TASK_COLS).order('position'),
+        db.from('stories').select('id,text,priority,sprint,status,points,feature,position').order('position'),
+        db.from('burndown').select('sprint,day,hours'),
+        db.from('log').select('at,by,summary').order('at', { ascending:false }).limit(200)
+      ]).then(function(rs){
+        var err = rs.find(function(r){ return r.error; }); if(err) throw err.error;
+        data = { team: base.team, sprints: base.sprints, tasks: rs[0].data, stories: rs[1].data, burndown: {}, log: rs[3].data };
+        data.tasks.forEach(function(t){ ['estimate','spent','remaining'].forEach(function(k){ if(t[k] != null) t[k] = +t[k]; }); });
+        rs[2].data.forEach(function(b){ (data.burndown[b.sprint] = data.burndown[b.sprint] || {})[b.day] = +b.hours; });
+        setup(); render();
+      });
+    }).catch(function(e){ console.error(e); document.getElementById('view').innerHTML = ''; document.getElementById('view').appendChild(h('p', { class:'loading', text:'The tracker could not load. Check your connection and refresh the page.' })); });
+  }
+  if(db){
+    db.channel('partay').on('postgres_changes', { event:'*', schema:'public' }, remoteChange).subscribe();
   }
   load();
 })();

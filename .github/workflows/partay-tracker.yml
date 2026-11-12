@@ -1,51 +1,17 @@
-name: Partay tracker
+name: Partay burndown snapshot
 
 on:
-  issues:
-    types: [opened]
   schedule:
-    - cron: '50 22 * * *'   # 23:50 in Copenhagen (winter time): daily burndown snapshot
+    - cron: '50 22 * * *'   # 23:50 in Copenhagen (winter time)
   workflow_dispatch:
 
 permissions:
-  contents: write
-  issues: write
-
-concurrency:
-  group: partay-tracker
-  cancel-in-progress: false
+  contents: read
 
 jobs:
-  apply:
-    if: github.event_name != 'issues' || startsWith(github.event.issue.title, '[tracker]')
+  snapshot:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Apply update or take snapshot
-        env:
-          EVENT: ${{ github.event_name }}
-        run: node .github/partay/apply.mjs
-
-      - name: Commit and push
-        run: |
-          if git diff --quiet -- partay/data.json; then echo "No changes"; exit 0; fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add partay/data.json
-          git commit -F "$RUNNER_TEMP/msg.txt"
-          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
-          exit 1
-
-      - name: Reply and close the issue
-        if: github.event_name == 'issues'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          NUM: ${{ github.event.issue.number }}
-        run: |
-          gh issue comment "$NUM" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/reply.md"
-          if [ "$(cat "$RUNNER_TEMP/result.txt")" = "ok" ]; then
-            gh issue close "$NUM" --repo "$GITHUB_REPOSITORY" --reason completed
-          else
-            gh issue close "$NUM" --repo "$GITHUB_REPOSITORY" --reason "not planned"
-          fi
+      - name: Save today's burndown point
+        run: node .github/partay/snapshot.mjs
