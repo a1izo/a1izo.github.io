@@ -81,6 +81,15 @@ select.st-In-progress{color:var(--doing-ink)} select.st-Done{color:var(--done-in
 .x:hover{color:var(--red)}
 .btn.small{padding:3px 10px;font-size:12px}
 td.confirm{white-space:nowrap}
+textarea.celltext{display:block;width:100%;min-width:200px;resize:none;overflow:hidden;font:inherit;line-height:1.45;color:inherit;background:transparent;border:1px solid transparent;border-radius:6px;padding:4px 6px;margin:-5px -7px}
+textarea.celltext:hover{border-color:var(--line)}
+textarea.celltext:focus{background:var(--paper);border-color:var(--ink);outline:none}
+td.textcol{min-width:240px;width:40%}
+td.rank{white-space:nowrap;text-align:center;width:1%}
+td.rank .rk{display:block;font-family:var(--mono);font-size:12px;font-weight:600;line-height:1.2}
+.mv{border:0;background:none;color:var(--dim);cursor:pointer;font-size:10px;line-height:1;padding:2px 6px;display:block;margin:0 auto}
+.mv:hover:not(:disabled){color:var(--red)}
+.mv:disabled{opacity:.25;cursor:default}
 input.donedate{display:block;margin-top:4px;width:136px;font-size:12px;padding:3px 6px;background:var(--paper);border:1px solid var(--line);border-radius:6px;color:var(--dim)}
 td.confirm .x{font-size:12px}
 .addrow{display:grid;grid-template-columns:110px minmax(0,1fr) 130px 90px auto;gap:8px;margin-top:12px;align-items:center}
@@ -249,12 +258,12 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
       else if(t.done){ t.done = null; patch.done = null; }
     }
     if(k === 'estimate' && t.status !== 'Done' && (t.remaining == null)){ t.remaining = val; patch.remaining = val; }
-    save('tasks', t.id, patch, t.id + ': ' + k + ' → ' + (val == null ? 'empty' : val));
+    save('tasks', t.id, patch, t.id + ': ' + (k === 'title' ? 'task text edited' : k + ' → ' + (val == null ? 'empty' : val)));
   }
   function setStory(s, k, v){
     var val = v === '' ? null : v; if(s[k] === val) return;
     var patch = {}; s[k] = val; patch[k] = val;
-    save('stories', s.id, patch, s.id + ': ' + k + ' → ' + (val == null ? 'empty' : val));
+    save('stories', s.id, patch, s.id + ': ' + (k === 'text' ? 'story text edited' : k + ' → ' + (val == null ? 'empty' : val)));
   }
   function addTask(a){
     if(!db) return readOnly();
@@ -279,6 +288,37 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
     db.from('stories').insert(s).then(function(r){ if(r.error) return failSave(r.error); afterSave('Added ' + s.id + ': ' + s.text); }, failSave);
   }
 
+  function textCell(value, label, max, onsave){
+    var ta = h('textarea', { class:'celltext', rows:'1', 'aria-label':label, maxlength:String(max) });
+    ta.value = value || '';
+    var fit = function(){ ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; };
+    ta.addEventListener('input', fit);
+    ta.addEventListener('keydown', function(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); ta.blur(); } if(e.key === 'Escape'){ ta.value = value || ''; ta.blur(); } });
+    ta.addEventListener('change', function(){ var v = ta.value.replace(/\s+/g,' ').trim(); if(!v){ ta.value = value || ''; fit(); flash('The text cannot be empty.'); return; } ta.value = v; onsave(v.slice(0, max)); });
+    requestAnimationFrame(fit);
+    return ta;
+  }
+  function sortedStories(){ return data.stories.slice().sort(function(a, b){ return (a.position || 0) - (b.position || 0); }); }
+  function moveStory(st, dir){
+    if(!db) return readOnly();
+    var list = sortedStories(), i = list.indexOf(st), j = i + dir;
+    if(j < 0 || j >= list.length) return;
+    list.splice(i, 1); list.splice(j, 0, st);
+    var changed = [];
+    list.forEach(function(x, k){ if(x.position !== k + 1){ x.position = k + 1; changed.push(x); } });
+    data.stories = list; render();
+    Promise.all(changed.map(function(x){ return db.from('stories').update({ position: x.position }).eq('id', x.id); })).then(function(rs){
+      var e = rs.find(function(r){ return r.error; }); if(e) return failSave(e.error);
+      afterSave(st.id + ': moved to rank ' + st.position);
+    }, failSave);
+  }
+  var confirmDelStory = null;
+  function deleteStory(st){
+    if(!db) return readOnly();
+    data.stories = data.stories.filter(function(x){ return x.id !== st.id; }); confirmDelStory = null; render();
+    db.from('stories').delete().eq('id', st.id).then(function(r){ if(r.error) return failSave(r.error); afterSave('Deleted ' + st.id + ': ' + st.text); }, failSave);
+  }
+
   function chips(names, cur, showNow){
     return h('div', { class:'toolbar' }, names.map(function(n){
       return h('button', { class:'chip', 'aria-pressed': String(n === sprintSel), onclick: function(){ sprintSel = n; confirmDel = null; render(); } }, [n, showNow && n === cur ? h('span', { class:'now', text:'NOW' }) : null]);
@@ -299,7 +339,7 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
       body.appendChild(h('tr', null, [
         h('td', { class:'id', text:t.id }),
         h('td', { class:'story', text:t.story }),
-        h('td', { text:t.title }),
+        h('td', { class:'textcol' }, [textCell(t.title, 'Task text for ' + t.id, 200, function(v){ setTask(t,'title',v); })]),
         h('td', null, [ownerSelect(t.owner, function(v){ setTask(t,'owner',v); }, false)]),
         h('td', { class:'num' }, [hoursInput(t.estimate, function(v){ setTask(t,'estimate',v); render(); }, false, 'Estimate for ' + t.id)]),
         h('td', { class:'num' }, [hoursInput(t.spent, function(v){ setTask(t,'spent',v); }, false, 'Hours spent on ' + t.id)]),
@@ -327,21 +367,32 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
   function renderProduct(view){
     var body = h('tbody');
     var sprintNames = data.sprints.map(function(s){ return s.name; });
-    data.stories.forEach(function(s){
+    var list = sortedStories();
+    list.forEach(function(s, idx){
       var pr = h('select', { 'aria-label':'Priority for ' + s.id, onchange: function(){ setStory(s,'priority',pr.value); } }, ['Core','Additional'].map(function(x){ return h('option', { value:x, text:x }); })); pr.value = s.priority;
       var sp = h('select', { 'aria-label':'Sprint for ' + s.id, onchange: function(){ setStory(s,'sprint',sp.value); } }, sprintNames.map(function(x){ return h('option', { value:x, text:x }); })); sp.value = s.sprint;
       var pts = h('input', { type:'number', min:'0', max:'100', step:'1', 'aria-label':'Story points for ' + s.id, value: s.points == null ? '' : s.points, onchange: function(){ setStory(s,'points', pts.value === '' ? '' : Math.max(0, Math.round(+pts.value))); } });
+      var rank = h('td', { class:'rank' }, [
+        h('button', { class:'mv', type:'button', 'aria-label':'Move ' + s.id + ' up', title:'Move up', text:'▲', disabled: idx === 0, onclick: function(){ moveStory(s, -1); } }),
+        h('span', { class:'rk', text:String(idx + 1) }),
+        h('button', { class:'mv', type:'button', 'aria-label':'Move ' + s.id + ' down', title:'Move down', text:'▼', disabled: idx === list.length - 1, onclick: function(){ moveStory(s, 1); } })
+      ]);
+      var delCell = confirmDelStory === s.id
+        ? h('td', { class:'confirm' }, [h('button', { class:'btn red small', type:'button', text:'Delete', onclick: function(){ deleteStory(s); } }), h('button', { class:'x', type:'button', 'aria-label':'Keep ' + s.id, text:'Keep', onclick: function(){ confirmDelStory = null; render(); } })])
+        : h('td', null, [h('button', { class:'x', type:'button', title:'Delete this item', 'aria-label':'Delete ' + s.id, text:'×', onclick: function(){ confirmDelStory = s.id; render(); } })]);
       body.appendChild(h('tr', null, [
+        rank,
         h('td', { class:'id', text:s.id }),
-        h('td', { text:s.text }),
+        h('td', { class:'textcol' }, [textCell(s.text, 'Story text for ' + s.id, 400, function(v){ setStory(s,'text',v); })]),
         h('td', null, [pr]), h('td', null, [sp]),
         h('td', null, [statusSelect(s.status, function(v){ setStory(s,'status',v); render(); }, false)]),
         h('td', { class:'num' }, [pts]),
-        h('td', { class:'story', text:s.feature || '' })
+        h('td', { class:'story', text:s.feature || '' }),
+        delCell
       ]));
     });
-    view.appendChild(h('div', { class:'table-wrap' }, [h('table', null, [h('thead', null, [h('tr', null, ['ID','User story','Priority','Sprint','Status','Points','Feature'].map(function(x, i){ return h('th', { class: i === 5 ? 'num' : null, text:x }); }))]), body])]));
-    view.appendChild(h('p', { class:'note', text:'Points stay empty until the team estimates them with planning poker. T items are technical work that is no user story.' }));
+    view.appendChild(h('div', { class:'table-wrap' }, [h('table', { class:'product' }, [h('thead', null, [h('tr', null, ['Rank','ID','Item','Priority','Sprint','Status','Points','Feature',''].map(function(x, i){ return h('th', { class: i === 6 ? 'num' : null, text:x }); }))]), body])]));
+    view.appendChild(h('p', { class:'note', text:'Rank 1 is the top priority. Use the arrows to reorder, click any text to edit it, and press Enter to save. Points stay empty until the team estimates them with planning poker.' }));
     var txt = h('input', { type:'text', placeholder:'As a …, I want …, so that …', 'aria-label':'New user story', maxlength:'400', id:'newStoryText' });
     var pr2 = h('select', { 'aria-label':'Priority', id:'newStoryPriority' }, ['Additional','Core'].map(function(x){ return h('option', { value:x, text:x }); }));
     var sp2 = h('select', { 'aria-label':'Sprint', id:'newStorySprint' }, sprintNames.map(function(x){ return h('option', { value:x, text:x }); })); sp2.value = 'Sprint 4';
@@ -411,7 +462,7 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
     ({ sprint:renderSprint, product:renderProduct, burndown:renderBurndown, log:renderLog, howto:renderHowto })[tab](view);
     renderStrip(); setFoot();
   }
-  ['sprint','product','burndown','log','howto'].forEach(function(k){ document.getElementById('tab-' + k).addEventListener('click', function(){ tab = k; confirmDel = null; store('partay-tab', k); render(); }); });
+  ['sprint','product','burndown','log','howto'].forEach(function(k){ document.getElementById('tab-' + k).addEventListener('click', function(){ tab = k; confirmDel = null; confirmDelStory = null; store('partay-tab', k); render(); }); });
   var savedTab = store('partay-tab'); if(['sprint','product','burndown','log','howto'].indexOf(savedTab) >= 0) tab = savedTab;
 
   function setup(){
@@ -424,7 +475,7 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
 
   // a reload from another person's change waits until you leave the field you are typing in
   var reloadWaiting = false, reloadTimer = null;
-  function editing(){ var a = document.activeElement; return a && document.getElementById('view').contains(a) && (a.tagName === 'INPUT' || a.tagName === 'SELECT'); }
+  function editing(){ var a = document.activeElement; return a && document.getElementById('view').contains(a) && (a.tagName === 'INPUT' || a.tagName === 'SELECT' || a.tagName === 'TEXTAREA'); }
   function remoteChange(){ clearTimeout(reloadTimer); reloadTimer = setTimeout(function(){ if(editing()) reloadWaiting = true; else load(); }, 600); }
   document.addEventListener('focusout', function(){ if(reloadWaiting){ reloadWaiting = false; setTimeout(function(){ if(!editing()) load(); else reloadWaiting = true; }, 300); } });
 
