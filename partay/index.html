@@ -204,7 +204,7 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
     s.value = value; return s;
   }
   function ownerSelect(value, onchange, changed){
-    var s = h('select', { class: changed ? 'changed' : null, 'aria-label':'Owner', onchange: function(){ onchange(s.value); } }, [h('option', { value:'', text:'Nobody' })].concat(data.team.map(function(x){ return h('option', { value:x, text:x }); })));
+    var s = h('select', { class: changed ? 'changed' : null, 'aria-label':'Owner', onchange: function(){ onchange(s.value); } }, [h('option', { value:'', text:'Nobody' }), h('option', { value:'Everyone', text:'Everyone' })].concat(data.team.map(function(x){ return h('option', { value:x, text:x }); })));
     s.value = value || ''; return s;
   }
   function hoursInput(value, onchange, changed, label){
