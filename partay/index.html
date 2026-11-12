@@ -152,7 +152,7 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
   var SUPABASE_URL = 'https://oqdwynlceiamqrjkmyuh.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_se9xM7C8ywMARI70TRYFAA_JsGEL2s9';
   var STATUS = ['To do', 'In progress', 'Done'];
-  var PREFIX = { 'Inception': 'IN', 'Sprint 1': 'S1', 'Sprint 2': 'S2', 'Final week': 'FW' };
+  var PREFIX = { 'Inception': 'IN', 'Sprint 1': 'S1', 'Sprint 2': 'S2', 'Sprint 3': 'S3', 'Sprint 4': 'S4', 'Final week': 'FW' };
   var root = document.documentElement;
 
   // theme, shared with the main site
@@ -395,7 +395,7 @@ footer{color:var(--dim);font-size:13px;padding-block:40px 120px}
     view.appendChild(h('p', { class:'note', text:'Rank 1 is the top priority. Use the arrows to reorder, click any text to edit it, and press Enter to save. Points stay empty until the team estimates them with planning poker.' }));
     var txt = h('input', { type:'text', placeholder:'As a …, I want …, so that …', 'aria-label':'New user story', maxlength:'400', id:'newStoryText' });
     var pr2 = h('select', { 'aria-label':'Priority', id:'newStoryPriority' }, ['Additional','Core'].map(function(x){ return h('option', { value:x, text:x }); }));
-    var sp2 = h('select', { 'aria-label':'Sprint', id:'newStorySprint' }, sprintNames.map(function(x){ return h('option', { value:x, text:x }); })); sp2.value = 'Sprint 2';
+    var sp2 = h('select', { 'aria-label':'Sprint', id:'newStorySprint' }, sprintNames.map(function(x){ return h('option', { value:x, text:x }); })); sp2.value = 'Sprint 3';
     view.appendChild(h('div', { class:'addrow story' }, [txt, pr2, sp2, h('button', { class:'btn ghost', type:'button', text:'Add story', onclick: function(){ var t = txt.value.replace(/\s+/g,' ').trim(); if(!t){ txt.focus(); return; } addStory({ text:t.slice(0,400), priority:pr2.value, sprint:sp2.value }); } })]));
   }
 
